@@ -1,0 +1,6 @@
+{
+  // 클라우드플레어 Workers가 site 폴더를 그대로 홈페이지로 보여 줘요
+  "name": "cardbook",
+  "compatibility_date": "2026-11-01",
+  "assets": { "directory": "./site" }
+}

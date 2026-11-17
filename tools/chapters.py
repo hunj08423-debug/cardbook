@@ -1,0 +1,43 @@
+# 처음 만나는 기독교 문화 — 12개의 장
+# id: 주소에 쓰는 이름(#ch-<id>), color: 장의 색(안료 이름은 pig), cover: 장 표지에 쓸 카드(None이면 색 판)
+CHAPTERS = [
+    dict(id='christmas', no=1, t='기다림과 성탄', color='#5D3B7A', pig='자주', cover='lig-wreath',
+         intro='대림절의 첫 촛불부터 동방박사가 찾아온 날까지. 세계 곳곳에서 성탄을 기다리고 맞이하는 풍습과 노래, 그림을 모았어요.',
+         sets='advent markets lights custom craft creche silent eve xmastable easteuro bethlehem madonna nightart epiphany orthcal winterread'),
+    dict(id='easter', no=2, t='고난과 부활', color='#8E2B33', pig='진홍', cover='pas-supper',
+         intro='사순절 문턱의 잔치에서 부활의 밤 첫 불까지. 가장 긴 한 주를 사람들이 어떻게 기억하고 걸어 왔는지 담았어요.',
+         sets='shrove holyweek passion eastereve eastereggs'),
+    dict(id='art', no=3, t='그림과 유리', color='#2B4A9E', pig='군청', cover='hand-adam',
+         intro='손 하나, 빛 한 줄기에 이야기를 담은 그림과 유리창. 중세 끝에서 오늘의 아시아까지 이어지는 성화예요.',
+         sets='hands renaissance baroque glasslight asiaart'),
+    dict(id='word', no=4, t='책이 된 말씀', color='#A8382B', pig='주홍', cover='il-kells',
+         intro='양피지에 손으로 베끼고, 활자로 찍고, 목숨 걸고 지켜 낸 책들. 성경이 책이 되어 우리 손에 오기까지의 이야기예요.',
+         sets='books keepers oldbibles illum letters printed words newbibles biblebooks bookhalls libraries'),
+    dict(id='abbey', no=5, t='성당과 수도원, 순례길', color='#4C6A57', pig='석록', cover='house-chapelle',
+         intro='빛과 돌로 지은 성당, 기도하고 일하던 수도원, 조개껍데기를 따라 걷는 길. 발로 찾아가는 장이에요.',
+         sets='houses cathedrals stoneforest rome monks abbey pilgrims marian saints'),
+    dict(id='east', no=6, t='동방의 교회', color='#93712B', pig='금', cover='orth-trinity',
+         intro='이콘과 종소리, 바위 위 수도원과 사막의 기도. 그리스와 러시아에서 이집트, 아르메니아, 에티오피아까지 이어진 동방의 교회들이에요.',
+         sets='orthodox athos balkan rus northsaints orthsong icons iconbuy holyland egypt eastmed armenia georgia ethiopia'),
+    dict(id='reform', no=7, t='종교개혁과 그 뒤', color='#3D4452', pig='먹', cover='lu-stube',
+         intro='질문을 내건 교회 문에서 바다 건너 새 땅까지. 양심을 지키려 한 사람들과 그 뒤에 생긴 여러 교회의 이야기예요.',
+         sets='luther geneva conscience dissent newworld moravian wesley'),
+    dict(id='song', no=8, t='노래가 된 믿음', color='#94435F', pig='장미', cover='or-matthew',
+         intro='노예선 선장의 고백, 강물 건너 부른 영가, 다시 울린 수난곡. 노래 한 곡 뒤에 숨은 사연이에요.',
+         sets='hymns spirituals oratorio newsound'),
+    dict(id='story', no=9, t='책 속 이야기', color='#955A30', pig='대자', cover='lit-dante',
+         intro='단테의 지옥에서 옷장 너머 사자까지. 고전과 그림책, 만화 속에서 만나는 믿음의 질문이에요.',
+         sets='classics storybooks picbooks manga eastlit'),
+    dict(id='screen', no=10, t='화면과 놀이', color='#2A6A70', pig='청록', cover=None,
+         intro='영화 속 예수의 얼굴과 수도원 영화, 보드게임과 비디오 게임까지. 화면과 놀이로 만나는 기독교 문화예요.',
+         sets='jesusfilms cloister truefilms grace faithfilms bibleanim animchurch boardgames videogames'),
+    dict(id='care', no=11, t='곁을 지킨 사람들', color='#666633', pig='올리브', cover='ms-macau',
+         intro='어둠 속에서 문을 열고, 아픈 사람 곁에 남고, 끝까지 증언한 사람들. 조용히 곁을 지킨 이야기예요.',
+         sets='rescue care witness'),
+    dict(id='korea', no=12, t='이 땅의 이야기', color='#2D4A6E', pig='쪽', cover='kc-jeondong',
+         intro='우리말 성경과 벽돌 성당, 이름 없는 이들의 언덕과 우리말로 부른 노래. 한국 땅에 남은 이야기예요.',
+         sets='koreanbible kbible2 koreaheart koreanlove koreacath koreachapel kchurch koreashrine kmuseum ksong'),
+]
+
+# 카드 뒷면을 깊게 만든 카드(시안) → 페이지 주소
+DEEP = {'keep-sinai': 'deep/sinai.html'}
