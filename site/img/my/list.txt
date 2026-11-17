@@ -135,4 +135,28 @@
 # el-hyoten.jpg | 
 # 마리 뒤랑과 콩스탕스 탑 (7장)
 # con-durand.jpg | 
-
+keep-tischendorf.jpg | 1865~1875년 무렵의 티셴도르프 · 사진: 후고 크바스 사진관(베를린) · 퍼블릭 도메인 · 위키미디어 공용 | https://commons.wikimedia.org/wiki/File:Constantin_von_Tischendorf,_c._1865-1875.jpg | 50 15
+keep-najeeb.jpg | 모술 대주교가 된 뒤의 나지브 미카엘 · 사진: Fransyousif · CC BY-SA 4.0 · 위키미디어 공용 | https://commons.wikimedia.org/wiki/File:%D8%A7%D9%84%D9%85%D8%B7%D8%B1%D8%A7%D9%86_%D9%86%D8%AC%D9%8A%D8%A8_%D9%85%D9%8A%D8%AE%D8%A7%D8%A6%D9%8A%D9%84.jpg
+sai-lisieux.jpg | 열다섯 살 무렵(1888년)의 소화 데레사 · 사진: 작가 모름 · 퍼블릭 도메인 · 위키미디어 공용 | https://commons.wikimedia.org/wiki/File:Th%C3%A9r%C3%A8se_de_Lisieux_in_1885.jpg
+mar-bernadette.jpg | 1861~1862년 무렵, 열일곱 살쯤의 베르나데트 · 사진: P. 베르나두 신부 · 퍼블릭 도메인 · 위키미디어 공용 | https://commons.wikimedia.org/wiki/File:Bernadette_Soubirous.jpg
+mon-nonnberg.jpg | 1940년 미국에서 찍은 마리아 폰 트랍(맨 앞)과 노래하던 자녀 다섯 · 사진: C. M. 스티글리츠(뉴욕 월드텔레그램) · 미국 의회도서관 · 퍼블릭 도메인 · 위키미디어 공용 | https://commons.wikimedia.org/wiki/File:Baroness_Maria_von_Trapp_(front)_and_five_of_her_ten_singing_children.jpg
+song-rachmaninoff.jpg | 1901년의 라흐마니노프 · 사진: 작가 모름 · 퍼블릭 도메인 · 위키미디어 공용 | https://commons.wikimedia.org/wiki/File:Rachmaninov.jpg
+song-shchedryk.jpg | 1922~1925년 무렵의 우크라이나 민족 합창단과 지휘자 올렉산드르 코시츠 · 사진: 베인 뉴스 서비스 · 미국 의회도서관 · 퍼블릭 도메인 · 위키미디어 공용 | https://commons.wikimedia.org/wiki/File:Ukrainian_National_Chorus.jpg
+hymn-crosby.jpg | 1906년의 패니 크로스비 · 사진: 미국 의회도서관 소장 · 퍼블릭 도메인 · 위키미디어 공용 | https://commons.wikimedia.org/wiki/File:Francis_Jane_Crosby,_1820-1915_LCCN2004672353.jpg
+hymn-jesusloves.png | 1909년 책에 실린 애나 바틀릿 워너 · 사진: 윌리엄 커츠 · 퍼블릭 도메인 · 위키미디어 공용 | https://commons.wikimedia.org/wiki/File:Anna_Bartlett_Warner_(1824-1915).png
+spir-fisk.jpg | 1876년 무렵 런던에서 찍은 피스크 주빌리 싱어즈 · 사진: 작가 모름 · 퍼블릭 도메인 · 위키미디어 공용 | https://commons.wikimedia.org/wiki/File:Fisk_Jubilee_Singers_London.jpg
+spir-mahalia.jpg | 1961년 4월 암스테르담 콘세르트헤바우 무대의 마할리아 잭슨 · 사진: 데이브 브링크만(ANEFO) · 네덜란드 국립기록원 · CC0 · 위키미디어 공용 | https://commons.wikimedia.org/wiki/File:MahaliaJackson.jpg | 40 30
+ns-part.jpg | 프랑스 레지옹 도뇌르 훈장을 받던 날의 아르보 패르트(2011년 11월 2일) · 사진: 에스토니아 외교부 · CC BY 2.0 · 위키미디어 공용 | https://commons.wikimedia.org/wiki/File:French_Minister_of_Culture_Fr%C3%A9d%C3%A9ric_Mitterrand_presented_Arvo_P%C3%A4rt_with_the_highest_decoration_in_France,_Knight_of_the_National_Order_of_the_Legion_of_Honour_(6308056635).jpg | 50 30
+ns-jcs.jpg | 2005년 체코 브르노 시립극장의 「지저스 크라이스트 수퍼스타」 공연 · 사진: Jef a Tino Kratochvilové · CC BY-SA 3.0 CZ · 위키미디어 공용 | https://commons.wikimedia.org/wiki/File:Jesus_Christ_Superstar.jpg
+el-yundongju.jpg | 1941년 연희전문학교 졸업 사진 속 윤동주 · 사진: 작가 모름 · 퍼블릭 도메인 · 위키미디어 공용 | https://commons.wikimedia.org/wiki/File:Yun_Dong-ju.jpg
+el-martyred.jpg | 1963년 『순교자』 책 표지용으로 찍은 김은국 · 사진: 보스턴 대학교 · CC BY 4.0 · 위키미디어 공용 | https://commons.wikimedia.org/wiki/File:RichardKim.jpg
+res-kolbe.jpg | 1936년의 막시밀리안 콜베 신부 · 사진: 작가 모름 · 퍼블릭 도메인 · 위키미디어 공용 | https://commons.wikimedia.org/wiki/File:Fr.Maximilian_Kolbe_in_1936.jpg
+res-sendler.jpg | 1942년의 이레나 센들레로바 · 사진: 작가 모름 · 퍼블릭 도메인 · 위키미디어 공용 | https://commons.wikimedia.org/wiki/File:Irena_Sendlerowa_1942.jpg
+res-jager.jpg | 신분증 사진 속 프란츠 예거슈테터(1942년 이전) · 사진: 작가 모름 · 퍼블릭 도메인 · 위키미디어 공용 | https://commons.wikimedia.org/wiki/File:Franz_J%C3%A4gerst%C3%A4tter_ID_photo.jpg
+care-damien.jpg | 1878년 5월의 다미안 신부 · 사진: 헨리 L. 체이스 · 퍼블릭 도메인 · 위키미디어 공용 | https://commons.wikimedia.org/wiki/File:Father_Damien_in_1878.jpg
+care-marianne.jpg | 1870년 미국 시러큐스의 마리안 코프 수녀 · 사진: 작가 모름 · 퍼블릭 도메인 · 위키미디어 공용 | https://commons.wikimedia.org/wiki/File:Mother_Marianne_Cope,_Syracuse,_1870.jpg | 50 15
+ms-liddell.jpg | 1924년 7월 런던 스탬퍼드 브리지 경기장에서 달리는 에릭 리들 · 사진: 작가 모름 · 퍼블릭 도메인 · 위키미디어 공용 | https://commons.wikimedia.org/wiki/File:Eric_Liddell.jpg
+kor-leetaeseok.jpg | 2005년의 이태석 신부 · 사진: 살레시오회 · CC BY-SA 4.0 · 위키미디어 공용 | https://commons.wikimedia.org/wiki/File:Fr_LeeTaeSeok_SDB.jpg
+kl-sonyangwon.jpg | 애양원 정문에 선 손양원 목사 · 사진: 작가 모름 · 퍼블릭 도메인(1976년 이전 사진) · 애양원교회 누리집 | http://www.aeyangwon.org/main/sub.html?Mode=view&boardID=www23&num=42&page=&keyfield=&key=&bCate=
+kl-yunhakja.webp | 윤학자(다우치 지즈코) · 사진: 작가 모름 · 퍼블릭 도메인(1976년 이전 사진) · 나무위키에서 가져옴(처음 출처 모름) | https://namu.wiki/w/%EC%9C%A4%ED%95%99%EC%9E%90
+kl-seoseopyeong.jpg | 간호사 차림의 서서평 · 사진: 작가 모름 · 퍼블릭 도메인(1976년 이전 사진) · 한일장신대학교 누리집 | https://www.hanil.ac.kr/portal/default/contents/contents_view.do?menuId=M0006000100070004 | 50 15
