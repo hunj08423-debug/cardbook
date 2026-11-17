@@ -21,6 +21,13 @@ stories = {x['id']: x for x in D['stories']}
 sets = {x['id']: x for x in D['sets']}
 cards = {x['id']: x for x in D['setcards']}
 
+# 글자 그림이던 카드에 찾은 그림 넣기(목록: img_fix.py, 그림 파일: out/img/c/<id>.webp)
+import img_fix
+for cid, f, page, cv, cr, alt in img_fix.FIX:
+    c = cards[cid]
+    c.update({'cr': cr, 'cru': img_fix.cru_of(cid, f), 'alt': alt, 'cover': cv, 'qf': [cv[0], cv[1], 1]})
+    if c.get('by', '').endswith(' · 글자 그림'): c['by'] = c['by'][:-len(' · 글자 그림')]
+
 # 장 ↔ 세트 확인
 seen = {}
 chapters = []
@@ -92,6 +99,12 @@ for cid in cards:
     assert os.path.exists(a), ('사진 없음', cid)
     if not os.path.exists(b) or os.path.getmtime(b) < os.path.getmtime(a): shutil.copy2(a, b)
 
+# 직접 넣은 사진 자리(img/my/list.txt). 처음 한 번만 만들어요. 그 뒤로는 사용자가 고쳐 쓰는 파일이라 덮어쓰지 않아요.
+my_dir = os.path.join(OUT, 'img', 'my')
+os.makedirs(my_dir, exist_ok=True)
+if not os.path.exists(os.path.join(my_dir, 'list.txt')):
+    shutil.copy2(os.path.join(SITE, 'my', 'list.txt'), os.path.join(my_dir, 'list.txt'))
+
 # 깊이 읽기 시안(시나이) 옮기기
 deep_src = os.path.join(W, 'deep', 'out2')
 deep_dst = os.path.join(OUT, 'deep')
@@ -146,7 +159,7 @@ open(os.path.join(REPO, 'README.md'), 'w', encoding='utf-8').write(
 
 # 만드는 도구도 저장소에 함께(홈페이지에는 안 나가요: site 폴더 밖)
 os.makedirs(os.path.join(REPO, 'tools'), exist_ok=True)
-for f in ('app.html', 'build_site.py', 'chapters.py', 'conv_images.py', 'make_brand.py'):
+for f in ('app.html', 'build_site.py', 'chapters.py', 'conv_images.py', 'make_brand.py', 'img_fix.py'):
     shutil.copy2(os.path.join(SITE, f), os.path.join(REPO, 'tools', f))
 
 # 요약

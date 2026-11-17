@@ -693,7 +693,9 @@ function today(){ return ymd(new Date()); }
 const dParts = s => { const m = /^(\d{4})\.(\d{2})\.(\d{2})$/.exec(String(s || '')); return m ? [+m[1], +m[2], +m[3]] : null; };
 const longDate = s => { const p = dParts(s); return p ? `${p[0]}년 ${p[1]}월 ${p[2]}일` : ''; };
 const shortDate = s => { const p = dParts(s); return p ? `${p[1]}월 ${p[2]}일` : ''; };
-const img = id => `img/c/${id}.webp`;
+/* 직접 넣은 사진(img/my/list.txt): 적힌 카드는 그 사진과 출처가 먼저 나와요 */
+let MY = {};
+const img = id => MY[id] ? MY[id].f : `img/c/${id}.webp`;
 const STAGES = ['', '양피지', '먹 글씨', '붉은 머리글자', '금박', '채색'];
 const NUMW = ['', '한', '두', '세', '네', '다섯', '여섯', '일곱', '여덟', '아홉', '열'];
 const PREVIEW = false;
@@ -735,7 +737,31 @@ function season(now){
 
 /* 데이터 */
 async function getJSON(u){ const r = await fetch(u); if (!r.ok) throw new Error(u + ' ' + r.status); return r.json(); }
-async function loadCh(id){ if (!CHD[id]) CHD[id] = await getJSON(`data/ch-${id}.json`); return CHD[id]; }
+async function loadCh(id){
+  if (!CHD[id]) {
+    const d = await getJSON(`data/ch-${id}.json`);
+    for (const [cid, m] of Object.entries(MY)) { const c = d.cards[cid]; if (c) Object.assign(c, {cr: m.cr, cru: m.u, alt: m.alt, qf: [m.cv[0], m.cv[1], 1]}); }
+    CHD[id] = d;
+  }
+  return CHD[id];
+}
+/* 줄마다: 파일 이름 | 사진 설명과 출처 | 사진이 있던 주소 | 가로 세로 위치(쓰지 않아도 돼요). '#'으로 시작하는 줄은 읽지 않아요. 파일이 실제로 있는 줄만 써요. */
+async function loadMy(){
+  try {
+    const r = await fetch('img/my/list.txt', {cache: 'no-cache'}); if (!r.ok) return;
+    const rows = (await r.text()).replace(/^﻿/, '').split(/\r?\n/).map(s => s.trim()).filter(s => s && !s.startsWith('#'));
+    const want = [];
+    for (const row of rows) {
+      const [f0, cr = '', u = '', pos = ''] = row.split('|').map(s => s.trim());
+      const file = /\.(jpe?g|png|webp|gif)$/i.test(f0) ? f0 : f0 + '.jpg', id = file.replace(/\.[^.]+$/, '');
+      const c = IX.cards[id]; if (!c) continue;
+      const p = pos.split(/[\s,]+/).map(Number), cv = p.length === 2 && p.every(n => n >= 0 && n <= 100) ? p : [50, 30];
+      want.push({id, f: 'img/my/' + encodeURIComponent(file), cr: cr || '사진 출처를 아직 적지 않았어요', u: /^https?:\/\//.test(u) ? u : '', alt: (cr.split(' · ')[0] || c.t + ' 사진'), cv});
+    }
+    const ok = await Promise.all(want.map(w => fetch(w.f, {method: 'HEAD'}).then(r => r.ok, () => false)));
+    want.forEach((w, i) => { if (!ok[i]) return; MY[w.id] = w; Object.assign(IX.cards[w.id], {typ: false, cv: w.cv}); });
+  } catch (e) {}
+}
 const chOf = id => IX.chapters.find(c => c.id === id);
 function chCount(ch){ let n = 0; for (const s of ch.sets) for (const id of IX.sets[s].cards) if (stageOf(id)) n++; return n; }
 function totalGot(){ return Object.keys(IX.cards).filter(id => stageOf(id)).length; }
@@ -1449,6 +1475,7 @@ window.addEventListener('hashchange', route);
   $('#kid').setAttribute('aria-pressed', String(!!P.kid));
   try { IX = await getJSON('data/index.json'); }
   catch (e) { view.innerHTML = `<div class="wrap band"><div class="leaf leaf-in"><h1 class="h2">책을 펼치지 못했어요</h1><p class="lede">데이터를 불러오지 못했어요. 잠시 뒤 새로고침해 주세요.</p></div></div>`; return; }
+  await Promise.race([loadMy(), new Promise(r => setTimeout(r, 2500))]);
   if (PREVIEW && ssGet('demo')) { DEMO = makeDemo(); demoPill(); }
   await route();
 })();
