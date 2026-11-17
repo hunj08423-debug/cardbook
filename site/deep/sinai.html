@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="../icon.svg" type="image/svg+xml">
+<link rel="icon" href="../icon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
 </head>
 <body>
 <title>사본이 완성되는 카드</title>
@@ -94,7 +97,12 @@ body.kid .a{display:none!important}
 .lc-badge{position:absolute;top:8px;left:8px;font-size:10.5px;font-weight:600;letter-spacing:.04em;padding:3px 9px;border-radius:999px;background:rgba(20,16,12,.72);color:#f3eadb;backdrop-filter:blur(3px)}
 .lc-open{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);border:0;border-radius:999px;padding:10px 18px;background:#f3d27a;color:#2b1d07;font-weight:700;font-size:14px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.4);display:none}
 .lc-seal{position:absolute;top:8px;right:8px;width:38px;height:38px;color:var(--verm);opacity:0;transform:scale(1.6) rotate(-14deg);transition:all .6s cubic-bezier(.3,1.6,.5,1)}
-.lc-sheen,.lc-foil{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0;border-radius:16px}
+.lc-sheen,.lc-foil,.lc-lamp{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0;border-radius:16px;transition:opacity .45s}
+.lc-sheen{background:radial-gradient(farthest-corner circle at var(--lx,50%) var(--ly,30%),rgba(255,250,235,.55),rgba(255,250,235,0) 50%);mix-blend-mode:soft-light}
+.lc-lamp{z-index:2;background:radial-gradient(farthest-corner circle at var(--lx,50%) var(--ly,30%),rgba(255,250,235,.3),rgba(255,250,235,0) 55%);mix-blend-mode:soft-light}
+.hold{--rx:0deg;--ry:0deg;transform:perspective(900px) rotateX(var(--rx)) rotateY(var(--ry));transition:transform .55s cubic-bezier(.2,.8,.2,1);touch-action:pan-y}
+.hold.live{transition:transform .08s linear}
+.hold.on .lc-sheen,.hold.on .lc-lamp{opacity:1}
 .orn,.lc-seal{z-index:2}
 .orn{position:absolute;width:34px;height:34px;opacity:0;transition:opacity .8s;pointer-events:none}
 .orn.tl{top:-3px;left:-3px}.orn.tr{top:-3px;right:-3px;transform:scaleX(-1)}.orn.bl{bottom:-3px;left:-3px;transform:scaleY(-1)}.orn.br{bottom:-3px;right:-3px;transform:scale(-1,-1)}
@@ -116,13 +124,15 @@ body.kid .a{display:none!important}
 .lcard.lv4,.lcard.lv5{background:linear-gradient(135deg,#7a5612 0%,#c9a24a 16%,#f7e3a3 30%,#b8892b 46%,#efd28a 62%,#8a6418 80%,#d9b35a 100%)}
 .lcard.lv4::before,.lcard.lv5::before,.lcard.lv4::after,.lcard.lv5::after{border-color:#5a3e0c}
 .lcard.lv4 .dc{background:linear-gradient(180deg,#fff2c2,#e2b54e 55%,#a87a1e);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 1px 0 #3d2a06)}
-.lcard.lv4 .lc-sheen,.lcard.lv5 .lc-sheen{opacity:1;background:linear-gradient(110deg,transparent 38%,rgba(255,255,255,.75) 50%,transparent 62%);background-size:260% 100%;animation:sheen 5s ease-in-out infinite;mix-blend-mode:overlay}
+.lcard.lv4 .lc-sheen,.lcard.lv5 .lc-sheen{opacity:.4;background:radial-gradient(farthest-corner circle at var(--lx,30%) var(--ly,22%),rgba(255,246,214,.98) 0%,rgba(255,226,150,.5) 16%,rgba(255,226,150,0) 44%);mix-blend-mode:overlay}
+.hold.on .lcard.lv4 .lc-sheen,.hold.on .lcard.lv5 .lc-sheen{opacity:1}
 @keyframes sheen{0%{background-position:130% 0}55%,100%{background-position:-30% 0}}
 /* 5 채색 */
 .lcard.lv5{box-shadow:0 0 0 1px rgba(255,226,150,.7),0 0 34px 6px rgba(255,196,96,.38),0 18px 38px -18px var(--shadow)}
 .lcard.lv5 .dc{background:var(--lapis);color:#f6d77e;padding:2px 5px 1px;border-radius:4px;box-shadow:inset 0 0 0 1.5px #f6d77e,0 0 0 1px #10204a;-webkit-background-clip:border-box;background-clip:border-box;filter:none}
 .lcard.lv5 .orn{opacity:1}
-.lcard.lv5 .lc-foil{opacity:.9;background:conic-gradient(from 0deg at 50% 50%,rgba(255,80,140,.18),rgba(255,210,80,.18),rgba(80,220,200,.18),rgba(120,120,255,.18),rgba(255,80,140,.18));mix-blend-mode:color-dodge;animation:foil 9s linear infinite}
+.lcard.lv5 .lc-foil{opacity:.3;background:linear-gradient(115deg,rgba(255,90,140,0) 14%,rgba(255,90,140,.26) 30%,rgba(255,214,90,.26) 42%,rgba(90,230,210,.26) 54%,rgba(120,130,255,.26) 66%,rgba(255,90,140,0) 82%);background-size:240% 240%;background-position:var(--lx,30%) var(--ly,22%);mix-blend-mode:color-dodge}
+.hold.on .lcard.lv5 .lc-foil{opacity:.85}
 @keyframes foil{to{filter:hue-rotate(360deg)}}
 .lcard.up{animation:up 1.2s ease}
 @keyframes up{0%{transform:scale(1)}30%{transform:scale(1.06);filter:brightness(1.35)}100%{transform:scale(1);filter:none}}
@@ -491,7 +501,7 @@ html.js .reveal.on{opacity:1;transform:none;max-height:1200px}
     <div class="cardcol" id="cardcol">
       <div class="flipwrap">
         <div class="flip" id="flip">
-          <div class="face front">
+          <div class="face front"><div class="hold" id="lcHold">
             <div class="lcard lv0" id="lcard">
               <div class="lc-in"><img src="img/card.jpg" width="1099" height="1500" alt="검은 학위복에 붉은 후드를 두르고 사각모를 쓴 나이 든 여성이 책을 든 채 서 있는 그림.">
                 <span class="lc-badge" id="lcBadge">아직 펼치지 않은 카드</span>
@@ -499,12 +509,12 @@ html.js .reveal.on{opacity:1;transform:none;max-height:1200px}
                 <div class="lc-cap"><span class="lc-set">흩어지고 사라질 뻔한 책 · 1</span><span class="lc-title"><span class="dc">시</span>나이의 쌍둥이 자매</span><span class="lc-q a">책 한 권 아래에 더 오래된 글씨가 숨어 있었어요. 이 사람은 무엇을 찾아냈을까요?</span><span class="lc-q k">책장 밑에 지워진 글씨가 숨어 있었대! 무슨 글씨였을까?</span></div>
                 <button class="lc-open" id="openStory" type="button">이야기 펼치기</button>
               </div>
-              <div class="lc-sheen"></div><div class="lc-foil"></div>
+              <div class="lc-sheen"></div><div class="lc-foil"></div><div class="lc-lamp"></div>
               <svg class="orn tl" viewBox="0 0 30 30" aria-hidden="true"><path d="M3 27V9a6 6 0 0 1 6-6h18" fill="none" stroke="#24418f" stroke-width="3.2"/><path d="M7 27V11a4 4 0 0 1 4-4h16" fill="none" stroke="#f3d27a" stroke-width="1.3"/><circle cx="8" cy="8" r="4.6" fill="#b8322a" stroke="#f3d27a" stroke-width="1.2"/><path d="M14 13c3-4 7-4 9-1-3 2-6 3-9 1z" fill="#2f7a4f"/></svg>
               <svg class="orn tr" viewBox="0 0 30 30" aria-hidden="true"><path d="M3 27V9a6 6 0 0 1 6-6h18" fill="none" stroke="#24418f" stroke-width="3.2"/><path d="M7 27V11a4 4 0 0 1 4-4h16" fill="none" stroke="#f3d27a" stroke-width="1.3"/><circle cx="8" cy="8" r="4.6" fill="#b8322a" stroke="#f3d27a" stroke-width="1.2"/><path d="M14 13c3-4 7-4 9-1-3 2-6 3-9 1z" fill="#2f7a4f"/></svg>
               <svg class="orn bl" viewBox="0 0 30 30" aria-hidden="true"><path d="M3 27V9a6 6 0 0 1 6-6h18" fill="none" stroke="#24418f" stroke-width="3.2"/><path d="M7 27V11a4 4 0 0 1 4-4h16" fill="none" stroke="#f3d27a" stroke-width="1.3"/><circle cx="8" cy="8" r="4.6" fill="#b8322a" stroke="#f3d27a" stroke-width="1.2"/><path d="M14 13c3-4 7-4 9-1-3 2-6 3-9 1z" fill="#2f7a4f"/></svg>
               <svg class="orn br" viewBox="0 0 30 30" aria-hidden="true"><path d="M3 27V9a6 6 0 0 1 6-6h18" fill="none" stroke="#24418f" stroke-width="3.2"/><path d="M7 27V11a4 4 0 0 1 4-4h16" fill="none" stroke="#f3d27a" stroke-width="1.3"/><circle cx="8" cy="8" r="4.6" fill="#b8322a" stroke="#f3d27a" stroke-width="1.2"/><path d="M14 13c3-4 7-4 9-1-3 2-6 3-9 1z" fill="#2f7a4f"/></svg>
-            </div>
+            </div></div>
           </div>
           <div class="face back" aria-hidden="true">
             <div class="bk">
@@ -935,6 +945,21 @@ function renderCandle(s){
   box.addEventListener('pointerdown', ev => { ev.stopPropagation(); mv(ev); try { box.setPointerCapture(ev.pointerId); } catch (e) {} });
   pr.querySelector('button').onclick = ev => { ev.stopPropagation(); done(); };
 }
+/* 손에 든 카드: 손이 닿을 때만 살짝 기울고 빛이 따라와요. 움직임 줄이기를 켜면 빛을 고정해요. */
+function hold(box){
+  if (!box || box.dataset.held) return; box.dataset.held = '1';
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  let raf = 0, pt = null;
+  const paint = () => { raf = 0; if (!pt) return; const r = box.getBoundingClientRect(), x = Math.min(1, Math.max(0, (pt.x - r.left) / r.width)), y = Math.min(1, Math.max(0, (pt.y - r.top) / r.height));
+    box.style.setProperty('--ry', ((x - .5) * 12).toFixed(2) + 'deg'); box.style.setProperty('--rx', ((.5 - y) * 10).toFixed(2) + 'deg');
+    box.querySelectorAll('.lcard').forEach(k => { k.style.setProperty('--lx', (x * 100).toFixed(1) + '%'); k.style.setProperty('--ly', (y * 100).toFixed(1) + '%'); }); };
+  const go = e => { pt = {x: e.clientX, y: e.clientY}; box.classList.add('on', 'live'); if (!raf) raf = requestAnimationFrame(paint); };
+  const rest = () => { pt = null; box.classList.remove('on', 'live'); box.style.setProperty('--rx', '0deg'); box.style.setProperty('--ry', '0deg'); };
+  box.addEventListener('pointermove', e => { if (e.pointerType === 'mouse' || e.buttons) go(e); });
+  box.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse') go(e); });
+  box.addEventListener('pointerleave', rest); box.addEventListener('pointercancel', rest);
+  box.addEventListener('pointerup', e => { if (e.pointerType !== 'mouse') setTimeout(rest, 250); });
+}
 function cardClone(){ const c = $('#lcard').cloneNode(true); c.removeAttribute('id'); c.querySelectorAll('[id]').forEach(x => x.removeAttribute('id')); return c; }
 function renderReward(){
   fWait = 'reward'; sub('');
@@ -944,7 +969,7 @@ function renderReward(){
   const after = stageOf();
   const el = swap('<div class="f-reward"><div class="f-card"></div><span class="f-lvchip"></span><h3 class="fRT"></h3><p class="t fRP"></p><div class="fRBody"></div></div>');
   const rw = el.querySelector('.f-reward'), holder = el.querySelector('.f-card'), chip = el.querySelector('.f-lvchip'), body = el.querySelector('.fRBody'), rt = el.querySelector('.fRT'), rp = el.querySelector('.fRP');
-  const card = cardClone(); holder.appendChild(card);
+  const card = cardClone(), hw = document.createElement('div'); hw.className = 'hold'; hw.appendChild(card); holder.appendChild(hw); hold(hw);
   // 카드 강화: 원래 단계에서 한 칸씩 올라가요
   const setLv = (k, fx) => {
     paintCard(card, k);
@@ -1039,7 +1064,7 @@ document.addEventListener('keydown', ev => {
   else if (ev.key === 'ArrowLeft' && open === story) $('#stPrev').click();
 });
 
-drawStage(false); drawStamp(false); check();
+drawStage(false); drawStamp(false); check(); hold($('#lcHold'));
 </script>
 
 </body>

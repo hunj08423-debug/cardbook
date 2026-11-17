@@ -57,7 +57,11 @@ IX = {
     'sets': {sid: {'k': s['k'], 't': s['t'], 'sub': s['sub'], 'ch': seen[sid], 'cards': s['cards']} for sid, s in sets.items()},
     'cards': {cid: {'t': c['t'], 'tag': c['tag'], 'set': c['set'], 'ch': seen[c['set']], 'no': c['no'], 'by': c['by'],
                     'q': c['q'], 'kq': c['kq'], 'cv': c.get('cover') or [50, 50], 'typ': is_typ(c)} for cid, c in cards.items()},
-    'items': {iid: {'t': it['t'], 'o': it.get('o') or '', 'g': it.get('g') or '', 'm': it.get('m') or '', 'p': it.get('p') or '', 'card': item_card[iid]} for iid, it in items.items()},
+    'items': {iid: {'t': it['t'], 'o': it.get('o') or '', 'g': it.get('g') or '', 'm': it.get('m') or '', 'p': it.get('p') or '', 'y': it.get('y') or '',
+                    'h': it.get('h') or '', 'tier': it.get('tier') or '', 'a': it.get('a') or [], 'must': bool(it.get('must')),
+                    'ct': sorted({c['t'] for c in (it.get('c') or []) if c.get('t')}), 'card': item_card[iid]} for iid, it in items.items()},
+    'must': [m for m in D['must'] if m in items],
+    'pil': {'h': D['pilgrim']['headline'], 's': D['pilgrim']['subhead']},
     'stories': {sid: {'t': s['t'], 'k': s['k'], 'lead': s['lead'], 'card': story_card[sid]} for sid, s in stories.items()},
     'storyOrder': [s['id'] for s in D['stories']],
     'deep': DEEP,
@@ -68,6 +72,7 @@ os.makedirs(os.path.join(OUT, 'data'), exist_ok=True)
 def dump(path, obj):
     with open(path, 'w', encoding='utf-8') as f: json.dump(obj, f, ensure_ascii=False, separators=(',', ':'))
 dump(os.path.join(OUT, 'data', 'index.json'), IX)
+dump(os.path.join(OUT, 'data', 'pilgrim.json'), D['pilgrim'])
 for ch in chapters:
     cc, ii, ss = {}, {}, {}
     for s in ch['sets']:
@@ -99,18 +104,39 @@ old_brand = '<span class="brand"><span class="long"><b>처음 만나는 기독�
 assert dh.count(old_brand) == 1
 dh = dh.replace(old_brand, '<a class="brand" href="../#c-keep-sinai" style="text-decoration:none">← <span class="long"><b>처음 만나는 기독교 문화</b> · </span>카드 책으로</a>')
 HEAD = '<!doctype html>\n<html lang="ko">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">\n<meta name="robots" content="noindex,nofollow">\n'
-open(os.path.join(deep_dst, 'sinai.html'), 'w', encoding='utf-8').write(HEAD + '</head>\n<body>\n' + dh + '\n</body>\n</html>\n')
+open(os.path.join(deep_dst, 'sinai.html'), 'w', encoding='utf-8').write(HEAD + '<link rel="icon" href="../icon.svg" type="image/svg+xml">\n<link rel="icon" href="../icon-32.png" sizes="32x32" type="image/png">\n<link rel="apple-touch-icon" href="../apple-touch-icon.png">\n</head>\n<body>\n' + dh + '\n</body>\n</html>\n')
+
+# 아이콘, 링크 미리보기 그림, 홈 화면 설정(만드는 법: make_brand.py)
+SITE_URL = 'https://cardbook.hunji08423.workers.dev/'
+OG_DESC = '하루 한 편, 기독교 문화와 역사의 이야기를 읽고 카드를 한 장씩 모아 가는 책이에요.'
+for f in os.listdir(os.path.join(SITE, 'brand')):
+    shutil.copy2(os.path.join(SITE, 'brand', f), os.path.join(OUT, f))
+json.dump({'name': '처음 만나는 기독교 문화', 'short_name': '카드 책', 'description': OG_DESC, 'lang': 'ko', 'start_url': './', 'scope': './', 'display': 'standalone',
+           'background_color': '#EAE5DB', 'theme_color': '#233A7C',
+           'icons': [{'src': 'icon-192.png', 'sizes': '192x192', 'type': 'image/png'}, {'src': 'icon-512.png', 'sizes': '512x512', 'type': 'image/png'},
+                     {'src': 'icon-512.png', 'sizes': '512x512', 'type': 'image/png', 'purpose': 'maskable'}]},
+          open(os.path.join(OUT, 'manifest.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+ICONS = lambda pre='': (f'<link rel="icon" href="{pre}icon.svg" type="image/svg+xml">\n<link rel="icon" href="{pre}icon-32.png" sizes="32x32" type="image/png">\n'
+                        f'<link rel="apple-touch-icon" href="{pre}apple-touch-icon.png">\n')
+SHARE = ('<meta property="og:type" content="website">\n<meta property="og:locale" content="ko_KR">\n'
+         '<meta property="og:site_name" content="처음 만나는 기독교 문화">\n<meta property="og:title" content="처음 만나는 기독교 문화">\n'
+         f'<meta property="og:description" content="{OG_DESC}">\n'
+         f'<meta property="og:image" content="{SITE_URL}og.jpg?v=1">\n<meta property="og:image:width" content="1200">\n<meta property="og:image:height" content="600">\n'
+         '<meta property="og:image:alt" content="청금색 바탕에 금빛 글씨로 쓴 ‘처음 만나는 기독교 문화’와 옛 그림 카드 세 장">\n'
+         '<meta name="twitter:card" content="summary_large_image">\n'
+         '<link rel="manifest" href="manifest.json">\n<meta name="apple-mobile-web-app-title" content="카드 책">\n')
 
 # 첫 화면
-app = open(os.path.join(SITE, 'app.html'), encoding='utf-8').read().replace('{{TITLE}}', TITLE).replace('{{BUILT}}', BUILT)
+app = open(os.path.join(SITE, 'app.html'), encoding='utf-8').read().replace('{{TITLE}}', TITLE).replace('{{BUILT}}', BUILT).replace('{{PREVIEW}}', 'false')
 cut = app.index('</style>') + len('</style>')
 head_part, body_part = app[:cut], app[cut:]
 open(os.path.join(OUT, 'index.html'), 'w', encoding='utf-8').write(
-    HEAD + '<meta name="theme-color" content="#233A7C">\n' + head_part + '\n</head>\n<body>\n' + body_part + '\n</body>\n</html>\n')
+    HEAD + '<meta name="theme-color" content="#233A7C">\n' + ICONS() + SHARE + head_part + '\n</head>\n<body>\n' + body_part + '\n</body>\n</html>\n')
 os.makedirs(PREV, exist_ok=True)
 PTITLE = os.environ.get('PREVIEW_TITLE', TITLE)
-open(os.path.join(PREV, 'index.html'), 'w', encoding='utf-8').write(open(os.path.join(SITE, 'app.html'), encoding='utf-8').read().replace('{{TITLE}}', PTITLE).replace('{{BUILT}}', BUILT))
-open(os.path.join(OUT, 'robots.txt'), 'w').write('User-agent: *\nDisallow: /\n')
+open(os.path.join(PREV, 'index.html'), 'w', encoding='utf-8').write(open(os.path.join(SITE, 'app.html'), encoding='utf-8').read().replace('{{TITLE}}', PTITLE).replace('{{BUILT}}', BUILT).replace('{{PREVIEW}}', 'true'))
+# 검색엔진에는 싣지 않되, 카카오톡·페이스북 링크 미리보기는 볼 수 있게
+open(os.path.join(OUT, 'robots.txt'), 'w').write('User-agent: kakaotalk-scrap\nAllow: /\n\nUser-agent: facebookexternalhit\nAllow: /\n\nUser-agent: *\nDisallow: /\n')
 
 # 저장소 바깥 파일
 open(os.path.join(REPO, 'wrangler.jsonc'), 'w', encoding='utf-8').write(
@@ -120,7 +146,7 @@ open(os.path.join(REPO, 'README.md'), 'w', encoding='utf-8').write(
 
 # 만드는 도구도 저장소에 함께(홈페이지에는 안 나가요: site 폴더 밖)
 os.makedirs(os.path.join(REPO, 'tools'), exist_ok=True)
-for f in ('app.html', 'build_site.py', 'chapters.py', 'conv_images.py'):
+for f in ('app.html', 'build_site.py', 'chapters.py', 'conv_images.py', 'make_brand.py'):
     shutil.copy2(os.path.join(SITE, f), os.path.join(REPO, 'tools', f))
 
 # 요약
