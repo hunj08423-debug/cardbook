@@ -90,14 +90,21 @@ def static(cid):
         al = len(re.sub(r'<[^>]+>', '', ''.join(q_.get('a') or [])))
         if al > 240: W.append(f"궁금증 ‘{q_.get('q', '')[:20]}’의 답이 길어요({al}자 · 두세 문장, 240자 안쪽)")
         if len(q_.get('film') or []) > 5: W.append(f"궁금증 ‘{q_.get('q', '')[:20]}’의 영화가 길어요({len(q_['film'])}장면 · 서너 장면)")
-    QX_ = C.get('qx') or []                          # 뒷이야기의 꼴(2026-11-19): 많아도 여덟 · 물음과 떡밥 · 두세 문장 · 근거 하나 넘게
-    if len(QX_) > 8: W.append(f'뒷이야기가 {len(QX_)}장이에요(많아도 여덟 · 너무 많으면 난잡해요)')
+    QX_ = C.get('qx') or []                          # 뒷이야기의 꼴(2026-11-19): 한 꾸러미에 많아도 여덟 · 물음과 떡밥 · 두세 문장 · 근거 하나 넘게
+    pks_ = {}                                        # 꾸러미(2026-11-19): pack 1·2·3… 앞 꾸러미를 다 펼치면 다음 꾸러미가 열려요
+    for x_ in QX_:
+        try: pks_.setdefault(int(x_.get('pack', 1)), []).append(x_)
+        except (TypeError, ValueError): P.append(f"뒷이야기 ‘{x_.get('q', '')[:20]}’: 꾸러미 번호가 숫자가 아니에요({x_.get('pack')})")
+    for pk_, xs_ in sorted(pks_.items()):
+        if len(xs_) > 8: W.append(f'뒷이야기 꾸러미 {pk_}에 {len(xs_)}장이 있어요(한 꾸러미에 많아도 여덟 · 너무 많으면 난잡해요)')
+    if pks_ and sorted(pks_) != list(range(1, max(pks_) + 1)): P.append(f'뒷이야기 꾸러미 번호가 1부터 이어지지 않아요({sorted(pks_)})')
+    if len(QX_) > 24: W.append(f'뒷이야기가 모두 {len(QX_)}장이에요(꾸러미를 합쳐 많아도 스물넷)')
     ids_ = [x_.get('id') for x_ in QX_]
     if len(set(ids_)) < len(ids_): P.append('뒷이야기 id가 겹쳐요')
     for x_ in QX_:
         for k in ('id', 'q', 'img', 'a'):
             if not x_.get(k): P.append(f"뒷이야기 ‘{x_.get('q', '?')}’: 빈 칸 {k}")
-        if x_.get('img') and x_['img'] not in (C.get('images') or {}): P.append(f"뒷이야기 ‘{x_.get('q', '')[:20]}’: 없는 그림 {x_['img']}")
+        if x_.get('img') and x_['img'] not in (C.get('images') or {}) and x_['img'] != 'card': P.append(f"뒷이야기 ‘{x_.get('q', '')[:20]}’: 없는 그림 {x_['img']}")   # card = 사이트 앞면 그림(키트가 늘 채움)
         al = len(re.sub(r'<[^>]+>', '', ''.join(x_.get('a') or [])))
         if al > 320: W.append(f"뒷이야기 ‘{x_.get('q', '')[:20]}’의 답이 길어요({al}자 · 두세 문장, 320자 안쪽)")
         if len(x_.get('hook', '')) > 24: W.append(f"뒷이야기 ‘{x_.get('q', '')[:20]}’의 떡밥이 길어요({len(x_['hook'])}자 · 한 줄, 24자 안쪽)")
@@ -106,7 +113,7 @@ def static(cid):
     sids_ = {sc.get('id') for sc in C.get('scenes', [])}            # 다시 보면(2026-11-19): 가는 장면·작은 그림이 있는지
     for q_ in list(QS_) + list(QX_):
         if q_.get('seeAt') and q_['seeAt'] not in sids_ | {'front'}: P.append(f"다시 보면 ‘{q_.get('q', '')[:20]}’: 없는 장면 {q_['seeAt']}")
-        if q_.get('seeImg') and q_['seeImg'] not in (C.get('images') or {}): P.append(f"다시 보면 ‘{q_.get('q', '')[:20]}’: 없는 그림 {q_['seeImg']}")
+        if q_.get('seeImg') and q_['seeImg'] not in (C.get('images') or {}) and q_['seeImg'] != 'card': P.append(f"다시 보면 ‘{q_.get('q', '')[:20]}’: 없는 그림 {q_['seeImg']}")
         if q_.get('seeAt') and not q_.get('see'): W.append(f"‘{q_.get('q', '')[:20]}’: 가는 장면은 있는데 다시 보면 글이 없어요")
     blob = json.dumps(C, ensure_ascii=False)
     for w in BAD_WORDS:

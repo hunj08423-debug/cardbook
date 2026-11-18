@@ -433,6 +433,15 @@
 .qxc:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 @media (min-width:760px){.qx-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.qxc .qx-q{font-size:16.5px}}
 @media (prefers-reduced-motion:reduce){.qxc .qx-img img{transition:none}}
+/* 뒷이야기 꾸러미(2026-11-19): 다 펼치면 다음 꾸러미가 열려요 */
+.qxc[hidden]{display:none!important}
+.qx-head .qx-more{margin:2px 0 0;color:var(--accent);font:600 13.5px/1.55 var(--sans)}
+.qx-new{margin:0 0 12px;padding:10px 14px;border-radius:12px;background:var(--soft);border:1px solid color-mix(in srgb,var(--accent) 35%,var(--line));color:var(--ink);font:600 15px/1.55 var(--serif)}
+.qx-new::before{content:"✦ ";color:var(--accent)}
+.qxc.arrive{animation:qxarrive 1.2s ease both}
+@keyframes qxarrive{0%{opacity:0;transform:translateY(12px) scale(.97)}55%{opacity:1}100%{opacity:1;transform:none}}
+.qxs-pk{margin:14px 0 0;padding:9px 12px;border-radius:10px;background:var(--soft);color:var(--accent);font:600 14px/1.55 var(--sans)}
+@media (prefers-reduced-motion:reduce){.qxc.arrive{animation:none}}
 /* 펼친 뒷이야기: 휴대폰은 아래에서 올라오는 판, 넓은 화면은 가운데 판 */
 body.qx-on{overflow:hidden}
 .qxs{border:0;padding:0;margin:auto;width:min(640px,calc(100% - 32px));max-width:none;max-height:min(88vh,880px);border-radius:18px;background:var(--paper);color:var(--ink);box-shadow:0 24px 64px rgba(0,0,0,.4);overflow:hidden}

@@ -365,25 +365,32 @@ def build(C, repo=REPO, preview=None):
         qs_data.append(qd)
     # 더 깊이 ‘뒷이야기’(2026-11-19 본부 · 사용자님 생각, 이름도 함께 정함): 열쇠 물음 말고 이어지는 이야기들은 흑백 카드로 남겨 둬요.
     # 누르면 색이 돌아오고(획득) 두세 문장 답 · 다시 보면 · 근거(새 탭) · 다른 카드로 가는 길이 열려요. 내용은 DATA.qx로 넘겨 틀이 판을 그려요.
+    # 꾸러미(2026-11-19 사용자님과 정함): 'pack' 1·2·3… 화면에는 한 꾸러미(여섯 장 안팎)만 보이고, 다 펼치면 다음 꾸러미가 열려요.
+    #   남은 이야기를 버리지 않으면서 화면은 복잡해지지 않게. pack이 없으면 모두 1(예전 카드 그대로).
     qx_html, qx_data = '', []
-    for x in C.get('qx') or []:
+    QXL = sorted(C.get('qx') or [], key=lambda x: int(x.get('pack', 1)))   # 꾸러미 차례로(같은 꾸러미 안은 적은 차례 그대로)
+    npk = max([int(x.get('pack', 1)) for x in QXL] or [1])
+    for x in QXL:
         h = have[x['img']]
+        pk = int(x.get('pack', 1))
         pos = f' style="object-position:{e(x["pos"])}"' if x.get('pos') else ''
-        qx_html += (f'<button type="button" class="qxc" data-x="{e(x["id"])}" aria-haspopup="dialog">'
+        qx_html += (f'<button type="button" class="qxc" data-x="{e(x["id"])}" data-pk="{pk}" aria-haspopup="dialog"{" hidden" if pk > 1 else ""}>'
                     f'<span class="qx-img"><img src="{h["u"]}" width="{h["w"]}" height="{h["h"]}" alt="" loading="lazy" decoding="async"{pos}></span>'
                     f'<span class="qx-mark" aria-hidden="true">?</span><span class="qx-q">{e(x["q"])}</span>'
                     + (f'<span class="qx-hook">{e(x["hook"])}</span>' if x.get('hook') else '') + '</button>')
         go = x.get('go')
         sgo, simg = see_data(x, x['img'])
-        qx_data.append({'id': x['id'], 'q': x['q'], 'a': x['a'], 'see': x.get('see', ''), 'pos': x.get('pos', ''),
+        qx_data.append({'id': x['id'], 'q': x['q'], 'a': x['a'], 'see': x.get('see', ''), 'pos': x.get('pos', ''), 'pk': pk,
                         'seeGo': sgo, 'seeImg': simg,
                         'img': {'u': h['u'], 'w': h['w'], 'h': h['h'], 'alt': IM[x['img']]['alt'], 'cr': IM[x['img']].get('cr', '')},
                         'src': [{'t': s2['t'], 'm': s2.get('m', ''), 'u': s2['u']} for s2 in x.get('src', [])],
                         'go': ({'t': go['t'], 'cid': go['cid'], 'u': f'{go["cid"]}.html'} if go else None)})
     if qx_html:
-        nx = len(qx_data)
+        nx = len([x for x in qx_data if x['pk'] == 1])
+        more = (f'<p class="qx-more" id="qxMore">다 펼치면 다음 꾸러미가 열려요 · 꾸러미 1/{npk}</p>' if npk > 1 else '')
         qx_html = (f'<section class="qx" aria-label="뒷이야기"><div class="qx-head"><h3>뒷이야기</h3><span class="qx-n" id="qxN" aria-live="polite">0/{nx} 펼쳤어요</span>'
-                   '<p>아직 펼치지 않은 이야기예요. 누르면 이야기가 펼쳐지고 색이 돌아와요. 더 알고 싶으면 근거를 따라가 보세요.</p></div>'
+                   '<p>아직 펼치지 않은 이야기예요. 누르면 이야기가 펼쳐지고 색이 돌아와요. 더 알고 싶으면 근거를 따라가 보세요.</p>' + more + '</div>'
+                   + ('<p class="qx-new" id="qxNew" role="status" hidden></p>' if npk > 1 else '') +
                    f'<div class="qx-grid">{qx_html}</div></section>')
     if qs_html or qx_html:   # 궁금증과 뒷이야기가 같이 쓰는 판 하나
         qs_html = ((f'<div class="qs">{qs_html}</div>' if qs_html else '') + qx_html + '<dialog class="qxs" id="qxSheet" aria-labelledby="qxsQ"><div class="qxs-in"></div></dialog>'

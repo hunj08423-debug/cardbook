@@ -1558,12 +1558,25 @@ $$('.qcard').forEach(c => {   // 쪽의 물음 카드: 답 보기 · 영화로 �
   const inner = dlg.querySelector('.qxs-in');
   const xcards = Array.from(document.querySelectorAll('.qxc'));
   P.qx = P.qx || {};
-  const got = () => QX.filter(x => P.qx[x.id]).length;
-  const count = () => { const c = document.getElementById('qxN'); if (c) c.textContent = `${got()}/${QX.length} 펼쳤어요`; };
+  // 꾸러미(2026-11-19 사용자님과 정함): pk 1·2·3… 앞 꾸러미를 다 펼치면 다음 꾸러미가 열려요. 따로 저장하지 않고 펼친 기록으로 셈해요.
+  const PK = QX.reduce((m, x) => Math.max(m, x.pk || 1), 1);
+  const lvl = () => { let L = 1; while (L < PK && QX.every(x => (x.pk || 1) > L || P.qx[x.id])) L++; return L; };
+  const vis = x => (x.pk || 1) <= lvl();
+  const shown = () => QX.filter(vis);
+  const got = () => shown().filter(x => P.qx[x.id]).length;
+  const inPk = pk => QX.filter(x => (x.pk || 1) === pk);
+  const count = () => {
+    const c = document.getElementById('qxN'); if (c) c.textContent = `${got()}/${shown().length} 펼쳤어요`;
+    const m = document.getElementById('qxMore'); if (m) { const L = lvl(); m.textContent = L < PK ? `다 펼치면 다음 꾸러미가 열려요 · 꾸러미 ${L}/${PK}` : `뒷이야기 꾸러미 ${PK}개가 모두 열렸어요`; }
+  };
   const paint = b => { b.classList.add('got'); const m = b.querySelector('.qx-mark'); if (m) m.textContent = '✓'; };
+  const reveal = arrive => xcards.forEach(b => {
+    const x = QX.find(q => q.id === b.dataset.x);
+    if (x && vis(x) && b.hidden) { b.hidden = false; if (arrive) { b.classList.add('arrive'); setTimeout(() => b.classList.remove('arrive'), 1500); } }
+  });
   xcards.forEach(b => { if (P.qx[b.dataset.x]) paint(b); });
-  count();
-  let from = null;
+  reveal(false); count();
+  let from = null, lvl0 = lvl();
   const fresh = new Set();
   const seeBox = x => !x.see ? '' : `<div class="see${x.seeImg ? ' has-img' : ''}">${x.seeImg ? `<img class="see-img" src="${esc(x.seeImg.u)}" width="${x.seeImg.w}" height="${x.seeImg.h}" alt="">` : ''}<div class="see-t"><b>다시 보면</b><p>${esc(x.see)}</p></div>${x.seeGo ? `<a class="see-go" href="#${x.seeGo.sc === 'front' ? 'lcard' : 'sc-' + esc(x.seeGo.sc)}" data-sc="${esc(x.seeGo.sc)}">${esc(x.seeGo.t)}</a>` : ''}</div>`;
   function nextOf(kind, i){   // 다음 이야기: 궁금증은 차례대로, 다 보면 아직 펼치지 않은 뒷이야기로 · 뒷이야기는 아직 펼치지 않은 다음 장
@@ -1571,14 +1584,20 @@ $$('.qcard').forEach(c => {   // 쪽의 물음 카드: 답 보기 · 영화로 �
     for (let s2 = 1; s2 <= QX.length; s2++) {
       const j = kind === 'q' ? s2 - 1 : (i + s2) % QX.length;
       if (j >= QX.length) break;
-      if (!P.qx[QX[j].id] && !(kind === 'x' && j === i)) return {k: 'x', i: j, t: QX[j].q};
+      if (vis(QX[j]) && !P.qx[QX[j].id] && !(kind === 'x' && j === i)) return {k: 'x', i: j, t: QX[j].q};   // 아직 열리지 않은 꾸러미는 건너뛰어요
     }
     return null;
   }
   function render(kind, i){
     const x = kind === 'q' ? QA[i] : QX[i]; if (!x) return;
-    let head;
-    if (kind === 'x') { const isNew = !P.qx[x.id]; if (isNew) { P.qx[x.id] = 1; save(); fresh.add(x.id); } head = `${isNew ? '새로 펼친 뒷이야기' : '뒷이야기'} · ${got()}/${QX.length}`; }
+    let head, opened = '';
+    if (kind === 'x') {
+      const isNew = !P.qx[x.id], L0 = lvl();
+      if (isNew) { P.qx[x.id] = 1; save(); fresh.add(x.id); }
+      const L1 = lvl(), pk = x.pk || 1;
+      if (L1 > L0) opened = `<p class="qxs-pk" role="status">이 꾸러미를 다 펼쳤어요. 새 뒷이야기 ${inPk(L1).length}장이 도착했어요.</p>`;
+      head = `${isNew ? '새로 펼친 뒷이야기' : '뒷이야기'} · ` + (PK > 1 ? `꾸러미 ${pk} · ${inPk(pk).filter(q => P.qx[q.id]).length}/${inPk(pk).length}` : `${got()}/${QX.length}`);
+    }
     else head = `궁금증 · ${i + 1}/${QA.length}`;
     if (typeof qSeen === 'function') qSeen();
     const src = kind === 'x' ? (x.src || []) : [];
@@ -1590,8 +1609,8 @@ $$('.qcard').forEach(c => {   // 쪽의 물음 카드: 답 보기 · 영화로 �
       `<div class="qxs-b"><p class="qxs-k">${head}</p><h3 id="qxsQ">${esc(x.q)}</h3><div class="qxs-a">${x.a.map(p => `<p>${p}</p>`).join('')}</div>` +
       seeBox(x) + film +
       (x.go ? `<p class="qxs-gop"><a class="qxs-go" href="${esc(x.go.u)}">${esc(x.go.t)}</a></p>` : '') +
-      (src.length ? `<details class="qxs-src"><summary>근거 보기 · ${src.length}곳</summary><ul>${src.map(s3 => `<li><a href="${esc(s3.u)}" target="_blank" rel="noopener">${esc(s3.t)}</a>${s3.m ? `<span>${esc(s3.m)}</span>` : ''}</li>`).join('')}</ul>${x.img.cr ? `<p class="qxs-cr">그림 · ${esc(x.img.cr)}</p>` : ''}</details>` : '') +
-      `</div><div class="qxs-end">${nx ? `<button type="button" class="qxs-next" data-k="${nx.k}" data-i="${nx.i}"><span>다음 이야기</span>${esc(nx.t)}</button>` : ''}<button type="button" class="qxs-close">닫기</button></div>`;
+      (src.length ? `<details class="qxs-src"><summary>근거 보기 · ${src.length}곳</summary><ul>${src.map(s3 => `<li><a href="${esc(s3.u)}" target="_blank" rel="noopener">${esc(s3.t)}</a>${s3.m ? `<span>${esc(s3.m)}</span>` : ''}</li>`).join('')}</ul>${x.img.cr ? `<p class="qxs-cr">그림 · ${esc(x.img.cr)}</p>` : ''}</details>` : '') + opened +
+      `</div><div class="qxs-end">${nx ? `<button type="button" class="qxs-next" data-k="${nx.k}" data-i="${nx.i}"><span>${opened && QX[nx.i] && (QX[nx.i].pk || 1) > (x.pk || 1) ? '새 꾸러미의 첫 이야기' : '다음 이야기'}</span>${esc(nx.t)}</button>` : ''}<button type="button" class="qxs-close">닫기</button></div>`;
     inner.scrollTop = 0;
   }
   function open(kind, i, btn){
@@ -1603,7 +1622,14 @@ $$('.qcard').forEach(c => {   // 쪽의 물음 카드: 답 보기 · 영화로 �
   function onClose(){
     document.body.classList.remove('qx-on');
     xcards.forEach(b => { if (fresh.has(b.dataset.x)) setTimeout(() => paint(b), 180); });
-    fresh.clear(); count();
+    fresh.clear();
+    const L = lvl();
+    if (L > lvl0) {   // 새 꾸러미가 열렸어요: 카드가 하나씩 나타나고, 위에 한 줄 알려요
+      reveal(true); lvl0 = L;
+      const n = document.getElementById('qxNew');
+      if (n) { n.textContent = `새 뒷이야기 ${inPk(L).length}장이 도착했어요 · 꾸러미 ${L}/${PK}`; n.hidden = false; }
+    }
+    count();
     const b = from; from = null;
     if (b) { try { b.focus({preventScroll: true}); } catch (x) {} }
   }
