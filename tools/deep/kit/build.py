@@ -304,6 +304,29 @@ def build(C, repo=REPO, preview=None):
         if sec.get('links'):
             inner += '<ul class="links">' + ''.join(f'<li><a href="{e(l["u"])}" target="_blank" rel="noopener">{e(l["t"])}</a>{(" <span>" + e(l["m"]) + "</span>") if l.get("m") else ""}</li>' for l in sec['links']) + '</ul>'
         deep.append(f'<details class="dp"><summary><span>{e(sec["h"])}</span></summary><div class="dpb">{inner}</div></details>')
+    # 더 깊이 ‘궁금증’(2026-11-19 본부): 물음 카드(그림 한 장 · 두세 문장 · 짧은 영화). 있으면 맨 위에, 참고 칸은 ‘더 찾아보기’ 아래로
+    def filmref(sh):
+        sh = dict(sh)
+        for key in ('img', 'then', 'now'):
+            if sh.get(key):
+                k = sh[key]; sh[key] = {'u': have[k]['u'], 'w': have[k]['w'], 'h': have[k]['h'], 'alt': IM[k]['alt']}
+                if have[k].get('bw'): sh[key].update(bw=have[k]['bw'], bh=have[k]['bh'])
+        if sh.get('lines') and not sh.get('kid'): sh['kid'] = sh['lines']
+        sh.setdefault('ch', 0)
+        return sh
+    qs_html, qs_data = '', []
+    for n, q in enumerate(C.get('qs') or []):
+        h = have[q['img']]
+        secs = sum(1.7 + 0.078 * len(ln.get('t', '')) + (1.4 if ln.get('q') else 0) for f in q.get('film', []) for ln in (f.get('lines') or [])) + 1.0 * len(q.get('film', []))
+        flen = f' · {max(10, round(secs / 10) * 10)}초' if q.get('film') else ''
+        pos = f' style="object-position:{e(q["pos"])}"' if q.get('pos') else ''
+        qs_html += (f'<article class="qcard"><div class="qimg"><img src="{h["u"]}" width="{h["w"]}" height="{h["h"]}" alt="{e(IM[q["img"]]["alt"])}" loading="lazy" decoding="async"{pos}></div>'
+                    f'<div class="qin"><h3>{e(q["q"])}</h3><div class="qbtns"><button type="button" class="qopen" aria-expanded="false" aria-controls="qa{n}">답 보기</button>'
+                    + (f'<button type="button" class="qfilm" data-q="{n}">▶ 영화로 보기{flen}</button>' if q.get('film') else '') +
+                    f'</div></div><div class="qa" id="qa{n}" hidden>' + ''.join(f'<p>{t}</p>' for t in q['a']) + '</div></article>')
+        qs_data.append({'q': q['q'], 'film': [filmref(f) for f in q.get('film', [])]})
+    if qs_html:
+        qs_html = f'<div class="qs">{qs_html}</div>' + ('<h3 class="dp-more">더 찾아보기</h3>' if deep else '')
     G = C['goals']; gh = ''
     for g, tag in (('s4', '금박'), ('s5', '채색')):
         x = G[g]
@@ -327,6 +350,7 @@ def build(C, repo=REPO, preview=None):
         for key in ('img', 'then', 'now'):
             if sh.get(key):
                 k = sh[key]; sh[key] = {'u': have[k]['u'], 'w': have[k]['w'], 'h': have[k]['h'], 'alt': IM[k]['alt']}
+                if have[k].get('bw'): sh[key].update(bw=have[k]['bw'], bh=have[k]['bh'])   # 영화가 큰 그림 크기로 선명함을 따져요(2026-11-19)
         film.append(sh)
     # 마무리(키트 3판 보탬 · 기준서 보탬 11): 나의 자리 물음, 다시 보기, 영화 끝 여운·물음
     CL = C.get('close') or {}
@@ -368,6 +392,7 @@ def build(C, repo=REPO, preview=None):
             'stamp': C['stamp'], 'sound': None, 'goals': {g: {'ways': [{k2: w[k2] for k2 in ('id', 'hint', 'okt') if k2 in w} for w in G[g]['ways']]} for g in ('s4', 's5')},
             'mods': mods, 'nch': len(C['scenes']), 'doneNote': C.get('doneNote', ''), 'filmSound': bool(C.get('filmSound')),
             'big': {h['u']: h['b'] for h in have.values() if h.get('b')}, 'bigsrc': {k: v for k, v in bigsrc.items() if have.get(k, {}).get('b')}}
+    if qs_data: data['qs'] = qs_data
     card = have['card']
     rep = {
         '{{PAGETITLE}}': e(C['pagetitle']), '{{BRANDSUB}}': e(C['brandsub']), '{{SEAL}}': e(C['stamp']['t'][0]),
@@ -376,7 +401,7 @@ def build(C, repo=REPO, preview=None):
         '{{CARDIMG}}': card['u'], '{{CARDW}}': str(card['w']), '{{CARDH}}': str(card['h']), '{{CARDALT}}': e(IM['card']['alt']),
         '{{WHERE}}': C['where'], '{{LEAD}}': C['lead'], '{{LEADKID}}': C['leadKid'], '{{META}}': e(C['meta']), '{{DRAFT}}': C['draft'],
         '{{SCENES}}': '\n'.join(sc_html), '{{IMAGINE}}': e(C['imagine']['t']), '{{IMAGINEKID}}': e(C['imagine']['kid']), '{{IMSND}}': C.get('imsnd', ''),
-        '{{DEEP}}': '\n'.join(deep), '{{GOALS}}': gh, '{{LINES}}': lines,
+        '{{DEEP}}': qs_html + '\n'.join(deep), '{{GOALS}}': gh, '{{LINES}}': lines,
         '{{ASK}}': e(ask_a), '{{ASKKID}}': e(ask_k), '{{AGAIN}}': again_html,
         '{{SRC}}': src, '{{NSRC}}': str(len(C['src'])), '{{CREDITS}}': credits, '{{FOOT}}': C['foot'],
         '{{SNDTAG}}': '', '{{FILMLEN}}': e(C['filmlen']), '{{SNDNOTE}}': e(C.get('sndnote', '')),
@@ -385,6 +410,8 @@ def build(C, repo=REPO, preview=None):
     for a, b in rep.items():
         assert a in out, a
         out = out.replace(a, b)
+    if qs_html:   # 궁금증이 있으면 더 깊이 안내 글도 그에 맞게
+        out = out.replace('<p class="sub">궁금한 칸만 펼쳐 읽어도 괜찮아요.</p>', '<p class="sub">이야기를 보다 궁금해질 만한 것들이에요. 답을 읽거나 짧은 영화로 보세요.</p>')
     # 카드마다 같은 스타일·스크립트는 공유 파일로(틀을 고치면 모든 카드에 바로 반영, 카드마다 130KB 아낌)
     s0, s1 = out.index('<style>'), out.index('</style>') + len('</style>')
     out = (out[:s0] + f'<link rel="stylesheet" href="{SHARED}/deep3.css">\n<style>:root{{--card-ar:{card["w"]}/{card["h"]}}}\n' + C.get('theme', '') + '\n</style>' + out[s1:])
@@ -418,13 +445,21 @@ def build(C, repo=REPO, preview=None):
         if len(pdata['big']) < len(data['big']): print(f'  · 미리 보기에는 큰 그림 {len(pdata["big"])}/{len(data["big"])}장만 넣었어요(올리기 한도). 사이트에는 모두 들어가요.')
         pbody = out.replace('/*__DATA__*/null', json.dumps(pdata, ensure_ascii=False).replace('</', '<\\/'))
         pbody = pbody.replace(old_brand, prev_brand).replace(f'"{SHARED}/', f'"{PSHARED}/')
+        if C.get('qcand'):   # 검토용 · 더 깊이 예상 질문(2026-11-19): 미리 보기에만. 사용자님이 카드와 맞춰 보고 번호로 골라요
+            items = ''.join(f'<li{" class=\"pk\"" if x.get("pick") else ""}><b>{e(x["q"])}</b><span>{e(x.get("at", ""))}{" · " if x.get("at") and x.get("a") else ""}{e(x.get("a", ""))}</span>{('<span class="see">다시 보면 · ' + e(x["see"]) + '</span>') if x.get("see") else ""}</li>' for x in C['qcand'])
+            rv = ('<section class="col rvw" aria-label="검토용 예상 질문"><style>.rvw{margin:10px auto 0;border:2px dashed var(--accent);border-radius:16px;padding:18px 18px 8px;background:var(--soft)}'
+                  '.rvw h2{font:700 20px/1.35 var(--serif);margin:0 0 4px}.rvw .sub{color:var(--muted);font-size:14px;margin:0 0 12px}.rvw ol{margin:0;padding-left:26px}.rvw li{margin:0 0 12px}'
+                  '.rvw li b{display:block;font:700 16.5px/1.5 var(--serif)}.rvw li span{display:block;color:var(--muted);font-size:14px;line-height:1.6}'
+                  '.rvw li span.see{color:var(--ink);margin-top:2px}.rvw li.pk b::after{content:"  ✓ 지금 궁금증에 들어감";color:var(--accent);font:600 12.5px var(--sans)}</style>'
+                  f'<h2>검토용 · 더 깊이 예상 질문 {len(C["qcand"])}개</h2><p class="sub">미리 보기에만 보이는 칸이에요. ‘다시 보면’은 답을 알고 나서 본 이야기의 그림이 어떻게 달라 보이는지예요. 마음에 드는 번호를 골라 알려 주세요.</p><ol>{items}</ol></section>\n')
+            pbody = pbody.replace('  <section class="srcbox col">', rv + '  <section class="srcbox col">', 1)
         open(os.path.join(preview, cid + '.html'), 'w', encoding='utf-8').write(doc(pbody, ''))
         pdsh = os.path.join(preview, PSHARED); os.makedirs(pdsh, exist_ok=True)
         for f in os.listdir(shared): shutil.copy(os.path.join(shared, f), os.path.join(pdsh, f))
-    return {'id': cid, 't': CC['t'], 'tag': CC.get('tag', ''), 'mode': C.get('mode', ''), 'card': have['card']['u'], 'w': card['w'], 'h': card['h'], 'alt': IM['card']['alt'], 'lead': re.sub('<[^>]+>', '', C['lead'])}
+    return {'id': cid, 't': CC['t'], 'tag': CC.get('tag', ''), 'mode': C.get('mode', ''), 'card': have['card']['u'], 'w': card['w'], 'h': card['h'], 'alt': IM['card']['alt'], 'lead': re.sub('<[^>]+>', '', C['lead']), 'nq': len(C.get('qcand') or [])}
 
 def preview_index(preview, built, title='깊은 카드 시안'):
-    cards = ''.join(f'''<article class="card"><img src="{b['card']}" alt="{e(b['alt'])}" width="{b['w']}" height="{b['h']}"><div class="in"><p class="mode">{e(b['mode'])}</p><h2>{e(b['t'])}</h2><p class="d">{e(b['lead'])}</p><a class="open" href="{b['id']}.html">시안 열기</a></div></article>''' for b in built)
+    cards = ''.join(f'''<article class="card"><img src="{b['card']}" alt="{e(b['alt'])}" width="{b['w']}" height="{b['h']}"><div class="in"><p class="mode">{e(b['mode'])}</p><h2>{e(b['t'])}</h2><p class="d">{e(b['lead'])}</p>{('<p class="nq">검토용 예상 질문 ' + str(b['nq']) + '개 · 카드 맨 아래에</p>') if b.get('nq') else ''}<a class="open" href="{b['id']}.html">시안 열기</a></div></article>''' for b in built)
     page = f'''<title>{e(title)}</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
@@ -437,6 +472,7 @@ def preview_index(preview, built, title='깊은 카드 시안'):
 .card{{background:var(--paper);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;min-width:0}}
 .card img{{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;display:block}}.in{{padding:14px;display:flex;flex-direction:column;gap:6px;flex:1}}
 .mode{{margin:0;font-size:12.5px;color:var(--accent);font-weight:600}}h2{{margin:0;font:700 19px/1.35 serif}}.d{{margin:0;font-size:15px;color:var(--muted)}}
+.nq{{margin:0;font-size:13.5px;color:var(--accent);font-weight:600}}
 .open{{margin-top:auto;align-self:flex-start;background:var(--accent);color:var(--accent-ink);text-decoration:none;border-radius:999px;padding:8px 16px;font-weight:600}}
 </style>
 <main class="wrap"><h1>{e(title)}</h1><section class="cards">{cards}</section></main>'''

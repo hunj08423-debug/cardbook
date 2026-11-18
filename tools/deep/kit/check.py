@@ -39,6 +39,9 @@ def static(cid):
     for f_ in C.get('film', []):
         used |= {f_.get('img'), f_.get('then'), f_.get('now')}
     for sec in C.get('deep', []): used |= set(sec.get('img') or [])
+    for q_ in C.get('qs') or []:                     # 더 깊이 ‘궁금증’(2026-11-19)
+        used.add(q_.get('img'))
+        for f_ in q_.get('film') or []: used |= {f_.get('img'), f_.get('then'), f_.get('now')}
     for m_ in (C.get('mods') or {}).values():
         if isinstance(m_, dict):
             if isinstance(m_.get('img'), str) and m_['img'] != 'paper': used.add(m_['img'])
@@ -74,10 +77,18 @@ def static(cid):
     if types[:1] != ['open'] or types[-1:] != ['reward'] or 'imagine' not in types: P.append('영화: 처음은 open, 끝은 reward, 중간에 imagine이 있어야 해요')
     chs = [f for f in C.get('film', []) if f.get('type') == 'chapter']
     if len(chs) != len(sc): W.append(f'영화 장(chapter) {len(chs)}개 ≠ 장면 {len(sc)}개')
-    for f in C.get('film', []):
+    for f in C.get('film', []) + [f for q_ in (C.get('qs') or []) for f in (q_.get('film') or [])]:
         for ln in (f.get('lines') or []) + (f.get('kid') or []):
             t = ln.get('t', '')
             if len(t) > 64: W.append(f'영화 자막이 길어요({len(t)}자, 두 줄 넘을 수 있음): {t[:30]}…')
+    QS_ = C.get('qs') or []                          # 궁금증의 꼴: 셋(많아도 넷) · 답은 두세 문장 · 짧은 영화는 서너 장면
+    if len(QS_) > 4: W.append(f'궁금증이 {len(QS_)}개예요(셋, 많아도 넷)')
+    for q_ in QS_:
+        for k in ('q', 'img', 'a'):
+            if not q_.get(k): P.append(f"궁금증 ‘{q_.get('q', '?')}’: 빈 칸 {k}")
+        al = len(re.sub(r'<[^>]+>', '', ''.join(q_.get('a') or [])))
+        if al > 240: W.append(f"궁금증 ‘{q_.get('q', '')[:20]}’의 답이 길어요({al}자 · 두세 문장, 240자 안쪽)")
+        if len(q_.get('film') or []) > 5: W.append(f"궁금증 ‘{q_.get('q', '')[:20]}’의 영화가 길어요({len(q_['film'])}장면 · 서너 장면)")
     blob = json.dumps(C, ensure_ascii=False)
     for w in BAD_WORDS:
         if w in blob: P.append(f'남은 메모·빈 말: “{w}”')

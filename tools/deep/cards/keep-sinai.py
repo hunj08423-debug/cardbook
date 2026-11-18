@@ -1,0 +1,285 @@
+# -*- coding: utf-8 -*-
+"""깊은 카드: 시나이의 쌍둥이 자매(keep-sinai) · 중심 방식 = 비추기 · 도우미 = 그때와 지금, 소리 · 5단계: 비잔틴 성가 듣기 또는 아이와 함께
+기준서 1판(보탬 11) · 틀 deep3 · 키트 3판 · 2026-11-19 본부가 옛 시안(deep2 · site/deep/sinai.html)을 새 틀로 옮기며 원본 그림으로 다시 만듦
+두 질문(기준서 ‘만들기 전 두 질문’):
+  1. 그 자리에 있고 싶은 한 순간: 1892년 2월 8일, 시나이 성 카타리나 수도원 도서관의 어두운 벽장 앞. 사서 갈락테온 신부가 꺼내 온
+     두툼한 책을 촛불 아래 펼치고, 진한 글씨 사이로 지워진 옛 글씨를 알아보는 때(자매의 책 1893 · 아그네스의 글 1894). → 장면 3(밤 장면)
+  2. 손으로 하는 한 가지는 이야기 속 무엇에서 나오나: ‘촛불을 켜지 않으면 책이 보이지도 않았다’는 벽장(자매의 책 1893)
+     → 촛불로 책장을 비추며 위 글과 여백의 지워진 글씨를 찾기(비추기 · 촛불).
+  끝맺는 꼴: 내 이야기와 잇기 — 앞면 물음 ‘내 삶에도 지워진 글씨처럼 아래에 숨은 오래된 이야기가 있을까요?’
+카드 크기: 큰 카드(장면 5개). 옛 시안의 ‘지도 위 길’은 한 카드에 중심 방식 하나라서 사진 장면으로 바꾸고, 옛 시안 ‘찾아보기’의 사실은 ‘그때와 지금’ 글에 모았어요.
+같은 묶음 다음 카드 keep-tischendorf(펼쳐 읽기 · 고르기)와 겹치지 않게 5단계는 소리 듣기로.
+사실은 자매의 책(How the Codex Was Found, 1893 — 1892·1893년 두 번의 방문, 인터넷 아카이브 전문과 대조)과 아래 ‘출처’를 따랐어요.
+그림 원본(src)은 deep_src/keep-sinai/ (저장소 밖 · 원본받기5). 소리 chant.mp3는 위키미디어 공용 CC0 녹음을 옛 시안 때 mp3로 바꾼 것."""
+S = 'keep-sinai/'
+NKRV = 'https://bible.bskorea.or.kr/bible/NKRV/'
+def bl(code, label):   # 성경: 풀어 쓰고 개역개정 링크. 예: bl('LUK.2', '누가복음 2장 7절')
+    return f'<a href="{NKRV}{code}" target="_blank" rel="noopener">{label}</a>'
+
+CODEX = 'https://archive.org/details/howcodexwasfound00lewi'
+TRANS = 'https://archive.org/details/translationoffou00lewiiala'
+C_LOC_SNOW = 'https://commons.wikimedia.org/wiki/File:To_Sinai_via_the_Red_Sea,_Tor,_and_Wady_Hebran._Mount_Sinai_in_a_blizzard._LOC_matpc.02006.jpg'
+C_LOC_GARDEN = 'https://commons.wikimedia.org/wiki/File:To_Sinai_via_the_Red_Sea,_Tor,_and_Wady_Hebran._The_garden_of_the_monastery_(i.e.,_Monastery_of_St._Catherine)_with_Wady_Er-Raha._LOC_matpc.02027.jpg'
+C_LOC_WINDOW = 'https://commons.wikimedia.org/wiki/File:To_Sinai_via_the_Red_Sea,_Tor,_and_Wady_Hebran._Glimpse_of_the_garden_from_the_monastery_window_(Monastery_of_St._Catherine)._LOC_matpc.02056.jpg'
+LOC_CR = '아메리칸 콜로니 사진부 · 퍼블릭 도메인(미국 의회도서관 매슨 컬렉션, 알려진 저작권 제한 없음) · 위키미디어 공용'
+Q1 = '한 번 흘끗 보는 것만으로, 이 책이 팔림프세스트라는 걸 알 수 있었다.'
+Q2 = '280쪽이 넘도록 여백을 훑어 내려가는 동안, 내가 읽어 낼 수 있었던 낱말은 모두 복음서에서 나온 것이었다.'
+QA = '떨어진 아몬드 꽃잎이 깔린 땅은, 마치 눈이 내려앉은 듯 빛났다.'
+QG = '섬기는 모습은 여러 가지여도, 성령은 같다.'
+KID = {
+ 'road': ('쌍둥이 자매가 낙타를 타고 아흐레 동안 사막을 건너. 둘 다 사랑하는 사람을 먼저 떠나보낸 뒤였대.', '아주 먼 길을 떠난다면, 누구와 함께 가고 싶어?'),
+ 'arrive': ('드디어 사막 한가운데 높은 성벽이 보여! 1,400년 넘게 수도사들이 살아온 곳이야.', '‘2010년’을 눌러 봐. 종이 아홉 개 달린 종탑을 찾을 수 있어?'),
+ 'closet': ('촛불을 움직여 봐! 진한 글씨 사이로 희미한 글씨가 보이지? 그게 예수님 이야기가 담긴 복음서래.', '숨어 있던 글씨를 처음 발견했다면, 뭐라고 외쳤을까?'),
+ 'month': ('붙은 책장을 주전자 김으로 떼어 내고 한 장씩 사진을 찍었어. 수도사들은 하루에 여덟 번이나 노래로 기도했대.', '하루에 여덟 번 노래로 기도한다면, 어떤 노래를 부르고 싶어?'),
+ 'book': ('떠나기 전에 방명록에 ‘모습은 달라도 같은 성령’이라고 적었대. 서로 다른 교회 사람들이 친구가 된 거야.', '나와 다른 친구에게 한 줄을 남긴다면, 뭐라고 쓰고 싶어?'),
+}
+
+CARD = {
+ 'id': 'keep-sinai', 'mode': '비추기 · 그때와 지금',
+ 'pagetitle': '촛불 아래 지워진 복음서',
+ 'brandsub': '깊은 카드 · 비추기',
+ 'where': '<b>1892년 1~3월</b><span>이집트 시나이반도 · 성 카타리나 수도원</span>',
+ 'lead': '130여 년 전 겨울, 쉰을 앞둔 스코틀랜드의 쌍둥이 자매가 낙타를 타고 사막을 건넜어요. 자매와 함께 사막의 수도원으로, 그리고 촛불 없이는 아무것도 보이지 않던 도서관의 어두운 벽장 앞으로 가 봐요. 촛불로 책장을 비추며, 진한 글씨 아래 숨은 옛 글씨를 찾아보세요.',
+ 'leadKid': '아주 옛날, 쌍둥이 자매가 낙타를 타고 사막을 건넜어. 사막 한가운데 있는 수도원에서 보물 같은 책을 찾았대. 우리도 같이 가 볼까?',
+ 'meta': '영화처럼 약 4분 · 천천히 읽으면 7분',
+ 'draft': '검수 전 시안이에요(기준서 1판). 장면에는 자매가 남긴 책(1893년 『How the Codex Was Found』, 1894년 아그네스의 복음서 번역)과 확인한 자료에 있는 것만 옮겼고, 상상은 ‘눈 감고 상상해 보기’에만 썼어요. 따옴표 속 자매의 말은 저작권이 끝난 영어 원문을 이 안내서가 우리말로 옮겼어요.',
+ 'foot': '‘처음 만나는 기독교 문화’의 깊은 카드예요. 카드 단계와 남긴 글은 이 기기에만 저장돼요.',
+ 'filmlen': '영화처럼 보기 · 약 4분',
+ # 화면 색: 사막의 모래빛과 촛불(밝게·어둡게). 밤 장면은 틀의 촛불빛(body.dim) 그대로
+ 'theme': """:root{--accent:#7a5520;--accent-ink:#fff9ef;--soft:rgba(122,85,32,.09);--stamp:#a0461f}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--accent:#e6bf7c;--accent-ink:#1d1406;--soft:rgba(230,191,124,.10);--stamp:#e9845c}}
+:root[data-theme="dark"]{--accent:#e6bf7c;--accent-ink:#1d1406;--soft:rgba(230,191,124,.10);--stamp:#e9845c}""",
+ 'stamp': {'t': '시나이', 'y': '1892', 'sub': '성 카타리나 수도원'},
+ 'doneNote': '시나이 팔림프세스트 프로젝트 누리집에서, 특수 촬영으로 되살린 다른 지워진 글씨들도 찾아보세요(‘더 깊이’의 징검다리).',
+ 'images': {
+  'card': {'src': S + 'Agnes_Smith_Lewis.jpg',
+           'cr': '존 페디 그림, 「아그네스 스미스 루이스」 · 퍼블릭 도메인 · 위키미디어 공용', 'u': 'https://commons.wikimedia.org/wiki/File:Agnes_Smith_Lewis.jpg',
+           'alt': '검은 학위복에 붉은 후드를 두르고 사각모를 쓴 나이 든 여성이 책을 든 채 서 있는 그림.'},
+  'snow': {'src': S + 'LOC_matpc_02006_blizzard.jpg', 'crop': (0.065, 0.095, 0.50, 0.96),   # 입체 사진 두 장 가운데 왼쪽
+           'cap': '눈보라 치는 시나이산 · 20세기 초', 'cr': '사진: ' + LOC_CR, 'u': C_LOC_SNOW,
+           'alt': '구름이 낮게 깔린 하늘 아래 눈발이 날리는 바위산과, 키 작은 덤불이 흩어진 들판의 흑백 사진.'},
+  'meckel': {'src': S + 'Adolf_von_Meckel_-_Saint_Catherine_Monastery_in_the_Sinai_Egypt_-_1892-D_-_Museu.jpg',
+             'cap': '아돌프 폰 메켈, 「시나이의 성 카타리나 수도원」, 1890년 무렵',
+             'cr': '그림: 아돌프 폰 메켈 · 벨기에 헨트 미술관 · 퍼블릭 도메인 · 위키미디어 공용',
+             'u': 'https://commons.wikimedia.org/wiki/File:Adolf_von_Meckel_-_Saint_Catherine_Monastery_in_the_Sinai_(Egypt)_-_1892-D_-_Museum_of_Fine_Arts_Ghent_(MSK).jpg',
+             'alt': '깎아지른 바위산 아래, 낮은 돌담 너머로 사이프러스와 올리브 나무가 선 정원이 펼쳐진 그림. 왼쪽 아래 길에 낙타와 사람들이 있다.'},
+  'now': {'src': S + 'Katharinenkloster_Sinai_BW_2.jpg',
+          'cap': '2010년의 성 카타리나 수도원', 'cr': '사진: Berthold Werner(2010) · CC BY-SA 3.0 · 위키미디어 공용',
+          'u': 'https://commons.wikimedia.org/wiki/File:Katharinenkloster_Sinai_BW_2.jpg',
+          'alt': '붉은 바위산 아래 높은 돌 성벽으로 둘러싸인 수도원. 안쪽에 회색 지붕의 성당, 종탑, 흰 첨탑이 보이고 오른쪽에 사이프러스가 서 있다.'},
+  'mt1': {'src': S + 'Syriac_Sinaiticus_fol82b_Matthew1.jpg',
+          'cap': '시리아어 시나이 사본 82b쪽',
+          'cr': '위 글은 성녀 에우프로시네 이야기, 아래 지워진 글은 마태복음 1장 · 퍼블릭 도메인 · 위키미디어 공용',
+          'u': 'https://commons.wikimedia.org/wiki/File:Syriac_Sinaiticus_-_fol._82b_-_Matthew_1.1-17a_%2B_sup_Euphrosyne.jpg',
+          'alt': '얼룩진 양피지 한 쪽에 진한 시리아어 글씨가 빽빽하다. 오른쪽 여백과 줄 사이에 더 흐린 옛 글씨 자국이 비친다.'},
+  'agnesph': {'src': S + 'Syriac_Sinaiticus_fol21v_Matthew15.jpg',
+              'cap': '팔림프세스트의 한 쪽(마태복음 15장) · 1896년 책에 실린 사진',
+              'cr': '아그네스 스미스 루이스의 1896년 책에 실린 사진 · 퍼블릭 도메인 · 위키미디어 공용',
+              'u': 'https://commons.wikimedia.org/wiki/File:Syriac_Sinaiticus_-_fol._21v_(%3D24v)_-_Matthew_15.12-27.jpg',
+              'alt': '누렇게 바랜 양피지에 시리아어 글씨가 빽빽하고, 그 사이로 더 희미한 옛 글씨가 비치는 사진.'},
+  'window': {'src': S + 'LOC_matpc_02056_window.jpg', 'crop': (0.04, 0.10, 0.50, 0.955),
+             'cap': '수도원 창문 너머의 정원 · 20세기 초', 'cr': '사진: ' + LOC_CR, 'u': C_LOC_WINDOW,
+             'alt': '두꺼운 돌벽에 난 창문 너머로 키 큰 사이프러스 나무들과 산이 보이는 흑백 사진.'},
+  'garden': {'src': S + 'LOC_matpc_02027_garden.jpg', 'crop': (0.045, 0.11, 0.495, 0.935),
+             'cap': '정원의 사이프러스와 골짜기 · 20세기 초', 'cr': '사진: ' + LOC_CR, 'u': C_LOC_GARDEN,
+             'alt': '높은 사이프러스 나무들이 선 정원 너머로 넓은 골짜기와 산이 보이는 흑백 사진.'},
+  'christ': {'src': S + 'Spas_vsederzhitel_sinay.jpg',
+             'cap': '「판토크라토르(전능하신 그리스도)」, 6세기', 'cr': '이콘 · 시나이 성 카타리나 수도원 · 퍼블릭 도메인 · 위키미디어 공용',
+             'u': 'https://commons.wikimedia.org/wiki/File:Spas_vsederzhitel_sinay.jpg',
+             'alt': '금빛 둥근 빛을 두른 그리스도가 오른손으로 축복하고 왼손에 보석 박힌 책을 든 반신상 이콘.'},
+  'ladder': {'src': S + 'The_Ladder_of_Divine_Ascent_Monastery_of_St_Catherine_Sinai_12th_century.jpg',
+             'cap': '「하늘에 오르는 사다리」, 12세기', 'cr': '이콘 · 시나이 성 카타리나 수도원 · 퍼블릭 도메인 · 위키미디어 공용',
+             'u': 'https://commons.wikimedia.org/wiki/File:The_Ladder_of_Divine_Ascent_Monastery_of_St_Catherine_Sinai_12th_century.jpg',
+             'alt': '금빛 바탕에 비스듬히 놓인 사다리를 수도사들이 오르고, 몇몇은 검은 형상에게 끌려 떨어지는 이콘.'},
+ },
+ 'sounds': [
+  {'file': S + 'chant.mp3', 'cr': '소리: 비잔틴 성가(정교회 전통 성가) 녹음 · CC0 · 위키미디어 공용 · 시나이에서 녹음한 것은 아니에요',
+   'u': 'https://commons.wikimedia.org/wiki/File:Byzantine_Ecclesiastical_Hymn_part1.ogg'},
+ ],
+ 'scenes': [
+  {'id': 'road', 'label': '길', 'kind': 'photo', 'img': 'snow',
+   'text': ['1892년 1월 28일 목요일, 쉰을 앞둔 스코틀랜드의 쌍둥이 자매 아그네스와 마거릿이 배로 수에즈만을 건너요. 약속한 낙타들은 두 시간이나 늦게 나타났어요. 아그네스는 한 해 전에 남편을 잃었고, 마거릿도 여섯 해 전에 남편을 먼저 보냈어요.',
+            '시나이산 기슭의 수도원까지는 낙타로 아흐레쯤. 자매는 일요일에는 쉬겠다고 미리 말해 두었고, 첫 일요일을 와디 가란델 골짜기에서 보냈어요. 예부터 성경 속 ‘엘림’, 곧 광야를 걷던 이스라엘 백성이 샘물과 종려나무를 만난 곳으로 여겨진 골짜기예요(' + bl('EXO.15', '출애굽기 15장 27절') + ').'],
+   'text2': ['사진은 20세기 초, 눈보라 치는 시나이산이에요. 자매도 한겨울에 이 사막을 건넜어요.'],
+   'kid': KID['road'][0], 'kidq': KID['road'][1]},
+  {'id': 'arrive', 'label': '도착', 'kind': 'thennow', 'then': 'meckel', 'now': 'now', 'thenT': '1890년 무렵', 'nowT': '2010년',
+   'text': ['아흐레 동안 모래와 바위만 보며 걸어온 끝에, 바위산 사이로 높은 돌 성벽이 나타나요.'],
+   'quote': {'t': '마침내 수도원이 눈앞에 나타났다. 좁은 골짜기에 포근히 안긴 채, 담을 두른 정원에 둘러싸여.', 'from': '자매의 책 『How the Codex Was Found』(1893)에서 · 이 안내서가 옮김', 'u': CODEX},
+   'text2': ['6세기에 동로마 황제 유스티니아누스가 세운 수도원이에요. 그 뒤로 수도사들이 떠나지 않고 기도해 온, 처음 세운 뜻대로 지금도 쓰이는 가장 오래된 기독교 수도원으로 꼽혀요(유네스코).',
+             '‘2010년’을 눌러 오늘의 수도원을 보세요. 높은 성벽 안에 회색 지붕의 주님의 변모 대성당과 종탑, 흰 첨탑이 보여요. 종탑은 1871년에 세웠고 아홉 개의 종은 러시아 황제 알렉산드르 2세가 보냈어요. 자매가 왔을 때는 세운 지 20년쯤 된 새 종탑이었어요. 흰 첨탑은 1106년 무렵 원래 있던 건물을 고쳐 만든 작은 이슬람 사원이에요. 오랜 세월 이 땅의 무슬림 이웃과 함께 지내 온 수도원의 역사를 보여 줘요.'],
+   'kid': KID['arrive'][0], 'kidq': KID['arrive'][1]},
+  {'id': 'closet', 'label': '어두운 벽장', 'kind': 'mod', 'mod': 'reveal', 'night': True,   # ← 그 자리에 있고 싶은 한 순간(한가운데 장면)
+   'text': ['2월 8일 월요일, 자매는 도서관에서 일을 시작해요. 시리아어 책들은 어두운 벽장 안에 있었어요. 그 벽장에 가려면 그만큼 어두운 방을 하나 더 지나야 했고, 촛불을 켜지 않으면 책이 보이지도 않았어요.',
+            '사서 갈락테온 신부가 두툼한 책 한 권을 꺼내 와요. 몇백 년 동안 아무도 넘겨 보지 않은 듯한 책이었어요. 촛불을 들고 책장을 비춰 보세요.'],
+   'quote': {'t': Q1, 'from': '아그네스의 글(1894)에서 · 이 안내서가 옮김', 'u': TRANS},
+   'text2': ['팔림프세스트는 옛 글을 긁어내거나 씻어 내고 그 위에 새 글을 쓴 책이에요. 짐승 가죽으로 만든 양피지는 무척 귀했거든요. 위에 쓰인 글은 여성 성인들의 삶을 적은 이야기였고, 이 쪽은 성녀 에우프로시네의 이야기예요.',
+             '아그네스는 “' + Q2 + '”라고 적었어요(1894 · 이 안내서가 옮김). 지워진 글씨는 4세기 말에서 5세기 초 무렵에 옮겨 쓴 시리아어 복음서였어요. 이 쪽에는 ' + bl('MAT.1', '마태복음 1장') + '이 있어요. 시리아어로 된 복음서 가운데 가장 오래된 사본으로 꼽혀요.'],
+   'kid': KID['closet'][0], 'kidq': KID['closet'][1]},
+  {'id': 'month', 'label': '수도원에서 보낸 한 달', 'kind': 'photo', 'img': 'agnesph',
+   'text': ['오래 붙어 있던 책장은 조금만 힘을 줘도 바스러졌어요. 자매는 그 가운데 여섯 장쯤을 캠핑용 주전자의 김에 쐬어 살살 떼어 냈어요.',
+            '마거릿이 무거운 책을 붙들고 한 장씩 넘기면 아그네스가 사진기를 눌렀어요. 그렇게 358쪽을 모두 찍었어요.',
+            '수도사들은 하루 스물네 시간 동안 여덟 번이나 노래로 예배를 드렸어요. 아래 단추로 정교회의 비잔틴 성가를 들어 보세요. 자매는 정원 우물 곁에 천막을 치고 지냈는데, 밤이면 천막 안이 영하로 떨어졌어요.'],
+   'snds': [{'u': 'chant.mp3', 't': '비잔틴 성가', 'd': '정교회 전통 성가 녹음 · 시나이에서 녹음한 것은 아니에요 · 약 1분 10초', 'ev': 'hymn'}],
+   'quote': {'t': QA, 'from': '자매의 책(1893)에서 · 이 안내서가 옮김', 'u': CODEX},
+   'text2': ['달 밝은 밤, 사이프러스와 올리브, 꽃이 핀 아몬드 나무가 있는 수도원 정원을 보며 적은 말이에요.',
+             '이듬해 학자들과 다시 왔을 때, 갈락테온 신부는 아그네스를 어머니처럼 여긴다고 말했어요(자매의 책).'],
+   'kid': KID['month'][0], 'kidq': KID['month'][1]},
+  {'id': 'book', 'label': '방명록에 남긴 한 줄', 'kind': 'quote', 'img': 'garden',
+   'text': ['떠날 무렵, 아그네스는 수도원 방명록에 두 사람의 이름을 적고 그 옆에 한 줄을 덧붙였어요.'],
+   'quote': {'t': QG, 'from': '아그네스가 방명록에 쓴 말 · 자매의 책(1893)에서 · 고린도전서 12장 4~5절을 빌렸어요', 'u': CODEX},
+   'text2': ['자매는 장로교인이었고, 수도사들은 그리스 정교회 사람들이었어요. 예배하는 모습은 달라도 같은 성령 안에 있다는 뜻으로 읽혀요(' + bl('1CO.12', '고린도전서 12장') + ').',
+             '3월 8일 화요일 아침, 자매는 수도원을 떠나요. 그리고 이듬해 케임브리지의 학자들과 함께 다시 와서, 지워진 글씨를 한 자 한 자 옮겨 적어요.'],
+   'kid': KID['book'][0], 'kidq': KID['book'][1]},
+ ],
+ 'imagine': {'t': '촛불 하나만 켠 좁은 방이에요. 유리 없는 창으로 사막의 찬바람이 들어와요. 손에 든 양피지는 천 년도 더 지난 것이에요. 촛불을 가까이 대자, 위의 글씨 사이로 아주 희미한 옛 글씨가 비쳐 보여요. 그 글씨가 복음서라는 걸 알아본 순간을 가만히 떠올려 보세요.',
+             'kid': '눈을 감아 봐. 촛불 하나, 찬바람, 아주 오래된 책. 희미한 글씨가 복음서라는 걸 처음 알아챈 순간이야.'},
+ 'lines': ['지워진 줄 알았던 것이 아직 거기 있었다.', '촛불 하나면 어둠 속에서도 찾을 수 있다.', '서로 다른 사람들이 함께 지켜 낸 말씀.'],
+ 'linesKid': ['숨은 글씨를 찾는 탐험가가 되고 싶어.', '작은 촛불로도 보물을 찾을 수 있어.', '나와 다른 친구와도 함께할 수 있어.'],
+ # 마무리(키트 3판 보탬 · 기준서 1판 보탬 11): 한가운데 장면(촛불 아래 드러난 지워진 글씨)에서 나의 자리로. 물음은 카드 책의 물음이 이 장면과 맞아서 그대로 옮겼어요.
+ 'close': {
+  'form': '내 이야기와 잇기',
+  'from': '촛불 아래 진한 위 글(성녀 에우프로시네 이야기) 사이로 비친 지워진 아래 글(마태복음 1장) — 아그네스의 글(1894) “280쪽이 넘도록 여백을 훑어 내려가는 동안…”',
+  'ask': '내 삶에도 ‘지워진 글씨’처럼 아래에 숨은 오래된 이야기가 있을까요?',
+  'askKid': '연필로 쓰고 지운 자국을 본 적 있어? 거기 뭐라고 썼는지 보일까?',
+ },
+ 'goals': {
+  's4': {'t': '촛불로 찾은 세 곳', 'p': '‘어두운 벽장’에서 촛불로 책장의 숨은 세 곳을 모두 찾으면 카드에 금박이 입혀져요.',
+         'how': '책장을 문질러 촛불로 비추며 세 곳을 찾아보세요', 'done': '촛불로 지워진 글씨를 찾았어요',
+         'ways': [{'id': 'reveal', 't': '촛불로 책장의 세 곳을 끝까지 비춰 보기'}]},
+  's5': {'t': '수도원의 노래', 'p': '둘 가운데 하나만 해도 카드가 채색돼요.',
+         'how': '‘수도원에서 보낸 한 달’의 비잔틴 성가를 듣거나, 아이와 함께 끝까지 보세요', 'done': '수도원의 노래를 들었어요',
+         'ways': [{'id': 'hymn', 't': '‘수도원에서 보낸 한 달’에서 비잔틴 성가 듣기', 'hint': '넷째 장면의 ‘비잔틴 성가’ 단추를 눌러 보세요', 'okt': '성가를 들었어요'},
+                  {'id': 'kid', 't': '아이와 함께 ‘영화처럼 보기’를 끝까지 보기', 'hint': '‘아이와 함께’를 켜고 ‘영화처럼 보기’를 끝까지 보세요', 'okt': '아이와 함께 끝까지 봤어요'}]},
+ },
+ 'mods': {
+  'reveal': {
+   'img': 'mt1',
+   'light': 'candle',
+   'intro': '손가락이나 마우스로 문질러 촛불로 책장을 비춰 보세요. 숨은 곳이 세 군데 있어요.',
+   'marks': [
+     {'x': 50, 'y': 30, 't': '진한 위 글', 'p': '778년, 은수자 요한이 옛 복음서 한 권을 뜯어 그 위에 쓴 여성 성인들의 이야기예요. 이 쪽은 성녀 에우프로시네의 이야기예요.'},
+     {'x': 87, 'y': 30, 't': '여백의 흐린 글씨', 'p': '위 글이 닿지 않은 오른쪽 여백에 더 흐린 옛 글씨 자국이 비쳐요. 지워진 아래 글, 마태복음 1장의 흔적이에요.'},
+     {'x': 91, 'y': 87, 't': '양피지', 'p': '짐승 가죽으로 만든 양피지예요. 귀해서 옛 글을 지우고 다시 썼어요. 이렇게 두 번 쓴 책을 팔림프세스트라고 해요.'},
+   ],
+   'after': '촛불로 책장을 다 비춰 보았어요. 진한 이야기 아래에 더 오래된 복음서가 숨어 있었어요.',
+  },
+ },
+ 'deep': [
+  {'h': '알고 보면', 'p': [
+    '<b>팔림프세스트</b> 양피지는 짐승 가죽으로 만들어 무척 귀했어요. 그래서 옛 글을 긁어내거나 씻어 내고 그 위에 새 글을 쓰기도 했어요. 이렇게 두 번 쓴 책을 팔림프세스트라고 해요.',
+    '<b>위에 쓴 사람</b> 아그네스가 읽어 낸 기록에 따르면, ‘베트 마리 카디시’의 은수자 요한이 양피지가 모자라 옛 시리아어 복음서 한 권을 뜯어서 그 위에 여성 성인들의 이야기를 썼어요. 쓴 해는 처음에 697년으로 읽었다가, 나중에 778년으로 바로잡았어요.',
+    '<b>이듬해</b> 1893년, 자매는 케임브리지의 벤슬리 교수 부부, 버킷 부부, 렌들 해리스와 함께 다시 왔어요. 학자들이 쪽을 나눠 맡아 지워진 글씨를 읽어 냈어요. 누가 발견의 공을 가져야 하느냐를 두고 서운한 일도 있었다고 해요.',
+    '<b>또 하나의 발견</b> 1896년, 자매는 카이로에서 사 온 낡은 히브리어 종이 몇 장을 케임브리지의 학자 솔로몬 셰크터에게 보여 주었어요. 셰크터는 그 가운데서 구약 외경 『집회서』(벤 시라)의 히브리어 사본 조각을 알아봤어요. 이것이 실마리가 되어, 카이로 옛 회당의 창고(게니자)에 쌓여 있던 문서 약 19만 점이 케임브리지로 옮겨졌어요.',
+    '<b>학위</b> 그때 케임브리지 대학은 여성에게 학위를 주지 않았어요. 대신 독일 할레 대학(1899)을 시작으로 세인트앤드루스, 하이델베르크, 더블린 대학이 명예박사 학위를 주었어요. 하이델베르크 대학이 여성에게 준 첫 신학 박사 학위였다고 해요.',
+    '<b>횃불을 넘겨주리라</b> 자매는 케임브리지에 장로교 신학교인 웨스트민스터 칼리지를 세우는 데 땅과 큰돈을 내놓았어요. 1897년 머릿돌을 놓고, 1899년 문을 열었어요. 자매의 집 문 위에는 ‘횃불을 넘겨주리라(lampada tradam)’라는 라틴어 글귀가 있었어요.']},
+  {'h': '그리스도인들은 이렇게 읽어요', 'img': ['christ', 'ladder'], 'p': [
+    '그리스도인들은 성경이 처음부터 여러 언어로 옮겨지며 퍼졌다고 봐요. 시리아어는 예수님과 제자들이 쓰던 아람어의 한 갈래예요. 그래서 이 사본은 초기 교회가 복음서를 어떻게 읽었는지 보여 주는 귀한 창으로 여겨져요.',
+    '시나이는 성경에서 ‘하나님을 만난 산’의 전통이 이어지는 곳이에요. 수도원은 모세가 하나님의 말씀을 받은 산으로 전해지는 시나이산 기슭에 있고, 수도원의 떨기나무 경당은 모세가 불타는 떨기나무를 본 자리로 전해져요. 7세기에 이 수도원의 원장이던 요한 클리마쿠스는 수도사의 삶을 하늘로 오르는 서른 개의 계단에 빗댄 책 『하늘에 오르는 사다리』를 썼어요. 수도원에는 이 책을 그림으로 옮긴 12세기 이콘이 남아 있어요.',
+    '그리고 이 이야기는 서로 다른 교회의 사람들이 함께 옛 말씀을 지켜 낸 이야기로도 읽혀요. 장로교인 자매와 정교회 수도사들, 그리고 오랜 세월 수도원 곁에 살아온 무슬림 이웃까지요.']},
+  {'h': '성경에서 이어 읽기', 'p': ['말씀은 뜻만 옮기고, 본문은 대한성서공회 개역개정으로 이어 드려요.'], 'links': [
+    {'t': '출애굽기 3장 · 불타는 떨기나무', 'u': NKRV + 'EXO.3'},
+    {'t': '출애굽기 15장 27절 · 샘과 종려나무가 있던 엘림', 'u': NKRV + 'EXO.15'},
+    {'t': '열왕기상 19장 · 호렙산의 엘리야와 세미한 소리', 'u': NKRV + '1KI.19'},
+    {'t': '고린도전서 12장 · 방명록에 쓴 말', 'u': NKRV + '1CO.12'},
+    {'t': '마태복음 1장 · 지워진 글씨 아래의 첫 쪽', 'u': NKRV + 'MAT.1'}]},
+  {'h': '지금 그 자리', 'checked': '2026년 11월 17일', 'p': [
+    '수도원과 둘레 지역은 2002년 유네스코 세계유산(성 카타리나 지역)이 되었어요. 도서관은 바티칸 다음으로 옛 사본을 많이 가진 곳으로 꼽혀요.',
+    '수도원 공식 안내에 따르면 보통 오전 9시부터 11시 30분까지 들어갈 수 있고, 금요일과 일요일, 큰 정교회 축일에는 문을 닫아요.',
+    '2025년 5월 이집트 법원이 수도원 땅을 둘러싼 소송에서 판결을 내리자, 수도사들이 항의의 뜻으로 방문객을 받지 않았다는 보도가 있었어요. 2026년 10월 그리스 정부는 수도원과 이집트 정부가 합의에 이르렀다고 발표했어요(10월 말 기준 아직 서명 전). 가기 전에는 꼭 최신 소식과 공식 안내를 확인하세요.',
+    '도서관의 지워진 글씨들은 2011년부터 특수 촬영으로 되살리고 있어요. 160개가 넘는 팔림프세스트에서 열 가지 언어의 지워진 글이 드러났고, 연구용 누리집에서 볼 수 있어요.']},
+  {'h': '징검다리 · 더 보고 싶다면', 'links': [
+    {'t': '대한성서공회 「성서의 땅을 찾아서」 ‘시나이산’', 'm': '한국어 · 회원 로그인', 'u': 'https://bible.bskorea.or.kr/resources/handbook/biblelands/mount_sinai'},
+    {'t': '대한성서공회 「성서의 땅을 찾아서」 ‘광야’', 'm': '한국어 · 회원 로그인', 'u': 'https://bible.bskorea.or.kr/resources/handbook/biblelands/wilderness'},
+    {'t': '자매의 여행기 『How the Codex Was Found』 소리책', 'm': '영어 낭독 · 2시간 28분 · LibriVox 무료', 'u': 'https://librivox.org/how-the-codex-was-found-by-agnes-smith-lewis/'},
+    {'t': '같은 책 원문(1893)', 'm': '영어 · 인터넷 아카이브', 'u': CODEX},
+    {'t': 'Atlas Obscura ‘How Lady Bible Hunters Made the Victorian Era’s Most Stunning Scriptural Find’', 'm': '영어 기사', 'u': 'https://atlasobscura.com/articles/how-lady-bible-hunters-made-the-victorian-eras-most-stunning-scriptural-find'},
+    {'t': '성경 박물관 ‘The Sisters Who Went to Sinai’', 'm': '영어 · 짧은 글', 'u': 'https://museumofthebible.org/book-minute/the-sisters-who-went-to-sinai'},
+    {'t': '시나이 팔림프세스트 프로젝트', 'm': '영어 · 되살린 글씨 보기', 'u': 'https://sinaied.library.ucla.edu'},
+    {'t': '재닛 소스키스, 『The Sisters of Sinai』(2009)', 'm': '영어 책 · 한국어판은 찾지 못했어요', 'u': 'https://www.biblicalarchaeology.org/reviews/the-sisters-of-sinai/'}]},
+  {'h': '조심할 점', 'p': [
+    '‘예수님이 쓰신 말 그대로’라고 하지 않아요. 시리아어는 아람어의 한 갈래이지만, 예수님이 쓰신 갈릴리 지방의 아람어와 똑같지는 않아요.',
+    '같은 수도원에서 나온 ‘시나이 사본’(티셴도르프가 가져간 그리스어 성경)과는 다른 책이에요. 언어도, 찾은 사람도, 지금 있는 곳도 달라요.',
+    '수도원 땅 문제는 아직 이어지는 일이에요. 어느 한쪽을 탓하지 않고 확인된 사실만 옮겼어요.',
+    '이 사본에는 마가복음의 마지막 열두 절(16장 9~20절)이 없어요. 아주 오래된 그리스어 사본 몇 권도 같아서 사본 연구에서는 널리 알려진 사실이지만, 처음 만나는 분께 꼭 필요한 내용은 아니라 여기에만 적어 둬요. 교회마다 이 부분을 설명하는 방식이 다를 수 있어요.']},
+ ],
+ 'src': [
+  {'l': 'Margaret Dunlop Gibson, 『How the Codex Was Found: A Narrative of Two Visits to Sinai from Mrs. Lewis’s Journals 1892–1893』(1893) · 인터넷 아카이브 — 1월 28일 낙타 두 시간 늦음, 와디 가란델(엘림)의 일요일, 어두운 벽장과 촛불, 주전자 김, 358쪽, 하루 여덟 번의 예배, 천막 안 영하, 아몬드 꽃잎, 방명록의 말, 3월 8일 화요일, 이듬해 갈락테온 신부의 말·벤슬리·해리스·버킷', 'u': CODEX},
+  {'l': 'Agnes Smith Lewis, 『A Translation of the Four Gospels from the Syriac of the Sinaitic Palimpsest』(1894) · 인터넷 아카이브 — 팔림프세스트임을 알아본 일, 280쪽이 넘는 여백', 'u': TRANS},
+  {'l': 'Wikipedia: Agnes Smith Lewis and Margaret Dunlop Gibson', 'u': 'https://en.wikipedia.org/wiki/Agnes_Smith_Lewis_and_Margaret_Dunlop_Gibson'},
+  {'l': 'Wikipedia: Agnes Smith Lewis (남편 사뮤얼 루이스 1891년 세상을 떠남)', 'u': 'https://en.wikipedia.org/wiki/Agnes_Smith_Lewis'},
+  {'l': 'Wikipedia(독일어): Agnes Smith Lewis · 명예박사 연도', 'u': 'https://de.wikipedia.org/wiki/Agnes_Smith_Lewis'},
+  {'l': 'Wikipedia: Syriac Sinaiticus', 'u': 'https://en.wikipedia.org/wiki/Syriac_Sinaiticus'},
+  {'l': 'Wikipedia: Saint Catherine’s Monastery', 'u': 'https://en.wikipedia.org/wiki/Saint_Catherine%27s_Monastery'},
+  {'l': '성 카타리나 수도원 공식 안내: General Information', 'u': 'https://sinaimonastery.com/index.php/en/the-pilgrimage/general-information'},
+  {'l': '성 카타리나 수도원 공식 안내: Catholicon of the Transfiguration', 'u': 'https://sinaimonastery.com/index.php/en/description/the-monastery/catholicon-of-the-transfiguration'},
+  {'l': 'Cambridge Past, Present & Future: Agnes Smith Lewis & Margaret Dunlop Gibson', 'u': 'https://cambridgeppf.org/?p=21201'},
+  {'l': 'Books & Culture(2010): Synoptic Sisters', 'u': 'https://booksandculture.com/articles/2010/mayjun/synopticsisters.html'},
+  {'l': 'History of Information: 카이로 게니자의 발견', 'u': 'https://historyofinformation.com/detail.php?id=1364'},
+  {'l': 'History of Information: 존 페디가 그린 자매의 초상(웨스트민스터 칼리지 소장)', 'u': 'https://www.historyofinformation.com/image.php?id=3125'},
+  {'l': '케임브리지 대학 도서관 『Genizah Fragments』 61호(2011)', 'u': 'https://wwwe.lib.cam.ac.uk/GF/Genizah_Fragments_61.pdf'},
+  {'l': 'Sinai Palimpsests Project: About', 'u': 'https://sinaied.library.ucla.edu/about-project/'},
+  {'l': 'UNESCO 세계유산: Saint Catherine Area', 'u': 'https://whc.unesco.org/en/list/954'},
+  {'l': 'Patrick Comerford(2025.6.3): 수도사들이 문을 닫다', 'u': 'https://www.patrickcomerford.com/2025/06/the-monks-of-mount-sinai-have-closed.html?m=0'},
+  {'l': 'EWTN News(2025.6.6, 2025.9.26 고침): 수도원 문을 닫다', 'u': 'https://www.ewtnnews.com/world/middle-east/monks-close-doors-of-st-catherine-monastery-as-battle-with-egypt-government-continues'},
+  {'l': 'Athens News(2026.10.25): 수도원 합의 발표', 'u': 'https://en.rua.gr/2026/10/25/the-sinai-monastery-was-saved-from-a-legal-trap-greece-and-egypt-found-the-formula-after-1500-years/'},
+  {'l': '대한성서공회 개역개정 본문', 'u': NKRV + 'EXO.3'},
+ ],
+ 'film': [
+  {'type': 'open', 'ch': 0, 'img': 'card', 'fit': 'cover', 'p0': '55% 22%', 'p1': '55% 40%', 's0': 1.18, 's1': 1.0,
+   'kicker': '1892년 2월 · 이집트 시나이반도', 'title': '시나이의 쌍둥이 자매',
+   'lines': [{'t': '책 한 권 아래에 더 오래된 글씨가 숨어 있었어요.'}, {'t': '이 사람은 무엇을 찾아냈을까요?'}],
+   'kid': [{'t': '책장 밑에 지워진 글씨가 숨어 있었대!'}, {'t': '무슨 글씨였을까? 같이 찾으러 가 보자.'}]},
+  {'type': 'chapter', 'ch': 1, 'no': 1, 't': '길'},
+  {'type': 'img', 'ch': 1, 'img': 'snow', 'fit': 'cover', 'p0': '50% 62%', 'p1': '50% 40%', 's0': 1.15, 's1': 1.02, 'cap': '눈보라 치는 시나이산 · 20세기 초',
+   'lines': [{'t': '1892년 1월 28일, 쉰을 앞둔 쌍둥이 자매가 배로 수에즈만을 건너 낙타에 올라요.'},
+             {'t': '아그네스는 한 해 전에 남편을 잃었고, 마거릿도 여섯 해 전에 남편을 먼저 보냈어요.'},
+             {'t': '수도원까지 사막 길은 아흐레쯤.'},
+             {'t': '일요일에는 성경 속 ‘엘림’으로 전해지는 골짜기에서 낙타를 세우고 쉬었어요.'}],
+   'kid': [{'t': KID['road'][0]}, {'t': KID['road'][1], 'ask': True}]},
+  {'type': 'chapter', 'ch': 2, 'no': 2, 't': '도착'},
+  {'type': 'img', 'ch': 2, 'img': 'meckel', 'fit': 'cover', 'p0': '8% 55%', 'p1': '92% 45%', 's0': 1.0, 's1': 1.08, 'cap': '아돌프 폰 메켈의 그림, 1890년 무렵',
+   'lines': [{'t': '아흐레 동안 모래와 바위만 보며 걸어온 끝에, 바위산 사이로 높은 돌 성벽이 나타나요.'},
+             {'t': '마침내 수도원이 눈앞에 나타났다. 좁은 골짜기에 포근히 안긴 채, 담을 두른 정원에 둘러싸여.', 'q': True, 'from': '자매의 책(1893)에서'}],
+   'kid': [{'t': KID['arrive'][0]}]},
+  {'type': 'thennow', 'ch': 2, 'then': 'meckel', 'now': 'now', 'cap': '2010년의 수도원',
+   'lines': [{'t': '그리고 130여 년이 지난 지금.'}, {'t': '6세기부터 수도사들이 떠나지 않고 기도해 온 곳이에요.'}],
+   'kid': [{'t': '높은 성벽 안에 성당과 종탑, 하얀 탑이 보여.'}, {'t': '종이 아홉 개 달린 종탑은 어디 있을까?', 'ask': True}]},
+  {'type': 'chapter', 'ch': 3, 'no': 3, 't': '어두운 벽장'},
+  {'type': 'black', 'ch': 3,
+   'lines': [{'t': '2월 8일, 도서관.'}, {'t': '시리아어 책들은 어두운 벽장 안에 있었고, 촛불 없이는 아무것도 보이지 않았어요.'},
+             {'t': '사서 갈락테온 신부가 두툼한 책 한 권을 꺼내 와요.'}],
+   'kid': [{'t': '캄캄한 방이야. 촛불 하나로 오래된 책을 펼쳐 볼까?'}]},
+  {'type': 'mod', 'mod': 'reveal', 'ch': 3,
+   'lines': [{'t': '촛불을 켜고 책장을 비춰요.', 'act': 'light'},
+             {'t': Q1, 'q': True, 'from': '아그네스의 글(1894)에서', 'act': 'mark:1'},
+             {'t': Q2, 'q': True, 'from': '아그네스의 글(1894)에서', 'act': 'mark:2', 'wait': 900},
+             {'t': '진한 위 글은 성녀 에우프로시네의 이야기, 그 아래 지워진 글은 마태복음 1장이에요.', 'act': 'all', 'wait': 900}],
+   'kid': [{'t': '깜깜해. 촛불을 켜 볼까?', 'act': 'light'},
+           {'t': '진한 글씨가 빽빽해.', 'act': 'mark:1'},
+           {'t': '여백에 희미한 글씨가 보여!', 'act': 'mark:2'},
+           {'t': '그게 예수님 이야기가 담긴 복음서래.', 'act': 'all'},
+           {'t': KID['closet'][1], 'ask': True}]},
+  {'type': 'chapter', 'ch': 4, 'no': 4, 't': '수도원에서 보낸 한 달'},
+  {'type': 'img', 'ch': 4, 'img': 'agnesph', 'fit': 'contain', 'o': '50% 35%', 's0': 1.0, 's1': 1.1, 'cap': '1896년 책에 실린 책장 사진',
+   'lines': [{'t': '붙어 버린 책장은 주전자의 김으로 살살 떼어 냈어요.'}, {'t': '마거릿이 책장을 넘기고 아그네스가 사진을 찍어, 358쪽을 모두 담았어요.'}],
+   'kid': [{'t': '붙은 책장을 주전자 김으로 떼어 내고, 한 장씩 사진을 찍었어.'}]},
+  {'type': 'img', 'ch': 4, 'img': 'window', 'fit': 'contain', 'o': '50% 40%', 's0': 1.0, 's1': 1.14, 'cap': '수도원 창문 너머의 정원, 20세기 초',
+   'lines': [{'t': '수도사들은 하루에 여덟 번 노래로 예배를 드렸어요.'}, {'t': '정원에 친 천막은 밤마다 영하로 떨어졌어요.'}],
+   'kid': [{'t': '수도사들은 하루에 여덟 번이나 노래로 기도했대.'}, {'t': KID['month'][1], 'ask': True}]},
+  {'type': 'img', 'ch': 4, 'img': 'garden', 'fit': 'cover', 'p0': '35% 50%', 'p1': '65% 50%', 's0': 1.06, 's1': 1.0, 'cap': '정원의 사이프러스, 20세기 초',
+   'lines': [{'t': QA, 'q': True, 'from': '자매의 책(1893)에서'},
+             {'t': '이듬해 다시 왔을 때, 갈락테온 신부는 아그네스를 어머니처럼 여긴다고 말했어요.'}],
+   'kid': [{'t': '달빛 아래 떨어진 꽃잎이 눈처럼 반짝였대.'}]},
+  {'type': 'chapter', 'ch': 5, 'no': 5, 't': '방명록에 남긴 한 줄'},
+  {'type': 'quote', 'ch': 5, 'big': QG,
+   'lines': [{'t': '떠날 무렵, 아그네스는 수도원 방명록에 이 한 줄을 남겼어요.'}, {'t': '장로교인 자매와 정교회 수도사들.'},
+             {'t': '3월 8일 아침, 자매는 수도원을 떠났어요.'}],
+   'kid': [{'t': KID['book'][0]}, {'t': KID['book'][1], 'ask': True}]},
+  # 마무리(내 이야기와 잇기): ‘생각해 보기’ 물음은 틀이 이 장면 끝에 붙여요(close.ask)
+  {'type': 'imagine', 'ch': 6,
+   'lines': [{'t': '촛불 하나만 켠 좁은 방이에요.'}, {'t': '유리 없는 창으로 사막의 찬바람이 들어와요.'},
+             {'t': '희미한 글씨가 복음서라는 걸 알아본 순간,'}, {'t': '그 마음을 가만히 떠올려 보세요.'}],
+   'kid': [{'t': '눈을 감아 봐. 촛불 하나, 찬바람, 아주 오래된 책.'}, {'t': '희미한 글씨가 복음서라는 걸 알아챈 순간이야.'}]},
+  {'type': 'reward', 'ch': 6},
+ ],
+}

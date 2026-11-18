@@ -36,7 +36,8 @@ body.dim{--bg:#090c15;--paper:#121726;--ink:#f1ebdf;--muted:#b5ab98;--faint:#817
  'doneNote': '성탄이 오면, 우리 집 구유 자리에 작은 구유를 놓아 보세요.',
  'images': {
   'giotto': {'src': CU + 'Giotto_di_Bondone_-_Legend_of_St_Francis_-_13._Institution_of_the_Crib_at_Greccio_-_WGA09135.jpg', 'cap': '아시시 성 프란치스코 대성당 벽화, 1297~1300년 무렵', 'cr': '작가 논쟁 중(오래 조토의 작품으로 여겨짐) · 퍼블릭 도메인 · 위키미디어 공용',
-             'u': 'https://commons.wikimedia.org/wiki/File:Giotto_di_Bondone_-_Legend_of_St_Francis_-_13._Institution_of_the_Crib_at_Greccio_-_WGA09135.jpg',
+             # 2026-11-19 본부: 더 큰 사진(Yorck 007, 2536×3376)에서 예전(WGA09135)과 같은 자리로 다시 잘랐어요. 색은 예전 느낌에 맞추고, 원본 밖으로 나가는 오른쪽 4.5%와 위아래 끝을 조금 덜어 냈어요
+             'u': 'https://commons.wikimedia.org/wiki/File:Giotto_di_Bondone_(und_Werkstatt)_007.jpg',
              'alt': '성당 안 제단 앞. 무릎 꿇은 수도자가 작은 구유에서 아기를 안아 올리고, 곁에 작은 소와 나귀가 있다. 오른쪽에 수사들이 노래하고, 위에는 뒤에서 본 붉은 십자가가 기울어 있다.'},
   'detail': {'src': S + 'g_detail.jpg', 'cap': '같은 벽화의 부분: 노래하는 수사들', 'cr': '퍼블릭 도메인 · 위키미디어 공용(Web Gallery of Art)',
              'u': 'https://commons.wikimedia.org/wiki/File:Giotto_di_Bondone_-_Legend_of_St_Francis_-_13._Institution_of_the_Crib_at_Greccio_(detail)_-_WGA09136.jpg',
