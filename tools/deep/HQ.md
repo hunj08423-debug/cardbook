@@ -1,0 +1,47 @@
+# 본부 창 안내서
+
+본부는 제작 창들이 함께 쓰는 것(틀·키트·기준서·목록)을 맡아요. 카드 하나하나는 제작 창이 만들어요.
+본부도 GUIDE.md의 ‘꼭 지킬 것’을 똑같이 지켜요(사용자 폴더의 다른 파일, push, 개인 정보, list.txt 등).
+
+## 본부가 하는 일
+1. **틀·방식 넣기**: `kit/src/`(deep2_tpl.html, make_tpl3.py, tpl3_mod.css, tpl3_mod.js)를 고쳐 `python3 tools/deep/kit/src/make_tpl3.py`로 `kit/deep3_tpl.html`을 다시 만들어요. 자료만 적으면 되는 방식의 HTML은 `kit/modhtml.py`, 빌드 연결은 `kit/build.py`. 바꾸면 `build.py`의 `TPLV`를 올리고 `build.py --all`로 모든 카드를 다시 만든 뒤 `check.py --all`. 그다음 MODULES.md 상태를 고치고 사용자에게 “키트를 새로 넣었어요. 창마다 ‘키트 다시 가져오기’를 보내 주세요”라고 알려요.
+2. **기준서 지키기**: 사용자 의견 중 규칙이 될 것은 원본 Claude 문서(기준서)에 넣고 판 기록에 적은 뒤 `RULES.md`를 맞춰요. 새 아이디어는 모았다가 장을 마칠 때 한꺼번에.
+3. **사용 기록 모으기**: status 파일의 중심 방식·도우미를 모아 기준서 ‘사용 기록’ 표에 옮기고, 같은 장에서 연달아 같은 방식이 나온 곳을 찾아 해당 창에 알려요.
+4. **사이트에 잇기**: 끝난 카드를 카드 책 목록에 이어요. 잇기 전에 아래 ‘잇기 전에 할 일’을 먼저 해요. 그다음 `python3 tools/deep/kit/link_deep.py --write <카드id ...>`. index.json과 tools/chapters.py의 DEEP이 함께 맞춰져요.
+5. **작은 카드**: status의 ‘더 깊이’ 글을 모아 앞면 뒤에 붙이는 방법을 사용자와 정해요(앱·데이터를 고치는 일이라 본부만).
+6. **묶음표**: 카드가 늘거나 바뀌면 `python3 tools/deep/kit/make_batches.py`.
+7. **정기 점검**: 바뀌는 정보(‘확인한 날’)는 3개월·1년마다, 링크는 한꺼번에 확인해요. 끊긴 링크는 지우지 않고 다른 주소나 웨이백 머신 보관본으로 바꿔요(기준서 ‘자료 잇기 원칙’). 링크 점검 도구가 보관본을 찾게 하려면 허용 도메인에 archive.org(web.archive.org)를 더해야 해요. 여러 카드에 나오는 같은 자료는 목록 한 곳에서 관리하는 방식을 나중에 키트에 넣어요.
+8. **인물 사진 요청 모으기**: status의 ‘인물 사진 요청’ 줄 중 ‘보냄’인 것을 모아 사용자에게 한 번에 보여 줘요(카드·후보 링크·넣을 파일 이름). 사용자가 넣은 사진은 그 묶음 창이 이어서 써요.
+9. **옛 화질 카드 모아 받기**: status의 ‘화질’ 줄이 ‘원본 없음 · 옛 화질’인 카드를 모아, 그 카드들의 `_sources.json`(사용자 폴더 deep_src)에서 파일 이름을 뽑아 need 파일을 만들고 `commons_get.py --user-bat`으로 받기 파일 하나를 만들어 ‘그림 받기 부탁’을 한 번만 보내요. 받은 뒤 그 카드들을 다시 빌드·점검해 넣어요.
+10. **장 검토(장을 마칠 때)**: `check.py --all --fast`의 ‘5단계 마무리’로 장마다 고르기가 세 카드에 한 장쯤인지 봐요(사용자와 약속한 ‘큰 걱정’ 확인: 2026-11-18까지 온 9장이 모두 ‘우리라면?’ 고르기로 끝났어요). 넘치는 카드는 그 창에 다른 마무리로 바꾸게 하고, 5단계용 새 방식(이야기 속 행동으로 끝나는 것)을 두어 개 만들어 키트에 넣어요. 모아 둔 방식 아이디어(날짜 따라 여는 달력, 돌아가는 피라미드)도 이때.
+
+## 공유 틀 파일 (site/deep/_deep3)
+- 모든 깊은 카드는 `site/deep/_deep3/deep3.css`·`deep3.js` 한 벌을 같이 써요(카드 페이지에는 카드 내용·DATA·색만 있어요). build.py가 `kit/deep3_tpl.html`에서 떼어 만들어요.
+- 틀의 **모양·움직임(CSS·JS)만** 고쳤다면 카드를 다시 만들 필요 없이 이 두 파일만 사용자 폴더에 넣으면 모든 카드에 바로 반영돼요. 카드 HTML 뼈대나 자리표시를 바꿨다면 `build.py --all`.
+- 제작 창은 이 폴더를 보내지 않아요(pack.py가 빼요). 이 폴더는 본부만 넣어요.
+
+## 잇기 전에 할 일 (앱, 한 번만)
+- 앱(app.html → site/index.html)의 `deepStage(id)`가 `'deep2-' + id`만 읽어요. deep3 카드는 `'deep3-' + id`에 기록해요. 둘 다 읽게 고쳐야 카드 책에서 단계(양피지~채색)가 보여요.
+- 카드 시트의 깊이 읽기 상자 문구가 시나이용이에요(“뒷면을 깊게 만든 첫 시안… 다섯 장면…”). 장면 수·영화 길이가 카드마다 다르니 공통 문구로 바꿔요. 홈 화면 깊이 읽기 띠(`deepBand`)의 “다섯 장면을 걷고, 영화처럼 3분” 문구도.
+- 앱을 고치면 사이트 빌드(build_site.py)로 site/index.html을 다시 만들고, 화면 점검(390·1280, 밝게·어둡게)을 한 뒤 사용자에게 Commit·Push를 부탁해요.
+- build_site.py는 chapters.py의 DEEP으로 index.json의 deep을 다시 써요. link_deep.py가 둘을 같이 맞추니, 사이트를 다시 빌드한 뒤에도 link_deep.py를 한 번 더 돌려 확인해요.
+
+## 키트 파일
+| 파일 | 하는 일 | 누가 |
+|---|---|---|
+| kit/build.py | 카드 자료 → site/deep/<id>.html + 자산, `--preview`, `--all` | 모두 |
+| kit/check.py | 자료 점검 + 화면 점검(390·1280, 밝게·어둡게, 1~3단계, 영화 끝까지), 스크린샷 | 모두 |
+| kit/commons_get.py | 위키미디어 찾기·라이선스 확인·받기(`--nettest`, `--plan-file`, `--fetch-file`) | 모두 |
+| kit/card_info.py | 카드의 앞면·안내 항목·긴 이야기·출처 보기 | 모두 |
+| kit/new_card.py | 카드 자료 뼈대 | 모두 |
+| kit/pack.py | 클라우드 창 → 사용자 폴더 보내기 목록 | 모두 |
+| kit/link_deep.py | 사이트 목록에 잇기 | 본부 |
+| kit/make_batches.py | BATCHES.md 만들기 | 본부 |
+| kit/src/* | 틀 만들기 재료 | 본부 |
+| kit/fsynth.py, midiread.py, song_example_silent.py | 소리 만들기 | 소리 카드 |
+| kit/place_stage.py, art/ | 놓아 보기 무대 | 놓아 보기 카드 |
+
+## 알아 둘 것
+- 위키미디어 API는 2026년부터 요청 수를 제한해요(로그인 없는 요청은 낮은 한도, 동시 3개 이하 권장, 429면 Retry-After). 창이 많을수록 기다림이 늘어요. 묶음 목록을 한 번에 묻는 `--plan-file`/`--fetch-file`을 쓰게 하고, 검색은 웹 검색 도구로 먼저 하게 해요.
+- 허용 도메인(사용자 설정 › 기능): commons.wikimedia.org, upload.wikimedia.org, thumb.wikimedia.org. 화면 점검 스크린샷의 글꼴까지 맞추려면 fonts.googleapis.com, fonts.gstatic.com도.
+- 사용자 기록(localStorage)은 사이트 주소마다 따로예요. 깊은 카드와 카드 책이 같은 주소(cardbook.hunji08423.workers.dev)라 단계가 함께 보여요.

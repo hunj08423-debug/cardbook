@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="../icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+</head>
+<body>
+<title>대림절 달력</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="_deep3/deep3.css">
+<style>:root{--card-ar:1440/1920}
+:root{--accent:#5D3B7A;--accent-ink:#fffaf5;--soft:rgba(93,59,122,.09);--stamp:#b0392b}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--accent:#ab99ba;--accent-ink:#14100c;--soft:rgba(171,153,186,.10);--stamp:#e86f5d}}
+:root[data-theme="dark"]{--accent:#ab99ba;--accent-ink:#14100c;--soft:rgba(171,153,186,.10);--stamp:#e86f5d}
+</style>
+
+<div class="top"><div class="wrap">
+  <a class="brand" href="../#c-adv-calendar" style="text-decoration:none">← <span class="long"><b>처음 만나는 기독교 문화</b> · </span>카드 책으로</a>
+  <button class="prog" id="prog" type="button" aria-label="이 카드의 완성 단계"><i></i><i></i><i></i><i></i><i></i><b id="progName">아직</b></button>
+  <button class="pill" id="kid" type="button" aria-pressed="false">아이와 함께</button>
+  <button class="pill" id="filmBtn" type="button">▶ 영화처럼</button>
+</div></div>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="cardcol" id="cardcol">
+      <div class="flipwrap">
+        <div class="flip" id="flip">
+          <div class="face front"><div class="hold" id="lcHold">
+            <div class="lcard lv0" id="lcard">
+              <div class="lc-in"><img src="adv-calendar/card.webp" width="1440" height="1920" alt="해 질 녘 흰 성당 벽, 둥근 장미창 아래에 벽돌집 모양의 커다란 판이 걸려 있다. 불 켜진 창 24개마다 그림과 짧은 글이 있고, 오른쪽에는 촛불을 단 전나무가 서 있다.">
+                <span class="lc-badge" id="lcBadge">아직 펼치지 않은 카드</span>
+                <svg class="lc-seal" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="17" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="20" cy="20" r="13" fill="none" stroke="currentColor" stroke-width="1"/><text x="20" y="25" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor" font-family="Gowun Batang, serif">달</text></svg>
+                <div class="lc-cap"><span class="lc-set">성탄을 기다리는 날들 · 1</span><span class="lc-title"><span class="dc">대</span>림절 달력</span><span class="lc-q a">스물네 개의 창, 오늘은 어느 창이 열릴까요?</span><span class="lc-q k">창문이 24개야. 오늘은 몇 번째 창이 열릴까?</span></div>
+                <button class="lc-open" id="openStory" type="button">이야기 펼치기</button>
+              </div>
+              <div class="lc-sheen"></div><div class="lc-foil"></div><div class="lc-lamp"></div>
+              <svg class="orn tl" viewBox="0 0 30 30" aria-hidden="true"><path d="M3 27V9a6 6 0 0 1 6-6h18" fill="none" stroke="#24418f" stroke-width="3.2"/><path d="M7 27V11a4 4 0 0 1 4-4h16" fill="none" stroke="#f3d27a" stroke-width="1.3"/><circle cx="8" cy="8" r="4.6" fill="#b8322a" stroke="#f3d27a" stroke-width="1.2"/><path d="M14 13c3-4 7-4 9-1-3 2-6 3-9 1z" fill="#2f7a4f"/></svg>
+              <svg class="orn tr" viewBox="0 0 30 30" aria-hidden="true"><path d="M3 27V9a6 6 0 0 1 6-6h18" fill="none" stroke="#24418f" stroke-width="3.2"/><path d="M7 27V11a4 4 0 0 1 4-4h16" fill="none" stroke="#f3d27a" stroke-width="1.3"/><circle cx="8" cy="8" r="4.6" fill="#b8322a" stroke="#f3d27a" stroke-width="1.2"/><path d="M14 13c3-4 7-4 9-1-3 2-6 3-9 1z" fill="#2f7a4f"/></svg>
+              <svg class="orn bl" viewBox="0 0 30 30" aria-hidden="true"><path d="M3 27V9a6 6 0 0 1 6-6h18" fill="none" stroke="#24418f" stroke-width="3.2"/><path d="M7 27V11a4 4 0 0 1 4-4h16" fill="none" stroke="#f3d27a" stroke-width="1.3"/><circle cx="8" cy="8" r="4.6" fill="#b8322a" stroke="#f3d27a" stroke-width="1.2"/><path d="M14 13c3-4 7-4 9-1-3 2-6 3-9 1z" fill="#2f7a4f"/></svg>
+              <svg class="orn br" viewBox="0 0 30 30" aria-hidden="true"><path d="M3 27V9a6 6 0 0 1 6-6h18" fill="none" stroke="#24418f" stroke-width="3.2"/><path d="M7 27V11a4 4 0 0 1 4-4h16" fill="none" stroke="#f3d27a" stroke-width="1.3"/><circle cx="8" cy="8" r="4.6" fill="#b8322a" stroke="#f3d27a" stroke-width="1.2"/><path d="M14 13c3-4 7-4 9-1-3 2-6 3-9 1z" fill="#2f7a4f"/></svg>
+            </div></div>
+          </div>
+          <div class="face back" aria-hidden="true">
+            <div class="bk">
+              <div class="bk-line">하루에 창 하나씩, 기다림을 세는 집.</div>
+              <div class="bk-h">카드가 완성되는 다섯 단계</div>
+              <ol class="ladder" id="ladder"></ol>
+              <div class="bk-next" id="bkNext"></div>
+              <div class="bk-stamp" id="bkStamp">한 줄을 남기면<br>여기에 도장이 찍혀요</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cardbtns"><button class="pill" id="openStory2" type="button">이야기 펼치기</button><button class="pill" id="flipBtn" type="button">↻ 뒤집기</button></div>
+    </div>
+    <div class="intro">
+      <div class="where"><b>19세기 말 ~ 1915년</b><span>독일 마울브론 · 뮌헨</span></div>
+      <h1>대림절 달력</h1>
+      <p class="lead a">19세기 말 독일의 한 목사관에서, 어머니가 판지에 작은 과자 24개를 붙여 아들에게 주었어요. 그 아들 게르하르트 랑은 자라서, 날마다 그림을 한 장씩 오려 붙이는 달력을 펴냈어요. 그림을 다 붙인 그 달력의 칸을 하나씩 눌러 보세요.</p>
+      <p class="lead k">옛날 독일의 한 아이는 엄마가 만든 과자 달력에서 날마다 과자를 하나씩 떼어 먹었대. 그 아이가 커서 그림 달력을 만들었어! 칸을 하나씩 눌러 볼까?</p>
+      <div class="go">
+        <button class="btn main" id="filmBtn2" type="button">▶ 영화처럼 보기</button>
+        <a class="btn" href="#sc-road">천천히 읽기 ↓</a>
+      </div>
+      <p class="meta">영화처럼 약 2분 · 천천히 읽으면 4분</p>
+      <p class="draft">검수 전 시안이에요(기준서 1판). 장면에는 기록에 있는 것만 옮겼고, 자료마다 다른 해는 ‘기록마다 다른 점’에 모았어요. 상상은 ‘눈 감고 상상해 보기’에만 썼어요.</p>
+      <div class="preview" id="preview"><b>시안 확인용</b>카드 단계 미리 보기
+        <button type="button" data-lv="0">0</button><button type="button" data-lv="1">1</button><button type="button" data-lv="2">2</button><button type="button" data-lv="3">3</button><button type="button" data-lv="4">4</button><button type="button" data-lv="5">5</button>
+        <button type="button" data-lv="me" class="on">내 진행</button><button type="button" id="resetBtn">기록 지우기</button></div>
+    </div>
+  </section>
+
+<section class="sc" id="sc-home" data-sc="home"><div class="sc-head"><span class="no">1</span><h2>목사관의 과자 달력</h2><button type="button" class="fromhere" data-ch="1">▶ 여기부터 크게</button></div>
+<div class="a"><p class="tx">19세기 독일의 아이들은 성탄까지 남은 날을 여러 가지로 셌어요. 문에 분필로 24줄을 긋고 날마다 하나씩 지우는 집도 있었고, 착한 일을 할 때마다 구유에 지푸라기를 하나씩 넣는 집도 있었어요.</p><p class="tx">마울브론의 목사 부인 셀마 랑은 판지에 ‘비벨레’라는 작은 과자 24개를 붙여 아들 게르하르트에게 주었어요. 아이는 날마다 하나씩 떼어 먹으며 성탄을 기다렸어요.</p></div><figure class="ph"><div class="frame"><img src="adv-calendar/wibele.webp" width="1920" height="1080" alt="어두운 나무 탁자 위의 작은 크림색 과자 두 개를 아주 가까이 찍은 사진. 왼쪽 것은 동그란 봉우리 두 개가 붙은 모양이고, 오른쪽 것은 작은 물방울 모양이다." loading="lazy" decoding="async"></div><figcaption>비벨레: 독일 호엔로에 지방의 작은 과자(오늘 사진) · <a href="https://commons.wikimedia.org/wiki/File:Wibele_Detail.jpeg" target="_blank" rel="noopener">사진 · 퍼블릭 도메인 · 위키미디어 공용</a></figcaption></figure><div class="k kidwrap"><p class="kidline">엄마가 판지에 작은 과자를 24개 붙여 줬대. 하루에 하나씩 떼어 먹는 거야!</p><p class="kidq"><b>물어보기</b>하루에 과자 하나씩, 너라면 끝까지 기다릴 수 있을까?</p></div></section>
+<section class="sc" id="sc-kal" data-sc="kal"><div class="sc-head"><span class="no">2</span><h2>날마다 한 장씩 붙인 그림</h2><button type="button" class="fromhere" data-ch="2">▶ 여기부터 크게</button></div>
+<div class="a"><p class="tx">게르하르트 랑은 자라서 뮌헨의 출판인이 되었어요. 1908년, 여러 번 시도한 끝에 「아기 예수의 나라에서」라는 달력을 펴냈어요. 그림은 화가 리하르트 에른스트 케플러가 그리고, 칸마다 들어갈 짧은 시는 랑이 직접 썼어요.</p><p class="tx">판지에는 시가 적힌 칸 24개가 있었어요. 아이는 날마다 그날의 그림을 오려, 뒷면에 물을 묻혀 제자리에 붙였어요. 아래는 1915년에 다시 찍은 달력으로, 그림을 다 붙인 모습이에요.</p></div><div class="mod lk" data-mod="look"><div class="mod-top"><p class="mod-intro">그림을 다 붙인 달력이에요. 칸 속 작은 것들을 하나씩 눌러 보세요.</p><span class="mod-n lk-n" aria-live="polite"></span></div><div class="lk-frame" style="aspect-ratio:1410/1046;width:min(100%,calc(72vh * 1.3480))"><div class="lk-zoom"><img src="adv-calendar/kal.webp" width="1410" height="1046" alt="노란 바탕 위쪽에 ‘Weihnachts-Kalender’라는 제목이 있는 달력. 크고 작은 칸 24개에 천사와 아이들이 성탄을 준비하는 그림이 붙어 있고, 한가운데 가장 큰 칸에는 성탄 트리 앞에 선 아기 예수가 있다. 양옆에는 장식한 전나무, 아래에는 장난감 병정과 집과 동물들이 그려져 있다." decoding="async"><button type="button" class="lk-spot" data-i="0" style="left:16%;top:25%" aria-label="1번 찾아보기">1</button><button type="button" class="lk-spot" data-i="1" style="left:66%;top:74%" aria-label="2번 찾아보기">2</button><button type="button" class="lk-spot" data-i="2" style="left:50%;top:47%" aria-label="3번 찾아보기">3</button><button type="button" class="lk-spot" data-i="3" style="left:40%;top:6%" aria-label="4번 찾아보기">4</button><button type="button" class="lk-spot" data-i="4" style="left:86%;top:97%" aria-label="5번 찾아보기">5</button></div></div><p class="mod-cap">게르하르트 랑의 달력 「아기 예수의 나라에서」, 1915년에 다시 찍은 것(그림을 다 붙인 모습) · <a href="https://commons.wikimedia.org/wiki/File:Richard_Ernst_Kepler_-_Im_Lande_des_Christkinds.jpg" target="_blank" rel="noopener">그림: 리하르트 에른스트 케플러 · 퍼블릭 도메인 · 위키미디어 공용</a></p><div class="lk-bar"><button type="button" class="mod-btn lk-zoombtn" aria-pressed="false" disabled>가까이 보기</button></div><ol class="lk-list" aria-label="찾을 곳"><li><button type="button" data-i="0">1. ?</button></li><li><button type="button" data-i="1">2. ?</button></li><li><button type="button" data-i="2">3. ?</button></li><li><button type="button" data-i="3">4. ?</button></li><li><button type="button" data-i="4">5. ?</button></li></ol><div class="mod-info lk-info" aria-live="polite"><p>그림 위의 숫자나 아래 번호를 눌러 보세요.</p></div><p class="mod-done lk-done" hidden>다 찾았어요. 이 달력의 빈칸은 이렇게 하루하루 그림으로 채워졌어요.</p></div><div class="a"><p class="tx">24칸이 다 차는 날이 성탄 전야였어요. 기다림이 눈에 보이는 그림으로 쌓였어요.</p><div class="mod ch2" data-mod="choose"><p class="ch2-q">우리 집 대림절 달력 칸에는 무엇을 넣을까요?</p><div class="ch2-opts" role="group" aria-label="우리 집 대림절 달력 칸에는 무엇을 넣을까요?"><button type="button" data-t="작은 과자" aria-pressed="false">작은 과자</button><button type="button" data-t="그림 한 장" aria-pressed="false">그림 한 장</button><button type="button" data-t="짧은 시나 말씀" aria-pressed="false">짧은 시나 말씀</button><button type="button" data-t="오늘 할 착한 일" aria-pressed="false">오늘 할 착한 일</button></div><p class="ch2-r" aria-live="polite"></p></div></div><div class="k kidwrap"><p class="kidline">날마다 그림을 하나씩 오려서 붙이는 달력이야. 칸을 하나씩 눌러 볼래?</p><p class="kidq"><b>물어보기</b>오늘 그림을 하나 붙인다면, 어떤 그림이면 좋겠어?</p></div></section>
+
+  <section class="imagine" id="imagine">
+    <div class="flame" aria-hidden="true"></div>
+    <p class="lab">눈 감고 상상해 보기</p>
+    <p class="tx a">12월의 아침, 창밖은 아직 어둑해요. 가위가 사각사각, 오늘의 그림이 종이에서 떨어져요. 뒷면에 물을 살짝 묻혀 빈칸에 꾹 눌러요. 빈칸이 하나 줄었어요. 성탄이 꼭 그만큼 가까워졌어요.</p>
+    <p class="tx k">눈을 감아 봐. 가위로 사각사각, 오늘 그림을 오려. 뒤에 물을 콕 묻혀서 꾹! 성탄이 하루 더 가까워졌어.</p>
+    
+  </section>
+
+  <section class="mine col" id="mine">
+    <h2>나의 자리</h2>
+    <p class="ask a">나는 지금 무엇을 기다리고 있나요? 그 기다림을 하루씩 센다면, 오늘은 어떤 창을 열고 싶나요?</p>
+    <p class="ask k">성탄절까지 며칠 남았는지 손가락으로 세어 볼까?</p>
+    <p class="hint">마음에 닿는 한 줄을 고르거나 직접 써 보세요. 한 줄을 남기면 이 자리의 도장이 찍혀요. 이 기기에만 저장돼요.</p>
+    <div class="lines"><button type="button" class="line a" data-l="오늘의 칸을 채우면, 성탄이 하루 가까워져요.">오늘의 칸을 채우면, 성탄이 하루 가까워져요.</button><button type="button" class="line a" data-l="작은 과자 하나에서 시작된 기다림.">작은 과자 하나에서 시작된 기다림.</button><button type="button" class="line a" data-l="스물세 날의 준비, 그리고 빛나는 아기.">스물세 날의 준비, 그리고 빛나는 아기.</button><button type="button" class="line a" data-l="내 기다림에도 오늘 한 칸.">내 기다림에도 오늘 한 칸.</button><button type="button" class="line k" data-l="하루에 한 칸씩!">하루에 한 칸씩!</button><button type="button" class="line k" data-l="마지막 칸엔 아기 예수!">마지막 칸엔 아기 예수!</button><button type="button" class="line k" data-l="오늘은 몇 번째 칸일까?">오늘은 몇 번째 칸일까?</button></div>
+    <textarea id="note" maxlength="300" placeholder="또는 떠오르는 말을 직접 적어 보세요." aria-label="나의 한 줄"></textarea>
+    <div class="row"><button class="btn main" id="stampBtn" type="button">이 자리에 도장 받기</button><p class="hint" id="stampHint" aria-live="polite"></p></div>
+    <div class="stampout" id="stampOut" hidden></div>
+  </section>
+
+  <section class="deep col" id="deep">
+    <h2>더 깊이</h2>
+    <p class="sub">궁금한 칸만 펼쳐 읽어도 괜찮아요.</p>
+<details class="dp"><summary><span>알고 보면</span></summary><div class="dpb"><p><b>게르하르트 랑(1881~1974)</b> 마울브론의 목사 집안에서 자라 뮌헨에서 책과 달력을 펴냈어요. 어머니 셀마 랑(1852~1917)은 출판인의 딸이었어요.</p><p><b>비벨레</b> 독일 남서부 호엔로에 지방의 작은 과자예요. 장면의 사진은 오늘 만든 비벨레예요.</p><p><b>그 뒤의 달력</b> 랑은 작은 문을 여는 달력, 촛불로 밝히는 집 모양 달력도 펴냈어요. 독일 성탄 박물관은 랑이 1926년에 초콜릿을 넣은 달력을, 1930년에 앞을 보지 못하는 사람을 위한 달력을 처음 냈다고 소개해요.</p><p><b>더 옛날의 셈법</b> 1851년에 나온 엘리제 아버디크의 어린이 책에는, 저녁마다 벽에 그림을 한 장씩 더 붙여 24장이 되는 집이 나와요.</p></div></details>
+<details class="dp"><summary><span>기록마다 다른 점</span></summary><div class="dpb"><p><b>가장 오래된 인쇄 달력</b> 「아기 예수의 나라에서」는 흔히 첫 인쇄 대림절 달력으로 꼽혀 왔어요. 하지만 독일 성탄 박물관은 1900년 뮌헨의 카를 슈트라우프 이름으로 실용신안 보호를 받은 달력을 가장 오래된 인쇄 달력으로 들어요. 1900년은 보호를 받은 해이고, 언제 나왔는지는 따로 적지 않았어요. 1902년 함부르크의 한 개신교 서점이 펴낸 ‘아이들을 위한 성탄 시계’를 첫 인쇄 달력으로 꼽는 자료도 있어요.</p><p><b>랑의 달력은 언제?</b> 1908년이라고 적은 자료(신문 기사, 슈베비셰 차이퉁)가 많고, 독일 성탄 박물관은 ‘1904/1908년부터’라고 적어요. 1903년이라고 적은 자료도 있어요.</p><p><b>이 그림</b> 위키미디어 공용의 이 달력은 1915년에 다시 찍은 것이에요. 처음 펴낸 판과 그림이 똑같은지는 확인하지 못했어요.</p></div></details>
+<details class="dp"><summary><span>오늘의 대림절 달력</span></summary><div class="dpb"><div class="sidepair"><figure class="ph side"><div class="frame"><img src="adv-calendar/card.webp" width="1440" height="1920" alt="해 질 녘 흰 성당 벽, 둥근 장미창 아래에 벽돌집 모양의 커다란 판이 걸려 있다. 불 켜진 창 24개마다 그림과 짧은 글이 있고, 오른쪽에는 촛불을 단 전나무가 서 있다." loading="lazy" decoding="async"></div><figcaption>뮌스터 한도르프, 성 페트로닐라 성당 바깥벽의 대림절 달력(2017년) · <a href="https://commons.wikimedia.org/wiki/File:Handorf_Adventskalender.jpg" target="_blank" rel="noopener">사진: Corradox · CC BY-SA 4.0 · 위키미디어 공용</a></figcaption></figure></div><p>독일 뮌스터 한도르프의 성 페트로닐라 성당은 동쪽 바깥벽에 커다란 대림절 달력을 걸어요(2017년 12월 사진). 벽돌집 모양 판의 창 24개마다 그림과 짧은 글이 있어요.</p><p>맨 위 창에는 독일어로 ‘일어나 빛이 되어라’라고 적혀 있어요. <a href="https://bible.bskorea.or.kr/bible/NKRV/ISA.60" target="_blank" rel="noopener">이사야 60장 1절</a>의 첫머리예요.</p></div></details>
+    <div class="steps"><div class="stepbox" id="box4"><h3>달력 속 다섯 곳 <span class="tag">금박</span></h3><p>달력 속 다섯 곳을 모두 찾아 읽으면 카드에 금박이 입혀져요.</p><div class="ways"><div class="way" id="w-look"><span>달력 속 다섯 곳을 모두 찾아 읽기</span><em></em></div></div></div><div class="stepbox" id="box5"><h3>우리 집 달력 칸 <span class="tag">채색</span></h3><p>둘 가운데 하나만 해도 카드가 채색돼요.</p><div class="ways"><div class="way" id="w-choose"><span>우리 집 달력 칸에 무엇을 넣을지 고르기</span><em></em></div><div class="way" id="w-kid"><span>아이와 함께 ‘영화처럼 보기’를 끝까지 보기</span><em></em></div></div></div></div>
+  </section>
+
+  <section class="srcbox col">
+    <details class="dp"><summary><span>근거 보기 (7)</span></summary><div class="dpb"><ol class="srcl"><li><a href="https://weihnachtsmuseum.de/en/adventskalender" target="_blank" rel="noopener">독일 성탄 박물관(로텐부르크): 대림절 달력 — 분필 줄·지푸라기·1851년 어린이 책, 1900년 슈트라우프 실용신안, 1902년 성탄 시계, 랑 1904/1908, 1926 초콜릿, 1930 점자 달력</a></li><li><a href="https://www.schwaebische.de/regional/oberschwaben/ravensburg/adventskalender-tuer-23-gerhard-lang-machte-den-adventskalender-gross-2533" target="_blank" rel="noopener">슈베비셰 차이퉁, 「문 23: 게르하르트 랑과 대림절 달력」 — 셀마 랑의 비벨레 판지, 1908년 「아기 예수의 나라에서」, 케플러의 그림과 랑의 시</a></li><li><a href="https://epub.uni-regensburg.de/21471/1/ubr10045.pdf" target="_blank" rel="noopener">레겐스부르크 대학 전자 문고: 옛 신문 기사 「대림절 달력의 오랜 풍습」 — 1908년, 그림을 오려 물을 묻혀 붙이기, 23일의 천사와 24일의 아기 예수, 분필 24줄</a></li><li><a href="https://commons.wikimedia.org/wiki/File:Richard_Ernst_Kepler_-_Im_Lande_des_Christkinds.jpg" target="_blank" rel="noopener">위키미디어 공용: 달력 사진 정보 — 1915년에 다시 찍은 판, 그림을 다 붙인 모습</a></li><li><a href="https://commons.wikimedia.org/wiki/File:Handorf_Adventskalender.jpg" target="_blank" rel="noopener">위키미디어 공용: 한도르프 성당 바깥벽 대림절 달력 사진 정보 — 성 페트로닐라 성당 동쪽 바깥벽, 2017년 12월</a></li><li><a href="https://brandenburg.museum-digital.de/object/65299" target="_blank" rel="noopener">역사 방앗간 상수시 박물관(museum-digital): D.R.P. 표지판 설명 — 1891년 독일 특허청이 D.R.G.M.(실용신안)을 도입, ‘작은 특허’라 불림</a></li><li><a href="https://de.wikipedia.org/wiki/Adventskalender" target="_blank" rel="noopener">독일어 위키백과: Adventskalender — 길잡이로만(1902년 함부르크 성탄 시계, 1903년 설; 2007년 전시 도록과 스위스 국립박물관 글을 인용)</a></li></ol></div></details>
+    <details class="dp"><summary><span>그림·사진·소리 출처</span></summary><div class="dpb"><ul class="cred"><li><a href="https://commons.wikimedia.org/wiki/File:Wibele_Detail.jpeg" target="_blank" rel="noopener">사진 · 퍼블릭 도메인 · 위키미디어 공용</a></li><li><a href="https://commons.wikimedia.org/wiki/File:Richard_Ernst_Kepler_-_Im_Lande_des_Christkinds.jpg" target="_blank" rel="noopener">그림: 리하르트 에른스트 케플러 · 퍼블릭 도메인 · 위키미디어 공용</a></li><li><a href="https://commons.wikimedia.org/wiki/File:Handorf_Adventskalender.jpg" target="_blank" rel="noopener">사진: Corradox · CC BY-SA 4.0 · 위키미디어 공용</a></li></ul></div></details>
+    <p class="foot">‘처음 만나는 기독교 문화’의 깊은 카드예요. 실제 인물의 사진은 쓰지 않았어요. 카드 단계와 남긴 글은 이 기기에만 저장돼요.</p>
+  </section>
+</main>
+
+
+
+<div class="ov" id="story" hidden role="dialog" aria-modal="true" aria-label="앞면 이야기">
+  <div class="bar"><span>앞면 이야기 · <span id="stNo"></span></span><button class="x" id="stX" type="button">닫기 ✕</button></div>
+  <div class="pic"><img class="st-img" id="stImg" src="adv-calendar/card.webp" alt=""></div>
+  <div><p class="say" id="stSay"></p>
+    <div class="nav"><button class="ghost" id="stPrev" type="button">이전</button><div class="dots" id="stDots"></div><button id="stNext" type="button">다음</button></div></div>
+</div>
+
+<div class="film" id="film" hidden role="dialog" aria-modal="true" aria-label="영화처럼 보기">
+  <div class="f-layer" id="fA"></div><div class="f-layer" id="fB"></div>
+  <div class="f-top"><div class="f-prog" id="fProg"></div><span class="f-ch" id="fCh"></span><button class="f-fs" id="fFull" type="button" aria-pressed="false" aria-label="전체 화면" title="전체 화면" hidden><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1.5 5.5v-4h4M10.5 1.5h4v4M14.5 10.5v4h-4M5.5 14.5h-4v-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="f-x" id="fX" type="button">닫기 ✕</button></div>
+  <div class="f-sub" id="fSub" aria-live="polite"></div>
+  <div class="f-ctrl" id="fCtrl"><button id="fPrev" type="button" aria-label="이전">◀</button><button id="fAuto" type="button" aria-pressed="true">자동 넘김</button><button id="fSnd" type="button" aria-pressed="false" hidden>♪ 소리</button><button id="fNext" type="button" aria-label="다음">▶</button></div>
+  <div class="f-start" id="fStart">
+    <p class="f-k">영화처럼 보기 · 약 2분</p>
+    <h2>대림절 달력</h2>
+    <p class="f-how">화면을 누르거나 → 키를 누르면 넘어가요. 그냥 두어도 자막이 저절로 넘어가요.</p>
+    <div class="f-go"><button id="fGoSnd" type="button" hidden>♪ 소리 켜고 보기</button><button id="fGo" type="button">시작하기</button></div>
+    <p class="f-note" id="fNote" hidden></p>
+  </div>
+</div>
+
+<div class="ov" id="lb" hidden role="dialog" aria-modal="true" aria-label="사진 크게 보기">
+  <div class="bar"><span></span><button class="x" id="lbX" type="button">닫기 ✕</button></div>
+  <div class="pic"><img id="lbImg" alt=""></div>
+  <p class="say" id="lbCap" style="font-size:13px;color:#bdb09a;min-height:0"></p>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"><div class="mini" id="toastCard"></div><div><b id="toastT"></b><p id="toastP"></p></div></div>
+
+<script>
+document.documentElement.classList.add('js');
+const DATA = {"id": "adv-calendar", "tplv": "deep3-3", "stages": [{"n": 1, "t": "양피지", "done": "이야기를 끝까지 보고 카드를 받았어요", "how": "카드의 ‘이야기 펼치기’나 ‘영화처럼 보기’를 끝까지 보면 받아요"}, {"n": 2, "t": "먹 글씨", "done": "그 자리에 서서 장면을 끝까지 걸었어요", "how": "장면을 끝까지 걷거나, ‘영화처럼 보기’를 끝까지 보세요"}, {"n": 3, "t": "붉은 머리글자", "done": "나의 한 줄을 남기고 도장을 받았어요", "how": "‘나의 자리’에 한 줄을 남겨 보세요"}, {"n": 4, "t": "금박", "done": "달력 속 다섯 곳을 다 찾아 읽었어요", "how": "달력 속 다섯 곳을 모두 눌러 읽어 보세요"}, {"n": 5, "t": "채색", "done": "우리 집 달력 칸을 정했어요", "how": "우리 집 달력 칸에 넣을 것을 고르거나, 아이와 함께 끝까지 보세요"}], "front": [{"t": "독일 뮌스터 한도르프의 성당 벽에 걸린 대림절 달력이에요. 덧문 달린 창 24개가 12월 1일부터 하루에 하나씩 열려요.", "kid": "창문이 몇 개인지 세어 볼까? 다 세면 24개야!", "f": null}, {"t": "‘성녀 바르바라’ 창. 12월 4일 바르바라 축일에 나뭇가지를 꺾어 물에 꽂아 두면 성탄 전야에 꽃이 핀다는 풍습이 있어요.", "kid": "꽃병에 나뭇가지가 있지? 12월 4일에 꽂은 가지가 성탄절에 꽃을 피운대.", "f": [58, 43.6, 5.5]}, {"t": "주교 모자를 쓴 사람이 아이들에게 둘러싸여 있어요. 12월 6일, 성 니콜라오의 날을 그린 창으로 보여요.", "kid": "모자 쓴 할아버지 곁에 아이들이 있어. 누구일까?", "f": [59, 79, 5.5]}, {"t": "맨 위 창에는 ‘일어나 빛이 되어라’라는 글이 적혀 있어요. 이사야서 60장 1절의 말씀이에요.", "kid": "맨 꼭대기 창에는 ‘일어나 빛이 되어라’라고 쓰여 있어.", "f": [49, 37.2, 5]}], "card": "adv-calendar/card.webp", "film": [{"type": "open", "ch": 0, "img": {"u": "adv-calendar/card.webp", "w": 1440, "h": 1920, "alt": "해 질 녘 흰 성당 벽, 둥근 장미창 아래에 벽돌집 모양의 커다란 판이 걸려 있다. 불 켜진 창 24개마다 그림과 짧은 글이 있고, 오른쪽에는 촛불을 단 전나무가 서 있다."}, "fit": "cover", "p0": "50% 40%", "p1": "50% 55%", "s0": 1.2, "s1": 1.05, "kicker": "대림절 · 독일", "title": "대림절 달력", "lines": [{"t": "성탄까지 남은 날을, 하루에 한 칸씩."}, {"t": "이 달력은 어디에서 시작되었을까요?"}], "kid": [{"t": "성탄절까지 며칠 남았는지 세는 달력이야."}, {"t": "누가 처음 만들었을까?"}]}, {"type": "chapter", "ch": 1, "no": 1, "t": "과자 24개"}, {"type": "img", "ch": 1, "img": {"u": "adv-calendar/wibele.webp", "w": 1920, "h": 1080, "alt": "어두운 나무 탁자 위의 작은 크림색 과자 두 개를 아주 가까이 찍은 사진. 왼쪽 것은 동그란 봉우리 두 개가 붙은 모양이고, 오른쪽 것은 작은 물방울 모양이다."}, "fit": "cover", "p0": "45% 50%", "p1": "55% 50%", "s0": 1.15, "s1": 1.0, "cap": "비벨레, 독일 호엔로에 지방의 작은 과자", "lines": [{"t": "19세기 말 독일 마울브론의 목사관."}, {"t": "어머니 셀마 랑이 판지에 작은 과자 24개를 붙였어요."}, {"t": "아들 게르하르트는 날마다 하나씩 떼어 먹으며 성탄을 기다렸어요."}], "kid": [{"t": "엄마가 과자 24개를 판지에 붙여 줬대."}, {"t": "하루에 하나씩! 너라면 참을 수 있어?", "ask": true}]}, {"type": "chapter", "ch": 2, "no": 2, "t": "그림 한 장씩"}, {"type": "mod", "mod": "look", "ch": 2, "lines": [{"t": "그 아이는 자라서 뮌헨에서 그림 달력을 펴냈어요."}, {"t": "날마다 그날의 그림을 오려, 뒷면에 물을 묻혀 칸에 붙였어요."}, {"t": "첫날, 천사가 달력을 12월 1일로 넘겨요.", "act": "spot:1"}, {"t": "스물세 날 동안 천사들이 성탄을 준비해요.", "act": "spot:2"}, {"t": "마지막 날, 트리 앞에서 아기 예수가 빛나요.", "act": "spot:3", "wait": 1500}, {"t": "24칸이 다 차면, 성탄 전야예요.", "act": "all"}], "kid": [{"t": "날마다 그림을 하나씩 붙이는 달력이야."}, {"t": "첫날은 천사가 달력을 넘겨!", "act": "spot:1"}, {"t": "마지막 날엔 아기 예수!", "act": "spot:3"}, {"t": "너는 오늘 어떤 그림을 붙이고 싶어?", "ask": true}]}, {"type": "imagine", "ch": 3, "lines": [{"t": "12월의 아침, 가위가 사각사각."}, {"t": "오늘의 그림을 빈칸에 꾹 눌러요."}, {"t": "성탄이 꼭 그만큼 가까워졌어요."}], "kid": [{"t": "눈을 감아 봐. 가위로 사각사각."}, {"t": "빈칸에 꾹! 성탄이 하루 더 가까워졌어."}]}, {"type": "reward", "ch": 3}], "lines": ["오늘의 칸을 채우면, 성탄이 하루 가까워져요.", "작은 과자 하나에서 시작된 기다림.", "스물세 날의 준비, 그리고 빛나는 아기.", "내 기다림에도 오늘 한 칸."], "linesKid": ["하루에 한 칸씩!", "마지막 칸엔 아기 예수!", "오늘은 몇 번째 칸일까?"], "scenes": ["home", "kal"], "labels": {"home": "목사관의 과자 달력", "kal": "날마다 한 장씩 붙인 그림"}, "stamp": {"t": "달력", "y": "1908", "sub": "뮌헨 · 독일"}, "sound": null, "goals": {"s4": {"ways": [{"id": "look"}]}, "s5": {"ways": [{"id": "choose"}, {"id": "kid", "hint": "‘아이와 함께’를 켜고 ‘영화처럼 보기’를 끝까지 보세요", "okt": "아이와 함께 끝까지 봤어요"}]}}, "mods": {"look": {"img": {"u": "adv-calendar/kal.webp", "w": 1410, "h": 1046, "alt": "노란 바탕 위쪽에 ‘Weihnachts-Kalender’라는 제목이 있는 달력. 크고 작은 칸 24개에 천사와 아이들이 성탄을 준비하는 그림이 붙어 있고, 한가운데 가장 큰 칸에는 성탄 트리 앞에 선 아기 예수가 있다. 양옆에는 장식한 전나무, 아래에는 장난감 병정과 집과 동물들이 그려져 있다.", "cr": "그림: 리하르트 에른스트 케플러 · 퍼블릭 도메인 · 위키미디어 공용", "cap": "게르하르트 랑의 달력 「아기 예수의 나라에서」, 1915년에 다시 찍은 것(그림을 다 붙인 모습)"}, "intro": "그림을 다 붙인 달력이에요. 칸 속 작은 것들을 하나씩 눌러 보세요.", "spots": [{"x": 16, "y": 25, "t": "첫 칸: 넘어가는 달력", "p": "천사가 벽에 걸린 달력에서 ‘11월 30일’을 떼어 내자 ‘12월 1일’이 나와요. 기다림이 시작되는 첫 칸이에요.", "kid": "천사가 달력을 한 장 넘기고 있어. 오늘부터 12월 1일이야!"}, {"x": 66, "y": 74, "t": "과자 굽는 천사", "p": "흰 모자를 쓴 천사가 밀대로 반죽을 밀고, 틀로 과자를 찍어요. 다른 칸에서도 천사들이 장난감을 상자에 담고, 책장에서 그림책을 꺼내요. 성탄을 준비하는 스물세 날이에요.", "kid": "천사가 과자를 굽고 있어. 다른 칸에선 무엇을 준비할까?"}, {"x": 50, "y": 47, "t": "가장 큰 칸: 12월 24일", "p": "마지막 날 붙이는 그림이에요. 성탄 트리 앞에서 아기 예수가 환한 빛에 둘러싸여 있어요. 한 신문 기사는 이 칸을 두고 ‘24일에는 마침내 아기 예수가 트리 앞에서 빛났다’고 적었어요.", "kid": "마지막 날엔 가장 큰 그림을 붙여. 아기 예수가 트리 앞에서 반짝여!"}, {"x": 40, "y": 6, "t": "‘성탄 달력’이라는 이름", "p": "맨 위 제목은 독일어로 ‘바이나흐츠칼렌더’, 곧 ‘성탄 달력’이에요. 이 달력은 그 무렵 ‘성탄 달력’이라고도 불렸어요.", "kid": "맨 위에 ‘성탄 달력’이라고 쓰여 있어."}, {"x": 86, "y": 97, "t": "아래의 작은 글씨", "p": "‘그림은 법으로 보호됨, 따라 찍기 금지’라는 독일어예요. 옆의 D.R.G.M.은 1891년부터 독일 특허청이 내 준 ‘실용신안’ 표시로, 흔히 ‘작은 특허’라고 불렸어요. 달력도 새 발명품처럼 보호를 받았어요.", "kid": "아래에 아주 작은 글씨가 있어. 아무나 따라 만들면 안 된다는 뜻이래."}], "done": "다 찾았어요. 이 달력의 빈칸은 이렇게 하루하루 그림으로 채워졌어요."}, "choose": {"q": "우리 집 대림절 달력 칸에는 무엇을 넣을까요?", "opts": [{"t": "작은 과자", "r": "셀마 랑처럼요. 하루에 하나씩, 기다림이 달콤해져요."}, {"t": "그림 한 장", "r": "랑의 달력처럼요. 날마다 한 장씩 붙이면 마지막 날 그림이 다 차요."}, {"t": "짧은 시나 말씀", "r": "랑의 달력 칸마다 성탄을 기다리는 짧은 시가 적혀 있었어요."}, {"t": "오늘 할 착한 일", "r": "착한 일을 할 때마다 구유에 지푸라기를 하나씩 넣던 집들처럼요."}]}}, "nch": 2, "doneNote": "올해 대림절에는 우리 집 달력에 하루 한 칸씩, 기다림을 채워 보세요.", "filmSound": false};
+</script>
+<script src="_deep3/deep3.js"></script>
+
+</body>
+</html>
