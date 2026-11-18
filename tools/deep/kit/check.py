@@ -41,7 +41,8 @@ def static(cid):
     for sec in C.get('deep', []): used |= set(sec.get('img') or [])
     for q_ in C.get('qs') or []:                     # 더 깊이 ‘궁금증’(2026-11-19)
         used.add(q_.get('img'))
-        for f_ in q_.get('film') or []: used |= {f_.get('img'), f_.get('then'), f_.get('now')}
+        for f_ in (q_.get('film') or []) + ((q_.get('more') or {}).get('film') or []): used |= {f_.get('img'), f_.get('then'), f_.get('now')}
+    for x_ in C.get('qx') or []: used.add(x_.get('img'))   # 더 깊이 ‘뒷이야기’(2026-11-19)
     for m_ in (C.get('mods') or {}).values():
         if isinstance(m_, dict):
             if isinstance(m_.get('img'), str) and m_['img'] != 'paper': used.add(m_['img'])
@@ -77,7 +78,7 @@ def static(cid):
     if types[:1] != ['open'] or types[-1:] != ['reward'] or 'imagine' not in types: P.append('영화: 처음은 open, 끝은 reward, 중간에 imagine이 있어야 해요')
     chs = [f for f in C.get('film', []) if f.get('type') == 'chapter']
     if len(chs) != len(sc): W.append(f'영화 장(chapter) {len(chs)}개 ≠ 장면 {len(sc)}개')
-    for f in C.get('film', []) + [f for q_ in (C.get('qs') or []) for f in (q_.get('film') or [])]:
+    for f in C.get('film', []) + [f for q_ in (C.get('qs') or []) for f in (q_.get('film') or []) + ((q_.get('more') or {}).get('film') or [])]:
         for ln in (f.get('lines') or []) + (f.get('kid') or []):
             t = ln.get('t', '')
             if len(t) > 64: W.append(f'영화 자막이 길어요({len(t)}자, 두 줄 넘을 수 있음): {t[:30]}…')
@@ -89,6 +90,24 @@ def static(cid):
         al = len(re.sub(r'<[^>]+>', '', ''.join(q_.get('a') or [])))
         if al > 240: W.append(f"궁금증 ‘{q_.get('q', '')[:20]}’의 답이 길어요({al}자 · 두세 문장, 240자 안쪽)")
         if len(q_.get('film') or []) > 5: W.append(f"궁금증 ‘{q_.get('q', '')[:20]}’의 영화가 길어요({len(q_['film'])}장면 · 서너 장면)")
+    QX_ = C.get('qx') or []                          # 뒷이야기의 꼴(2026-11-19): 많아도 여덟 · 물음과 떡밥 · 두세 문장 · 근거 하나 넘게
+    if len(QX_) > 8: W.append(f'뒷이야기가 {len(QX_)}장이에요(많아도 여덟 · 너무 많으면 난잡해요)')
+    ids_ = [x_.get('id') for x_ in QX_]
+    if len(set(ids_)) < len(ids_): P.append('뒷이야기 id가 겹쳐요')
+    for x_ in QX_:
+        for k in ('id', 'q', 'img', 'a'):
+            if not x_.get(k): P.append(f"뒷이야기 ‘{x_.get('q', '?')}’: 빈 칸 {k}")
+        if x_.get('img') and x_['img'] not in (C.get('images') or {}): P.append(f"뒷이야기 ‘{x_.get('q', '')[:20]}’: 없는 그림 {x_['img']}")
+        al = len(re.sub(r'<[^>]+>', '', ''.join(x_.get('a') or [])))
+        if al > 320: W.append(f"뒷이야기 ‘{x_.get('q', '')[:20]}’의 답이 길어요({al}자 · 두세 문장, 320자 안쪽)")
+        if len(x_.get('hook', '')) > 24: W.append(f"뒷이야기 ‘{x_.get('q', '')[:20]}’의 떡밥이 길어요({len(x_['hook'])}자 · 한 줄, 24자 안쪽)")
+        if not x_.get('src'): W.append(f"뒷이야기 ‘{x_.get('q', '')[:20]}’에 근거가 없어요")
+        if x_.get('go') and not os.path.exists(os.path.join(REPO, 'site', 'deep', x_['go'].get('cid', '') + '.html')): W.append(f"뒷이야기 ‘{x_.get('q', '')[:20]}’: 가는 카드 {x_['go'].get('cid')}가 사이트에 없어요")
+    sids_ = {sc.get('id') for sc in C.get('scenes', [])}            # 다시 보면(2026-11-19): 가는 장면·작은 그림이 있는지
+    for q_ in list(QS_) + list(QX_):
+        if q_.get('seeAt') and q_['seeAt'] not in sids_ | {'front'}: P.append(f"다시 보면 ‘{q_.get('q', '')[:20]}’: 없는 장면 {q_['seeAt']}")
+        if q_.get('seeImg') and q_['seeImg'] not in (C.get('images') or {}): P.append(f"다시 보면 ‘{q_.get('q', '')[:20]}’: 없는 그림 {q_['seeImg']}")
+        if q_.get('seeAt') and not q_.get('see'): W.append(f"‘{q_.get('q', '')[:20]}’: 가는 장면은 있는데 다시 보면 글이 없어요")
     blob = json.dumps(C, ensure_ascii=False)
     for w in BAD_WORDS:
         if w in blob: P.append(f'남은 메모·빈 말: “{w}”')

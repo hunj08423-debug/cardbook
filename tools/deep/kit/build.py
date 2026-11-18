@@ -55,6 +55,7 @@ def tpl():
     return open(os.path.join(KIT, 'deep3_tpl.html'), encoding='utf-8').read()
 
 PSHARED = 'deep3'          # 미리보기(아티팩트)용 공유 폴더 이름: 아티팩트 서버는 ‘_’로 시작하는 경로를 받지 않아요
+LIVE_DEEP = 'https://cardbook.hunji08423.workers.dev/deep/'   # 미리 보기에서 다른 카드로 가는 길(뒷이야기)
 SHARED = '_deep3'            # 모든 깊은 카드가 같이 쓰는 틀 파일(site/deep/_deep3/deep3.css·deep3.js). 본부만 사용자 폴더에 넣어요.
 JS_HEAD = "document.documentElement.classList.add('js');\nconst DATA = /*__DATA__*/null;\n"
 
@@ -315,18 +316,78 @@ def build(C, repo=REPO, preview=None):
         sh.setdefault('ch', 0)
         return sh
     qs_html, qs_data = '', []
+    # ‘다시 보면’(2026-11-19 본부 · 사용자님 고름): 답을 알고 나서 그 장면이 ‘무엇으로’ 보이는지 한 줄 + 작은 그림 + 그 장면으로 가는 단추
+    SCN = {s['id']: (i, s) for i, s in enumerate(C['scenes'], 1)}
+    ORD = ['첫', '둘째', '셋째', '넷째', '다섯째', '여섯째', '일곱째', '여덟째', '아홉째', '열째']
+    def see_go_t(sid):
+        if sid == 'front': return '앞면 카드 다시 보기'
+        i, s = SCN[sid]; return f'{ORD[i - 1]} 장면 다시 보기'   # 다시 보면 글에 이미 ‘○째 장면의 …’가 있어서 단추는 짧게(좁은 칸에서도 한 줄)
+    def scene_img(sid):
+        if sid == 'front': return 'card' if 'card' in have else None
+        s = SCN[sid][1]
+        k = s.get('img') or s.get('now') or s.get('then')
+        if not k and s.get('mod'): k = (C.get('mods', {}).get(s['mod']) or {}).get('img')
+        return k if k in have else None
+    def see_data(it, main_k):   # 판이 그리는 다시 보면: 장면으로 가는 단추, 작은 그림(판 위 큰 그림과 다를 때만)
+        sid = it.get('seeAt') if (it.get('seeAt') in SCN or it.get('seeAt') == 'front') else None
+        sk = it.get('seeImg') or (scene_img(sid) if sid else None)
+        return ({'sc': sid, 't': see_go_t(sid)} if sid else None), ({'u': have[sk]['u'], 'w': have[sk]['w'], 'h': have[sk]['h']} if sk and sk in have and sk != main_k else None)
+    def see_html(q):
+        if not q.get('see'): return ''
+        sid = q.get('seeAt') if (q.get('seeAt') in SCN or q.get('seeAt') == 'front') else None
+        k = q.get('seeImg') or (scene_img(sid) if sid else None)
+        th = ''
+        if k and k in have:
+            hh = have[k]; th = f'<img class="see-img" src="{hh["u"]}" width="{hh["w"]}" height="{hh["h"]}" alt="" loading="lazy" decoding="async">'
+        go = f'<a class="see-go" href="#{"lcard" if sid == "front" else "sc-" + e(sid)}" data-sc="{e(sid)}">{e(see_go_t(sid))}</a>' if sid else ''
+        return f'<div class="see{" has-img" if th else ""}">{th}<div class="see-t"><b>다시 보면</b><p>{e(q["see"])}</p></div>{go}</div>'
+    def film_secs(fr):   # 영화 장면 목록의 대략 길이(틀의 dur와 같은 셈 + 장면마다 1초)
+        return sum(1.7 + 0.078 * len(ln.get('t', '')) + (1.4 if ln.get('q') else 0) + (ln.get('wait') or 0) / 1000 for f in fr for ln in (f.get('lines') or [])) + 1.0 * len(fr)
+    def len_label(sec):
+        return f'{max(10, round(sec / 10) * 10)}초' if sec < 90 else f'{round(sec / 60)}분'
     for n, q in enumerate(C.get('qs') or []):
         h = have[q['img']]
-        secs = sum(1.7 + 0.078 * len(ln.get('t', '')) + (1.4 if ln.get('q') else 0) for f in q.get('film', []) for ln in (f.get('lines') or [])) + 1.0 * len(q.get('film', []))
-        flen = f' · {max(10, round(secs / 10) * 10)}초' if q.get('film') else ''
+        flen = (' · ' + len_label(film_secs(q['film']))) if q.get('film') else ''
+        mo = q.get('more') or {}
+        mlen = len_label(film_secs(mo['film'])) if mo.get('film') else ''
+        more_btn = (f'<button type="button" class="qmore" data-q="{n}">▶ 이어서 듣기 · {e(mo["t"])} · {mlen}</button>') if mo.get('film') else ''
         pos = f' style="object-position:{e(q["pos"])}"' if q.get('pos') else ''
-        qs_html += (f'<article class="qcard"><div class="qimg"><img src="{h["u"]}" width="{h["w"]}" height="{h["h"]}" alt="{e(IM[q["img"]]["alt"])}" loading="lazy" decoding="async"{pos}></div>'
-                    f'<div class="qin"><h3>{e(q["q"])}</h3><div class="qbtns"><button type="button" class="qopen" aria-expanded="false" aria-controls="qa{n}">답 보기</button>'
+        # 2026-11-19 사용자님: 답을 쪽 안에 펼치면 길어져서 싫음 → 세 칸 카드는 그대로, ‘답 보기’는 뒷이야기와 같은 판에서 열려요
+        qs_html += (f'<article class="qcard" data-q="{n}"><div class="qimg"><img src="{h["u"]}" width="{h["w"]}" height="{h["h"]}" alt="{e(IM[q["img"]]["alt"])}" loading="lazy" decoding="async"{pos}></div>'
+                    f'<div class="qin"><h3>{e(q["q"])}</h3><div class="qbtns"><button type="button" class="qopen" data-q="{n}" aria-haspopup="dialog">답 보기</button>'
                     + (f'<button type="button" class="qfilm" data-q="{n}">▶ 영화로 보기{flen}</button>' if q.get('film') else '') +
-                    f'</div></div><div class="qa" id="qa{n}" hidden>' + ''.join(f'<p>{t}</p>' for t in q['a']) + '</div></article>')
-        qs_data.append({'q': q['q'], 'film': [filmref(f) for f in q.get('film', [])]})
-    if qs_html:
-        qs_html = f'<div class="qs">{qs_html}</div>' + ('<h3 class="dp-more">더 찾아보기</h3>' if deep else '')
+                    '</div></div></article>')
+        sgo, simg = see_data(q, q['img'])
+        qd = {'q': q['q'], 'film': [filmref(f) for f in q.get('film', [])], 'a': q['a'], 'see': q.get('see', ''), 'pos': q.get('pos', ''),
+              'flen': flen.replace(' · ', '', 1), 'seeGo': sgo, 'seeImg': simg,
+              'img': {'u': h['u'], 'w': h['w'], 'h': h['h'], 'alt': IM[q['img']]['alt'], 'cr': IM[q['img']].get('cr', '')}}
+        if mo.get('film'): qd['more'] = {'t': mo['t'], 'next': mo.get('next', ''), 'len': mlen, 'film': [filmref(f) for f in mo['film']]}
+        qs_data.append(qd)
+    # 더 깊이 ‘뒷이야기’(2026-11-19 본부 · 사용자님 생각, 이름도 함께 정함): 열쇠 물음 말고 이어지는 이야기들은 흑백 카드로 남겨 둬요.
+    # 누르면 색이 돌아오고(획득) 두세 문장 답 · 다시 보면 · 근거(새 탭) · 다른 카드로 가는 길이 열려요. 내용은 DATA.qx로 넘겨 틀이 판을 그려요.
+    qx_html, qx_data = '', []
+    for x in C.get('qx') or []:
+        h = have[x['img']]
+        pos = f' style="object-position:{e(x["pos"])}"' if x.get('pos') else ''
+        qx_html += (f'<button type="button" class="qxc" data-x="{e(x["id"])}" aria-haspopup="dialog">'
+                    f'<span class="qx-img"><img src="{h["u"]}" width="{h["w"]}" height="{h["h"]}" alt="" loading="lazy" decoding="async"{pos}></span>'
+                    f'<span class="qx-mark" aria-hidden="true">?</span><span class="qx-q">{e(x["q"])}</span>'
+                    + (f'<span class="qx-hook">{e(x["hook"])}</span>' if x.get('hook') else '') + '</button>')
+        go = x.get('go')
+        sgo, simg = see_data(x, x['img'])
+        qx_data.append({'id': x['id'], 'q': x['q'], 'a': x['a'], 'see': x.get('see', ''), 'pos': x.get('pos', ''),
+                        'seeGo': sgo, 'seeImg': simg,
+                        'img': {'u': h['u'], 'w': h['w'], 'h': h['h'], 'alt': IM[x['img']]['alt'], 'cr': IM[x['img']].get('cr', '')},
+                        'src': [{'t': s2['t'], 'm': s2.get('m', ''), 'u': s2['u']} for s2 in x.get('src', [])],
+                        'go': ({'t': go['t'], 'cid': go['cid'], 'u': f'{go["cid"]}.html'} if go else None)})
+    if qx_html:
+        nx = len(qx_data)
+        qx_html = (f'<section class="qx" aria-label="뒷이야기"><div class="qx-head"><h3>뒷이야기</h3><span class="qx-n" id="qxN" aria-live="polite">0/{nx} 펼쳤어요</span>'
+                   '<p>아직 펼치지 않은 이야기예요. 누르면 이야기가 펼쳐지고 색이 돌아와요. 더 알고 싶으면 근거를 따라가 보세요.</p></div>'
+                   f'<div class="qx-grid">{qx_html}</div></section>')
+    if qs_html or qx_html:   # 궁금증과 뒷이야기가 같이 쓰는 판 하나
+        qs_html = ((f'<div class="qs">{qs_html}</div>' if qs_html else '') + qx_html + '<dialog class="qxs" id="qxSheet" aria-labelledby="qxsQ"><div class="qxs-in"></div></dialog>'
+                   + ('<h3 class="dp-more">더 찾아보기</h3>' if deep else ''))
     G = C['goals']; gh = ''
     for g, tag in (('s4', '금박'), ('s5', '채색')):
         x = G[g]
@@ -393,6 +454,7 @@ def build(C, repo=REPO, preview=None):
             'mods': mods, 'nch': len(C['scenes']), 'doneNote': C.get('doneNote', ''), 'filmSound': bool(C.get('filmSound')),
             'big': {h['u']: h['b'] for h in have.values() if h.get('b')}, 'bigsrc': {k: v for k, v in bigsrc.items() if have.get(k, {}).get('b')}}
     if qs_data: data['qs'] = qs_data
+    if qx_data: data['qx'] = qx_data
     card = have['card']
     rep = {
         '{{PAGETITLE}}': e(C['pagetitle']), '{{BRANDSUB}}': e(C['brandsub']), '{{SEAL}}': e(C['stamp']['t'][0]),
@@ -442,15 +504,17 @@ def build(C, repo=REPO, preview=None):
                 PREVIEW_USED[0] += os.path.getsize(fp); pbig[f'{cid}/{f}'] = 1
             shutil.copy(fp, os.path.join(pd, f))
         pdata = dict(data, big={u: b for u, b in data['big'].items() if b in pbig})
+        if pdata.get('qx'):   # 미리 보기에는 다른 카드가 없어서, 뒷이야기의 ‘다른 카드로’ 길은 사이트의 그 카드로
+            pdata['qx'] = [dict(x, go=dict(x['go'], u=LIVE_DEEP + x['go']['u'])) if x.get('go') else x for x in pdata['qx']]
         if len(pdata['big']) < len(data['big']): print(f'  · 미리 보기에는 큰 그림 {len(pdata["big"])}/{len(data["big"])}장만 넣었어요(올리기 한도). 사이트에는 모두 들어가요.')
         pbody = out.replace('/*__DATA__*/null', json.dumps(pdata, ensure_ascii=False).replace('</', '<\\/'))
         pbody = pbody.replace(old_brand, prev_brand).replace(f'"{SHARED}/', f'"{PSHARED}/')
         if C.get('qcand'):   # 검토용 · 더 깊이 예상 질문(2026-11-19): 미리 보기에만. 사용자님이 카드와 맞춰 보고 번호로 골라요
-            items = ''.join(f'<li{" class=\"pk\"" if x.get("pick") else ""}><b>{e(x["q"])}</b><span>{e(x.get("at", ""))}{" · " if x.get("at") and x.get("a") else ""}{e(x.get("a", ""))}</span>{('<span class="see">다시 보면 · ' + e(x["see"]) + '</span>') if x.get("see") else ""}</li>' for x in C['qcand'])
+            items = ''.join(f'<li{" class=\"pk\"" if x.get("pick") else (" class=\"xk\"" if x.get("x") else "")}><b>{e(x["q"])}</b><span>{e(x.get("at", ""))}{" · " if x.get("at") and x.get("a") else ""}{e(x.get("a", ""))}</span>{('<span class="see">다시 보면 · ' + e(x["see"]) + '</span>') if x.get("see") else ""}</li>' for x in C['qcand'])
             rv = ('<section class="col rvw" aria-label="검토용 예상 질문"><style>.rvw{margin:10px auto 0;border:2px dashed var(--accent);border-radius:16px;padding:18px 18px 8px;background:var(--soft)}'
                   '.rvw h2{font:700 20px/1.35 var(--serif);margin:0 0 4px}.rvw .sub{color:var(--muted);font-size:14px;margin:0 0 12px}.rvw ol{margin:0;padding-left:26px}.rvw li{margin:0 0 12px}'
                   '.rvw li b{display:block;font:700 16.5px/1.5 var(--serif)}.rvw li span{display:block;color:var(--muted);font-size:14px;line-height:1.6}'
-                  '.rvw li span.see{color:var(--ink);margin-top:2px}.rvw li.pk b::after{content:"  ✓ 지금 궁금증에 들어감";color:var(--accent);font:600 12.5px var(--sans)}</style>'
+                  '.rvw li span.see{color:var(--ink);margin-top:2px}.rvw li.pk b::after{content:"  ✓ 열쇠 물음(궁금증)에 들어감";color:var(--accent);font:600 12.5px var(--sans)}.rvw li.xk b::after{content:"  ✓ 뒷이야기에 들어감";color:var(--accent);font:600 12.5px var(--sans)}</style>'
                   f'<h2>검토용 · 더 깊이 예상 질문 {len(C["qcand"])}개</h2><p class="sub">미리 보기에만 보이는 칸이에요. ‘다시 보면’은 답을 알고 나서 본 이야기의 그림이 어떻게 달라 보이는지예요. 마음에 드는 번호를 골라 알려 주세요.</p><ol>{items}</ol></section>\n')
             pbody = pbody.replace('  <section class="srcbox col">', rv + '  <section class="srcbox col">', 1)
         open(os.path.join(preview, cid + '.html'), 'w', encoding='utf-8').write(doc(pbody, ''))

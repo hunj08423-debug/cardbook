@@ -676,6 +676,19 @@ html.js .reveal.on{opacity:1;transform:none;max-height:1200px}
 .rt-name{position:absolute;transform:translate(-50%,16px);font:700 13px var(--sans);color:#3b2614;text-shadow:0 0 4px #fff7e8,0 0 8px #fff7e8;white-space:nowrap;opacity:0;transition:opacity .6s;pointer-events:none}
 .rt-name.on{opacity:1}
 .rt-ctl{display:flex;justify-content:center;gap:8px;margin:12px 0 0}
+/* 엽서(키트 3판 보탬): 곳마다 그곳의 사진과 ‘그곳은 어떤 곳?’ */
+.rt-info.rt-card{padding:14px 14px 12px}
+.rt-pic{margin:10px 0 2px}
+.rt-pic img{display:block;width:100%;max-height:min(62vh,520px);object-fit:cover;border-radius:10px;background:var(--line)}
+.rt-pic figcaption{margin:6px 0 0;font:12.5px/1.5 var(--sans);color:var(--muted)}
+.rt-vibe{margin:12px 0 2px;padding:10px 12px 4px;border-radius:12px;background:var(--paper);border:1px dashed var(--line)}
+.rt-vh{margin:0 0 6px!important;font:700 13.5px/1.4 var(--sans)!important;color:var(--accent);letter-spacing:.02em}
+.rt-vibe dl{margin:0}
+.rt-vibe dl > div{display:grid;grid-template-columns:5.6em 1fr;gap:2px 10px;padding:6px 0;border-top:1px solid var(--line)}
+.rt-vibe dl > div:first-child{border-top:0;padding-top:2px}
+.rt-vibe dt{font:700 13.5px/1.7 var(--sans);color:var(--muted)}
+.rt-vibe dd{margin:0;font:15.5px/1.75 var(--serif);min-width:0}
+@media (max-width:420px){.rt-vibe dl > div{grid-template-columns:1fr}.rt-vibe dt{line-height:1.4}}
 .rt-f{position:relative}
 .rt-f .rt-box{width:100%;height:100%;max-width:none}
 .rt-f .rt-dot{pointer-events:none}
@@ -813,6 +826,122 @@ html.js .reveal.on{opacity:1;transform:none;max-height:1200px}
 /* ===== 마무리(키트 3판 보탬): 나의 자리 위 ‘다시 보기’ ===== */
 .mine .again-t{margin:6px 0 10px;font:clamp(16px,4.4vw,18px)/1.75 var(--serif);color:var(--ink)}
 .mine .ph.again{max-width:min(100%,440px);margin:0 auto 16px}
+/* 영화 그림 선명하게(2026-11-19 본부): 작은 그림은 화면 가득 늘리지 않고 전체를 보여 줘요. 뒤는 같은 그림을 흐리게 깔아요(filmImg) */
+.f-back{position:absolute;inset:-8%;width:116%;height:116%;object-fit:cover;filter:blur(26px) brightness(.38) saturate(.8);pointer-events:none}
+.f-img.f-fit{inset:0;margin:auto;width:min(100%,var(--mw));height:min(100%,var(--mh));object-fit:contain;object-position:50% 50%}
+/* 더 깊이 ‘궁금증’(2026-11-19 본부): 물음 카드 셋 · 그 아래 참고 칸(더 찾아보기) */
+.qs{display:grid;gap:12px;margin:6px 0 26px}
+.qcard{display:grid;grid-template-columns:88px minmax(0,1fr);gap:14px;align-items:start;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:12px}
+.qimg{width:88px;height:88px;border-radius:12px;overflow:hidden;background:var(--line)}
+.qimg img{display:block;width:100%;height:100%;object-fit:cover}
+.qin{min-width:0}
+.qin h3{margin:2px 0 10px;font:700 18px/1.45 var(--serif);text-wrap:balance}
+.qbtns{display:flex;flex-wrap:wrap;gap:8px}
+.qbtns button{font:600 14px/1 var(--sans);border-radius:999px;padding:10px 15px;cursor:pointer;border:1px solid var(--line);background:none;color:var(--ink)}
+.qbtns .qfilm{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.qbtns button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.qa{grid-column:1/-1;margin-top:2px;padding:0 4px}
+.qa p{margin:0 0 10px;font:16.5px/1.85 var(--serif)}
+.dp-more ~ .dp summary{font:600 15.5px/1.45 var(--sans);padding:12px 2px}
+@media (min-width:760px){
+  .qs{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+  .qcard{grid-template-columns:1fr;padding:0;overflow:hidden;gap:0}
+  .qimg{width:100%;height:auto;aspect-ratio:16/10;border-radius:0}
+  .qin{padding:14px 16px 16px}
+  .qa{padding:0 16px 6px}
+}
+/* 2026-11-19: 답은 쪽 안에 펼치지 않고 판에서(뒷이야기와 같은 판) — 카드 어디를 눌러도 열려요 */
+.qcard{cursor:pointer}
+.qxs-film{border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);border-radius:999px;padding:10px 16px;font:600 14px/1.2 var(--sans);cursor:pointer}
+.qxs-end{gap:10px;align-items:stretch}
+.qxs-end .qxs-next{flex:1;min-width:0;text-align:left;border:1px solid var(--line);background:var(--soft);color:var(--ink);border-radius:14px;padding:10px 14px;font:700 15px/1.45 var(--serif);cursor:pointer}
+.qxs-end .qxs-next span{display:block;margin-bottom:2px;color:var(--accent);font:600 12.5px/1.4 var(--sans)}
+.qxs-end .qxs-close{align-self:center;flex:none}
+.qxs-film:focus-visible,.qxs-next:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.dp-more{font:600 14.5px/1.4 var(--sans);color:var(--muted);margin:0 0 4px}
+/* 영화: 궁금증 끝 화면 · 본 영화 끝의 궁금증 단추 */
+.f-qend{position:absolute;inset:0;overflow:auto;display:grid;align-content:center;justify-items:center;gap:10px;padding:calc(64px + env(safe-area-inset-top,0px)) 16px calc(76px + env(safe-area-inset-bottom,0px));text-align:center}
+.f-qend .kk{margin:0;color:#e3a75e;font:600 14px var(--sans)}
+.f-qend h3{margin:0;font:700 clamp(20px,5vw,26px)/1.4 var(--serif);color:#f6d77e;max-width:640px;text-wrap:balance}
+.f-qend p.t{margin:10px 0 0;color:#d9ccb5;font:15px/1.7 var(--serif)}
+.f-qlist,.f-qs{display:grid;gap:8px;width:min(520px,100%)}
+.f-qs{margin:2px 0 8px}
+.f-qs p{margin:0;text-align:center;color:#d9ccb5;font:15px/1.7 var(--serif)}
+.f-q{text-align:left;background:rgba(255,255,255,.05);border:1px solid #4a3f31;color:#f4ecdd;border-radius:12px;padding:11px 14px;font:16px/1.5 var(--serif);cursor:pointer}
+.f-q::before{content:"▶  ";color:#e3a75e}
+.f-q:focus-visible{outline:3px solid #e3a75e;outline-offset:2px}
+.f-qend .f-btns{display:flex;gap:8px;justify-content:center;margin-top:8px}
+.f-qend .f-btns button{background:none;color:#f4ecdd;border:1px solid #4a3f31;border-radius:999px;padding:10px 20px;font-weight:600;cursor:pointer}
+/* 이어서 듣기(그 물음에서 이어지는 장) */
+.qa .qmore{display:inline-flex;align-items:center;gap:6px;margin:2px 0 8px;font:600 14px/1 var(--sans);border-radius:999px;padding:10px 15px;cursor:pointer;border:1px solid var(--accent);background:var(--soft);color:var(--ink)}
+.qa .qmore:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.f-q.f-more{border-color:#e3a75e;background:rgba(227,167,94,.16);font-weight:700}
+/* 더 깊이 ‘뒷이야기’(2026-11-19 본부): 앞면 카드의 ‘아직 펼치지 않은 카드’와 같은 흑백으로 두고, 펼치면 색이 돌아와요 */
+.qx{margin:4px 0 28px}
+.qx-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 12px;margin:0 0 12px}
+.qx-head h3{margin:0;font:700 19px/1.4 var(--serif)}
+.qx-n{font:600 13px/1.4 var(--sans);color:var(--muted)}
+.qx-head p{flex-basis:100%;margin:0;color:var(--muted);font-size:14.5px;line-height:1.65}
+.qx-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.qxc{position:relative;display:flex;flex-direction:column;align-items:stretch;min-width:0;padding:0;margin:0;text-align:left;font:inherit;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.qxc .qx-img{display:block;aspect-ratio:4/3;overflow:hidden;background:#1b1712}
+.qxc .qx-img img{display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(.62) contrast(.9);transition:filter .9s ease}
+.qxc:hover .qx-img img{filter:grayscale(1) brightness(.74) contrast(.9)}
+.qxc .qx-mark{position:absolute;top:8px;left:8px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:rgba(20,16,12,.62);color:#f3e2bd;border:1px solid rgba(243,226,189,.45);font:700 16px/1 var(--serif)}
+.qxc .qx-q{display:block;padding:10px 12px 2px;font:700 15.5px/1.45 var(--serif);text-wrap:balance}
+.qxc .qx-hook{display:block;padding:2px 12px 12px;color:var(--muted);font-size:13.5px;line-height:1.5}
+.qxc.got .qx-img img{filter:none}
+.qxc.got .qx-mark{background:var(--accent);color:var(--accent-ink);border-color:transparent;font:700 14px/1 var(--sans)}
+.qxc:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+@media (min-width:760px){.qx-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.qxc .qx-q{font-size:16.5px}}
+@media (prefers-reduced-motion:reduce){.qxc .qx-img img{transition:none}}
+/* 펼친 뒷이야기: 휴대폰은 아래에서 올라오는 판, 넓은 화면은 가운데 판 */
+body.qx-on{overflow:hidden}
+.qxs{border:0;padding:0;margin:auto;width:min(640px,calc(100% - 32px));max-width:none;max-height:min(88vh,880px);border-radius:18px;background:var(--paper);color:var(--ink);box-shadow:0 24px 64px rgba(0,0,0,.4);overflow:hidden}
+.qxs::backdrop{background:rgba(12,9,6,.66)}
+.qxs-in{position:relative;max-height:min(88vh,880px);overflow:auto;overscroll-behavior:contain}
+.qxs-img{aspect-ratio:16/10;max-height:44vh;overflow:hidden;background:#15120e}
+.qxs-img img{display:block;width:100%;height:100%;object-fit:cover}
+.qxs-x{position:absolute;top:10px;right:10px;width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(20,16,12,.6);color:#fff;font:600 17px/1 var(--sans);cursor:pointer}
+.qxs-b{padding:16px 20px 4px}
+.qxs-k{margin:0 0 4px;color:var(--accent);font:600 13px/1.4 var(--sans)}
+.qxs-b h3{margin:0 0 12px;font:700 21px/1.45 var(--serif);text-wrap:balance}
+.qxs-a p{margin:0 0 12px;font:16.5px/1.85 var(--serif)}
+.qxs-see{margin:4px 0 14px;padding:12px 14px;border-radius:12px;background:var(--soft);font:15.5px/1.75 var(--serif)}
+.qxs-see b{display:block;margin-bottom:2px;color:var(--accent);font:600 13px/1.4 var(--sans)}
+.qxs-gop{margin:0 0 12px}
+.qxs-go{display:inline-flex;align-items:center;border-radius:999px;padding:10px 16px;border:1px solid var(--accent);background:var(--soft);color:var(--ink);font:600 14px/1.2 var(--sans);text-decoration:none}
+.qxs-src{border-top:1px solid var(--line);margin:6px 0 0}
+.qxs-src summary{cursor:pointer;padding:12px 0;font:600 14.5px/1.4 var(--sans)}
+.qxs-src ul{margin:0 0 8px;padding-left:20px}
+.qxs-src li{margin:0 0 8px;font-size:14.5px;line-height:1.6;overflow-wrap:anywhere}
+.qxs-src li span{display:block;color:var(--muted);font-size:13.5px}
+.qxs-cr{margin:0 0 10px;color:var(--muted);font-size:13px;line-height:1.55}
+.qxs-end{display:flex;justify-content:flex-end;padding:6px 20px calc(16px + env(safe-area-inset-bottom,0px))}
+.qxs-end button{border:1px solid var(--line);background:none;color:var(--ink);border-radius:999px;padding:10px 20px;font:600 14.5px/1 var(--sans);cursor:pointer}
+.qxs-x:focus-visible,.qxs-end button:focus-visible,.qxs-go:focus-visible,.qxs-src summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+@media (max-width:640px){.qxs{width:100%;margin:auto 0 0;border-radius:18px 18px 0 0;max-height:90vh}.qxs-in{max-height:90vh}}
+/* 다시 보면(2026-11-19 본부): 답을 알고 나서 그 장면이 ‘무엇으로’ 보이는지 한 줄 + 작은 그림 + 그 장면으로 가는 단추 */
+.see{display:block;margin:4px 0 12px;padding:12px 14px;border-radius:12px;background:var(--soft)}
+.see.has-img{display:grid;grid-template-columns:60px minmax(0,1fr);grid-template-areas:"img t" "go go";column-gap:12px;align-items:start}
+.see.has-img .see-img{grid-area:img}
+.see.has-img .see-t{grid-area:t}
+.see.has-img .see-go{grid-area:go;justify-self:start}
+.see .see-img{display:block;width:60px;height:60px;border-radius:9px;object-fit:cover;border:1px solid var(--line)}
+.see .see-t{min-width:0}
+.see .see-t b{display:block;margin:0 0 2px;color:var(--accent);font:600 13px/1.4 var(--sans)}
+.see .see-t p{margin:0;font:15.5px/1.75 var(--serif)}
+.see .see-go{display:inline-block;margin-top:10px;padding:8px 14px;white-space:nowrap;border-radius:999px;border:1px solid var(--accent);background:var(--paper);color:var(--ink);font:600 13.5px/1.25 var(--sans);text-decoration:none}
+.see .see-go:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.qxs .see{margin:4px 0 14px}
+section[id^="sc-"]{scroll-margin-top:72px}
+.sc-flash .sc-head{animation:scflash 2.6s ease-out}
+@keyframes scflash{0%{background:var(--soft);box-shadow:0 0 0 10px var(--soft)}100%{background:transparent;box-shadow:0 0 0 10px transparent}}
+@media (prefers-reduced-motion:reduce){.sc-flash .sc-head{animation:none}}
+#lcard{scroll-margin-top:72px}
+#lcard.sc-flash{outline:3px solid transparent;outline-offset:6px;animation:lcflash 2.6s ease-out}
+@keyframes lcflash{0%{outline-color:var(--accent)}100%{outline-color:transparent}}
+@media (prefers-reduced-motion:reduce){#lcard.sc-flash{animation:none}}
 
 @media (min-width:860px){
   .hero{grid-template-columns:276px minmax(0,1fr);gap:44px;padding-top:40px}
@@ -1180,11 +1309,12 @@ function swap(html){
 }
 function sub(html, center){ const el = $('#fSub'); el.classList.toggle('center', !!center); el.innerHTML = html; }
 function progress(s){
+  if (qOn >= 0) { qProgress(); return; }
   $('#fProg').innerHTML = Array.from({length: DATA.nch}, (_, i) => `<i class="${i + 1 <= s.ch ? 'on' : ''}"></i>`).join('');
   const c = F.find(x => x.type === 'chapter' && x.ch === s.ch);
   $('#fCh').textContent = c ? `${c.no} · ${c.t}` : (s.ch > DATA.nch ? '마무리' : '여는 장면');
 }
-function imgHTML(m, sh, d, extra){ return `<img class="f-img${extra || ''}" src="${m.u}" alt="${esc(m.alt)}" style="--fit:${sh.fit || 'cover'};--p0:${sh.p0 || '50% 50%'};--p1:${sh.p1 || sh.p0 || '50% 50%'};--s0:${sh.s0 || 1};--s1:${sh.s1 || 1};--o:${sh.o || '50% 50%'};--dur:${d}ms">`; }
+function imgHTML(m, sh, d, extra){ return filmImg(m, sh, d, extra); }
 function soundCue(s){
   if (!snd || !fSoundOn) return;
   if (s.sound === 'off') fadeTo(0, 2600);
@@ -1213,12 +1343,13 @@ function showShot(i){
     for (let k = 2; k <= 9; k++) later(() => { const n = el.querySelector('.fDayN'); if (n) n.textContent = k; }, 600 + (k - 1) * 8000 / 9);
   }
   else if (s.type === 'img') swap(imgHTML(s.img, s, d) + '<div class="f-shade"></div>' + (s.cap ? `<span class="f-cap">${esc(s.cap)}</span>` : ''));
-  else if (s.type === 'thennow') swap(imgHTML(s.then, {fit: 'cover', s0: 1.06, s1: 1.0}, d) + `<img class="f-img f-now" src="${s.now.u}" alt="${esc(s.now.alt)}" style="--fit:cover;--s0:1.08;--s1:1.0;--dur:${d}ms;opacity:0;transition:opacity 2.6s ease">` + '<div class="f-shade"></div>' + (s.cap ? `<span class="f-cap">${esc(s.cap)}</span>` : ''));
+  else if (s.type === 'thennow') swap(imgHTML(s.then, {fit: 'cover', s0: 1.06, s1: 1.0, keep: 1}, d) + `<img class="f-img f-now" src="${s.now.u}" alt="${esc(s.now.alt)}" style="--fit:cover;--s0:1.08;--s1:1.0;--dur:${d}ms;opacity:0;transition:opacity 2.6s ease">` + '<div class="f-shade"></div>' + (s.cap ? `<span class="f-cap">${esc(s.cap)}</span>` : ''));
   else if (s.type === 'black') swap('<div class="f-black"></div>');
   else if (s.type === 'quote') swap(`<div class="f-black"></div><div class="f-quote"><p>“${esc(s.big)}”</p></div>`);
   else if (s.type === 'imagine') swap('<div class="f-imagine"><div class="flame"></div></div>');
   else if (s.type === 'candle') { renderCandle(s); return; }
   else if (s.type === 'mod') { const el = swap('<div class="f-mod"></div>'); const m = MODS[s.mod]; if (m && m.film) m.film(el.querySelector('.f-mod'), s); if (s.sync) { syncLines(s); return; } }
+  else if (s.type === 'qend') { renderQEnd(); return; }
   else if (s.type === 'reward') { renderReward(); return; }
   fT = later(nextLine, 900);
 }
@@ -1318,7 +1449,7 @@ function renderReward(){
   [rt, rp, body].forEach(x => { x.classList.add('later'); x.style.setProperty('--dl', dl + 's'); });
   rt.textContent = fKid ? '아이와 함께 끝까지 봤어요' : after >= 2 && before < 2 ? '다섯 장면을 끝까지 걸었어요' : '끝까지 함께 보셨어요';
   rp.textContent = (steps ? `카드가 ‘${NAMES[after]}’ 단계까지 올라왔어요.` : `카드는 지금 ‘${NAMES[after]}’ 단계예요.`) + (P.line ? '' : ' 마지막으로, 마음에 닿는 한 줄을 남겨 도장을 받아 보세요.');
-  const ends = `<div class="f-btns"><button type="button" class="f-deep">더 깊이 읽기</button><button type="button" class="ghost f-again">처음부터 다시</button><button type="button" class="ghost f-close">닫기</button></div>`;
+  const ends = qEnds() + `<div class="f-btns"><button type="button" class="f-deep">더 깊이 읽기</button><button type="button" class="ghost f-again">처음부터 다시</button><button type="button" class="ghost f-close">닫기</button></div>`;
   if (P.line) { body.innerHTML = `<p class="t">남긴 한 줄 · “${esc(P.line)}”</p>` + ends; holder.insertAdjacentHTML('beforeend', `<div class="f-stampov">${stampSVG(P.ach.s3 || today())}</div>`); wireEnds(body); return; }
   // 한 줄을 고르는 동안에는 카드를 조금 작게 접어 둬요(도장을 받으면 다시 커져요)
   later(() => { holder.style.setProperty('--sh', card.offsetHeight + 'px'); rw.classList.add('choose'); }, dl * 1000 + 200);
@@ -1343,12 +1474,13 @@ function renderReward(){
 }
 function wireEnds(body){
   const q = s => body.querySelector(s);
+  body.querySelectorAll('.f-q').forEach(b => b.onclick = ev => { ev.stopPropagation(); qPlay(+b.dataset.q); });
   if (q('.f-deep')) q('.f-deep').onclick = ev => { ev.stopPropagation(); fClose(); setTimeout(() => $('#deep').scrollIntoView({behavior: 'smooth'}), 120); };
   if (q('.f-again')) q('.f-again').onclick = ev => { ev.stopPropagation(); showShot(0); };
   if (q('.f-close')) q('.f-close').onclick = ev => { ev.stopPropagation(); fClose(); };
 }
 function fOpen(ch){
-  fKid = document.body.classList.contains('kid');
+  qRestore(); fKid = document.body.classList.contains('kid');
   fi = 0; if (ch) { const j = F.findIndex(s => s.type === 'chapter' && s.ch === ch); if (j >= 0) fi = j; }
   film.hidden = false; document.body.style.overflow = 'hidden';
   ['#fA', '#fB'].forEach(x => { $(x).innerHTML = ''; $(x).classList.remove('on'); }); sub('');
@@ -1363,7 +1495,7 @@ function fBegin(withSound){
   showShot(fi);
 }
 function fClose(){
-  clearT(); film.hidden = true; document.body.style.overflow = '';
+  clearT(); qRestore(); film.hidden = true; document.body.style.overflow = '';
   if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
   if (snd && !snd.paused) { fadeTo(0, 900); $$('.sndbtn').forEach(x => x.setAttribute('aria-pressed', 'false')); }
 }
@@ -1415,7 +1547,7 @@ function bigNeed(img){  // 화면 픽셀 기준으로 보통 그림이 1.1배(�
   return k * px > (SMALLSCR ? 1.6 : 1.1);
 }
 function bigUp(img, force){
-  if (!img) return;
+  if (!img || img.dataset.nobig) return;
   const u = img.getAttribute('src'), b = BIG[u]; if (!b || img.dataset.bigWait === u) return;
   if (!force && (SAVEDATA || !bigNeed(img))) return;
   img.dataset.bigWait = u;
@@ -1436,6 +1568,30 @@ function bigInit(){
   })).observe(document.body, {subtree: true, childList: true, attributes: true, attributeFilter: ['src']});
   const again = () => { clearTimeout(bigRT); bigRT = setTimeout(() => document.querySelectorAll('img').forEach(i => { if (!BIG[i.getAttribute('src')]) return; const r = i.getBoundingClientRect(); if (r.bottom > -300 && r.top < innerHeight + 300) bigUp(i); }), 350); };
   addEventListener('resize', again); if (window.visualViewport) visualViewport.addEventListener('resize', again);
+}
+/* 영화 그림 선명하게(2026-11-19 본부): 화면을 채우려고 그림을 실제 픽셀보다 FILM_LIM배 넘게 늘려야 하면 흐려져요.
+   1) 확대(s0·s1)만 줄여서 되면 확대만 줄이고, 2) 확대 없이도 흐리면 그림 전체를 보여 주고(뒤는 같은 그림을 흐리게 깔아요) 살짝만 다가가요.
+   ‘그때와 지금’처럼 두 장을 겹치는 장면은 keep으로 예전처럼 둬요. 큰 그림이 있으면 그 크기로 따져요(bw·bh가 없는 옛 빌드는 1.15배로 어림). */
+const FILM_LIM = 1.3;
+function filmImg(m, sh, d, extra){
+  const fit = sh.fit || 'cover', s0 = +sh.s0 || 1, s1 = +sh.s1 || 1;
+  let a = s0, b = s1, frame = false;
+  const W = (film && film.clientWidth) || innerWidth, H = (film && film.clientHeight) || innerHeight;
+  let nw = +m.w || 0, nh = +m.h || 0;
+  if (BIG[m.u] && !SAVEDATA && nw) { const g = (m.bw && m.bh) ? m.bw / nw : 1.15; nw *= g; nh *= g; }
+  if (!sh.keep && nw && nh && W && H) {
+    const k1 = fit === 'cover' ? Math.max(W / nw, H / nh) : Math.min(W / nw, H / nh), sm = Math.max(s0, s1);
+    if (k1 * sm > FILM_LIM) {
+      if (k1 <= FILM_LIM) { const r = FILM_LIM / k1; a = Math.min(s0, r); b = Math.min(s1, r); }
+      else frame = true;
+    }
+  }
+  if (frame) {
+    const z = 1.04, mw = Math.round(nw * FILM_LIM / z), mh = Math.round(nh * FILM_LIM / z), fo = sh.o || sh.p1 || sh.p0 || '50% 50%';
+    return `<img class="f-back" src="${m.u}" alt="" aria-hidden="true" data-nobig="1" decoding="async">` +
+      `<img class="f-img f-fit${extra || ''}" src="${m.u}" alt="${esc(m.alt)}" style="--mw:${mw}px;--mh:${mh}px;--p0:50% 50%;--p1:50% 50%;--s0:1;--s1:${z};--o:${fo};--dur:${d}ms">`;
+  }
+  return `<img class="f-img${extra || ''}" src="${m.u}" alt="${esc(m.alt)}" style="--fit:${fit};--p0:${sh.p0 || '50% 50%'};--p1:${sh.p1 || sh.p0 || '50% 50%'};--s0:${a};--s1:${b};--o:${sh.o || '50% 50%'};--dur:${d}ms">`;
 }
 function filmPre(i){  // 영화: 다음 장면 그림을 미리 받아 둬요(큰 그림을 쓰는 화면이면 큰 그림으로)
   const s = (DATA.film || [])[i]; if (!s) return;
@@ -1980,8 +2136,14 @@ MODS.route = (() => {
     p.classList.toggle('on', on); if (anim) { p.classList.remove('draw'); void p.getBoundingClientRect(); p.classList.add('draw'); }
   }
   function dots(root, upto){ root.querySelectorAll('.rt-dot').forEach(d => { const k = +d.dataset.i; d.classList.toggle('been', k <= upto); d.classList.toggle('here', k === upto); }); root.querySelectorAll('.rt-name').forEach((n, k) => n.classList.toggle('on', k <= upto)); }
-  function tell(i){
-    const s = cfg.stops[i]; el.querySelector('.rt-info').innerHTML = `<b>${i + 1}. ${esc(s.t)}</b>${s.d ? `<small>${esc(s.d)}</small>` : ''}<p>${s.p || ''}</p>`;
+  function tell(i){   // 키트 3판 보탬(엽서): 곳마다 'img'(그곳의 사진)와 'vibe'(그곳은 어떤 곳인지 몇 줄)를 적으면 엽서처럼 함께 보여요
+    const s = cfg.stops[i], im = s.img && s.img.u ? s.img : null, V = s.vibe || [];
+    const pic = im ? `<figure class="rt-pic"><img src="${im.u}" alt="${esc(im.alt || '')}" decoding="async"><figcaption>${im.cap ? esc(im.cap) + ' · ' : ''}${esc(im.cr || '')}</figcaption></figure>` : '';
+    const dd = v => v.kid ? `<span class="a">${v.t}</span><span class="k">${v.kid}</span>` : v.t;
+    const vibe = V.length ? `<div class="rt-vibe"><p class="rt-vh">그곳은 어떤 곳?</p><dl>${V.map(v => `<div><dt>${esc(v.k)}</dt><dd>${dd(v)}</dd></div>`).join('')}</dl></div>` : '';
+    const box = el.querySelector('.rt-info'); box.classList.toggle('rt-card', !!(pic || vibe));
+    box.innerHTML = `<b>${i + 1}. ${esc(s.t)}</b>${s.d ? `<small>${esc(s.d)}</small>` : ''}${pic}<p>${s.p || ''}</p>${vibe}`;
+    if (pic) { const g = box.querySelector('.rt-pic img'); if (typeof bigLater === 'function') bigLater(g); }
   }
   function go(){
     if (at >= cfg.stops.length - 1) return;
@@ -2444,6 +2606,130 @@ MODS.trace = (() => {
   const r = document.documentElement, v = getComputedStyle(r).getPropertyValue('--card-ar').trim(), m = /^([\d.]+)\s*\/\s*([\d.]+)$/.exec(v);
   if (m && +m[1] > +m[2] * 0.8) r.style.setProperty('--card-ar', '4 / 5');
 } catch (x) {} })();
+
+/* 더 깊이 ‘궁금증’(2026-11-19 본부): 처음 보는 사람이 이야기를 보고 정말 묻는 물음 셋(많아도 넷). 물음마다 그림 한 장, 두세 문장, 짧은 영화.
+   짧은 영화는 본 영화 화면을 그대로 써요. 영화 장면 목록(F)을 잠깐 그 물음의 장면으로 바꿔 끼우고, 닫거나 다시 열면 본 영화로 돌려놓아요. */
+const QS = DATA.qs || [], FILM_MAIN = F.slice();
+let qOn = -1, qPart = 'a';   // qPart: 'a' = 궁금증의 짧은 영화(30초) · 'more' = 이어서 듣기(그 물음에서 이어지는 장, 5~7분)
+const qFilm = (i, part) => ((part === 'more' ? (QS[i].more || {}).film : QS[i].film) || []);
+function qSet(i, part){ qOn = i; qPart = part || 'a'; F.length = 0; qFilm(i, qPart).forEach(x => F.push(x)); F.push({type: 'qend', ch: 0}); }
+function qRestore(){ if (qOn < 0) return; qOn = -1; qPart = 'a'; F.length = 0; FILM_MAIN.forEach(x => F.push(x)); }
+function qOpen(i, part){ if (!QS[i] || !qFilm(i, part).length) return; fOpen(0); qSet(i, part); fi = 0; fBegin(false); }
+function qPlay(i, part){ if (!QS[i] || !qFilm(i, part).length) return; clearT(); qSet(i, part); showShot(0); }
+function qProgress(){
+  $('#fProg').innerHTML = QS.map((_, k) => `<i class="${k === qOn ? 'on' : ''}"></i>`).join('');
+  $('#fCh').textContent = qPart === 'more' ? '깊이 듣기 · ' + QS[qOn].more.t : '궁금증 풀기';
+}
+function qSeen(){ if (!P.deepOpened) { P.deepOpened = true; save(); check(); } }
+function qBtns(skip){ return QS.map((q, k) => k === skip || !(q.film || []).length ? '' : `<button type="button" class="f-q" data-q="${k}">${esc(q.q)}</button>`).join(''); }
+function qEnds(){ const b = qBtns(-1); return b ? `<div class="f-qs"><p>이야기를 보다 궁금해졌다면</p>${b}</div>` : ''; }
+function renderQEnd(){
+  fWait = 'reward'; sub(''); qSeen(); film.classList.add('at-reward');
+  const q = QS[qOn], others = qBtns(qOn), more = q.more && (q.more.film || []).length;
+  let head;
+  if (qPart === 'more') head = `<p class="kk">깊이 듣기 · ${esc(q.more.t)} · 끝까지 들었어요</p><h3>${esc(q.more.next || '다음 장은 준비하고 있어요')}</h3>`;
+  else head = `<p class="kk">궁금증 하나를 풀었어요</p><h3>${esc(q.q)}</h3>` + (more ? `<div class="f-qlist"><button type="button" class="f-q f-more" data-q="${qOn}" data-part="more">이어서 듣기 · ${esc(q.more.t)}${q.more.len ? ' · ' + esc(q.more.len) : ''}</button></div>` : '');
+  const el = swap(`<div class="f-black"></div><div class="f-qend">${head}${others ? `<p class="t">다른 궁금증도 있어요</p><div class="f-qlist">${others}</div>` : ''}<div class="f-btns"><button type="button" class="f-close">닫기</button></div></div>`);
+  el.querySelectorAll('.f-q').forEach(b => b.onclick = ev => { ev.stopPropagation(); qPlay(+b.dataset.q, b.dataset.part); });
+  el.querySelector('.f-close').onclick = ev => { ev.stopPropagation(); fClose(); };
+}
+$$('.qcard').forEach(c => {   // 쪽의 물음 카드: 답 보기 · 영화로 보기 · 이어서 듣기
+  const b = c.querySelector('.qopen'), a = c.querySelector('.qa'), f = c.querySelector('.qfilm'), m = c.querySelector('.qmore');
+  if (b && a) b.onclick = () => { const open = a.hidden; a.hidden = !open; b.setAttribute('aria-expanded', String(open)); b.textContent = open ? '답 접기' : '답 보기'; if (open) qSeen(); };
+  if (f) f.onclick = () => qOpen(+f.dataset.q);
+  if (m) m.onclick = () => qOpen(+m.dataset.q, 'more');
+});
+
+/* 더 깊이 판(2026-11-19 본부 · 사용자님과 정함): 궁금증의 ‘답 보기’와 ‘뒷이야기’가 같은 판에서 열려요(쪽은 길어지지 않게).
+   판 = 큰 그림 · 이야기 · 다시 보면(그 장면으로 가는 단추) · 궁금증은 영화 단추, 뒷이야기는 근거(새 탭)와 다른 카드로 가는 길 · ‘다음 이야기’.
+   뒷이야기는 아직 펼치지 않은 흑백 카드로 두고, 펼치면 색이 돌아와요(이 기기에만 저장). */
+(() => { try {
+  const QA = DATA.qs || [], QX = DATA.qx || [], dlg = document.getElementById('qxSheet');
+  if (!dlg || !(QA.length || QX.length)) return;
+  const inner = dlg.querySelector('.qxs-in');
+  const xcards = Array.from(document.querySelectorAll('.qxc'));
+  P.qx = P.qx || {};
+  const got = () => QX.filter(x => P.qx[x.id]).length;
+  const count = () => { const c = document.getElementById('qxN'); if (c) c.textContent = `${got()}/${QX.length} 펼쳤어요`; };
+  const paint = b => { b.classList.add('got'); const m = b.querySelector('.qx-mark'); if (m) m.textContent = '✓'; };
+  xcards.forEach(b => { if (P.qx[b.dataset.x]) paint(b); });
+  count();
+  let from = null;
+  const fresh = new Set();
+  const seeBox = x => !x.see ? '' : `<div class="see${x.seeImg ? ' has-img' : ''}">${x.seeImg ? `<img class="see-img" src="${esc(x.seeImg.u)}" width="${x.seeImg.w}" height="${x.seeImg.h}" alt="">` : ''}<div class="see-t"><b>다시 보면</b><p>${esc(x.see)}</p></div>${x.seeGo ? `<a class="see-go" href="#${x.seeGo.sc === 'front' ? 'lcard' : 'sc-' + esc(x.seeGo.sc)}" data-sc="${esc(x.seeGo.sc)}">${esc(x.seeGo.t)}</a>` : ''}</div>`;
+  function nextOf(kind, i){   // 다음 이야기: 궁금증은 차례대로, 다 보면 아직 펼치지 않은 뒷이야기로 · 뒷이야기는 아직 펼치지 않은 다음 장
+    if (kind === 'q' && i + 1 < QA.length) return {k: 'q', i: i + 1, t: QA[i + 1].q};
+    for (let s2 = 1; s2 <= QX.length; s2++) {
+      const j = kind === 'q' ? s2 - 1 : (i + s2) % QX.length;
+      if (j >= QX.length) break;
+      if (!P.qx[QX[j].id] && !(kind === 'x' && j === i)) return {k: 'x', i: j, t: QX[j].q};
+    }
+    return null;
+  }
+  function render(kind, i){
+    const x = kind === 'q' ? QA[i] : QX[i]; if (!x) return;
+    let head;
+    if (kind === 'x') { const isNew = !P.qx[x.id]; if (isNew) { P.qx[x.id] = 1; save(); fresh.add(x.id); } head = `${isNew ? '새로 펼친 뒷이야기' : '뒷이야기'} · ${got()}/${QX.length}`; }
+    else head = `궁금증 · ${i + 1}/${QA.length}`;
+    if (typeof qSeen === 'function') qSeen();
+    const src = kind === 'x' ? (x.src || []) : [];
+    const film = kind === 'q' && (x.film || []).length ? `<p class="qxs-gop"><button type="button" class="qxs-film" data-q="${i}">▶ 영화로 보기${x.flen ? ' · ' + esc(x.flen) : ''}</button></p>` : '';
+    const nx = nextOf(kind, i);
+    inner.innerHTML =
+      `<div class="qxs-img"><img src="${esc(x.img.u)}" alt="${esc(x.img.alt)}"${x.pos ? ` style="object-position:${esc(x.pos)}"` : ''}></div>` +
+      `<button type="button" class="qxs-x" aria-label="닫기">✕</button>` +
+      `<div class="qxs-b"><p class="qxs-k">${head}</p><h3 id="qxsQ">${esc(x.q)}</h3><div class="qxs-a">${x.a.map(p => `<p>${p}</p>`).join('')}</div>` +
+      seeBox(x) + film +
+      (x.go ? `<p class="qxs-gop"><a class="qxs-go" href="${esc(x.go.u)}">${esc(x.go.t)}</a></p>` : '') +
+      (src.length ? `<details class="qxs-src"><summary>근거 보기 · ${src.length}곳</summary><ul>${src.map(s3 => `<li><a href="${esc(s3.u)}" target="_blank" rel="noopener">${esc(s3.t)}</a>${s3.m ? `<span>${esc(s3.m)}</span>` : ''}</li>`).join('')}</ul>${x.img.cr ? `<p class="qxs-cr">그림 · ${esc(x.img.cr)}</p>` : ''}</details>` : '') +
+      `</div><div class="qxs-end">${nx ? `<button type="button" class="qxs-next" data-k="${nx.k}" data-i="${nx.i}"><span>다음 이야기</span>${esc(nx.t)}</button>` : ''}<button type="button" class="qxs-close">닫기</button></div>`;
+    inner.scrollTop = 0;
+  }
+  function open(kind, i, btn){
+    if (i < 0) return;
+    from = btn; render(kind, i);
+    document.body.classList.add('qx-on');
+    if (!dlg.open) { if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', ''); }
+  }
+  function onClose(){
+    document.body.classList.remove('qx-on');
+    xcards.forEach(b => { if (fresh.has(b.dataset.x)) setTimeout(() => paint(b), 180); });
+    fresh.clear(); count();
+    const b = from; from = null;
+    if (b) { try { b.focus({preventScroll: true}); } catch (x) {} }
+  }
+  const close = () => { if (typeof dlg.close === 'function') dlg.close(); else { dlg.removeAttribute('open'); onClose(); } };
+  dlg.addEventListener('close', onClose);
+  dlg.addEventListener('click', ev => { if (ev.target === dlg) close(); });   // 판 바깥(어두운 곳)을 누르면 닫혀요
+  inner.addEventListener('click', ev => {
+    const t = ev.target && ev.target.closest ? ev.target.closest('button') : null; if (!t) return;
+    if (t.classList.contains('qxs-x') || t.classList.contains('qxs-close')) close();
+    else if (t.classList.contains('qxs-next')) render(t.dataset.k, +t.dataset.i);
+    else if (t.classList.contains('qxs-film')) { const i = +t.dataset.q; close(); setTimeout(() => { if (typeof qOpen === 'function') qOpen(i); }, 60); }
+  });
+  xcards.forEach(b => b.addEventListener('click', () => open('x', QX.findIndex(x => x.id === b.dataset.x), b)));
+  document.querySelectorAll('.qcard').forEach(c => {   // 카드 어디를 눌러도 판이 열려요(영화 단추만 빼고)
+    const i = +c.dataset.q, ob = c.querySelector('.qopen');
+    if (c.querySelector('.qa') || !QA[i] || !QA[i].a) return;   // 예전 키트로 만든 카드(답을 쪽 안에 펼침)는 그대로 둬요
+    c.addEventListener('click', ev => { if (ev.target.closest('.qfilm')) return; open('q', i, ob || c); });
+  });
+} catch (x) {} })();
+
+/* ‘다시 보면’의 ‘○째 장면 다시 보기’(2026-11-19 본부): 그 장면으로 바로 가서 잠깐 밝혀 줘요. 뒷이야기 판 안이면 판을 먼저 닫아요. */
+document.addEventListener('click', ev => { try {
+  const a = ev.target && ev.target.closest ? ev.target.closest('a.see-go') : null; if (!a) return;
+  const el = document.getElementById(a.dataset.sc === 'front' ? 'lcard' : 'sc-' + a.dataset.sc); if (!el) return;   // front = 앞면 카드
+  ev.preventDefault();
+  const go = () => {
+    const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    el.scrollIntoView({behavior: calm ? 'auto' : 'smooth', block: 'start'});
+    el.classList.remove('sc-flash'); void el.offsetWidth; el.classList.add('sc-flash');
+    setTimeout(() => el.classList.remove('sc-flash'), 2600);
+    const h = el.querySelector('h2'); if (h) { h.setAttribute('tabindex', '-1'); try { h.focus({preventScroll: true}); } catch (x) {} }
+  };
+  const d = a.closest('dialog');
+  if (d && d.open) { d.close(); setTimeout(go, 80); } else go();
+} catch (x) {} });
 
 initMods();
 bigInit();

@@ -125,6 +125,17 @@ rep("drawStage(false); drawStamp(false); check(); hold($('#lcHold'));",
     js + "\ninitMods();\nbigInit();\ndrawStage(false); drawStamp(false); check(); hold($('#lcHold'));")
 # 영화: 다음 장면 그림 미리 받기(큰 그림 두 벌 · 2026-11-18)
 rep("function showShot(i){\n  clearT(); fWait = null; fi = i; li = -1;\n", "function showShot(i){\n  clearT(); fWait = null; fi = i; li = -1; filmPre(i + 1);\n")
+# 영화 그림 선명하게(2026-11-19 본부): 그림을 실제 픽셀보다 크게 늘려야 하면 확대를 줄이거나 그림 전체를 보여 줘요(filmImg · tpl3_mod.js)
+rep("""function imgHTML(m, sh, d, extra){ return `<img class="f-img${extra || ''}" src="${m.u}" alt="${esc(m.alt)}" style="--fit:${sh.fit || 'cover'};--p0:${sh.p0 || '50% 50%'};--p1:${sh.p1 || sh.p0 || '50% 50%'};--s0:${sh.s0 || 1};--s1:${sh.s1 || 1};--o:${sh.o || '50% 50%'};--dur:${d}ms">`; }""",
+    "function imgHTML(m, sh, d, extra){ return filmImg(m, sh, d, extra); }")
+rep("swap(imgHTML(s.then, {fit: 'cover', s0: 1.06, s1: 1.0}, d)", "swap(imgHTML(s.then, {fit: 'cover', s0: 1.06, s1: 1.0, keep: 1}, d)")
+# 더 깊이 ‘궁금증’(2026-11-19 본부): 물음마다 짧은 영화(같은 영화 화면 · F를 잠깐 바꿔 끼워요 · tpl3_mod.js) · 본 영화 끝에서 이어 보기
+rep("  else if (s.type === 'reward') { renderReward(); return; }", "  else if (s.type === 'qend') { renderQEnd(); return; }\n  else if (s.type === 'reward') { renderReward(); return; }")
+rep("function progress(s){\n", "function progress(s){\n  if (qOn >= 0) { qProgress(); return; }\n")
+rep('  const ends = `<div class="f-btns"><button type="button" class="f-deep">더 깊이 읽기</button>', '  const ends = qEnds() + `<div class="f-btns"><button type="button" class="f-deep">더 깊이 읽기</button>')
+rep("  if (q('.f-deep')) q('.f-deep').onclick", "  body.querySelectorAll('.f-q').forEach(b => b.onclick = ev => { ev.stopPropagation(); qPlay(+b.dataset.q); });\n  if (q('.f-deep')) q('.f-deep').onclick")
+rep("function fOpen(ch){\n  fKid = document.body.classList.contains('kid');", "function fOpen(ch){\n  qRestore(); fKid = document.body.classList.contains('kid');")
+rep("function fClose(){\n  clearT(); film.hidden = true;", "function fClose(){\n  clearT(); qRestore(); film.hidden = true;")
 # 도장 글자 크기: 글자가 길면 작게
 rep('<text x="100" y="104" text-anchor="middle" font-size="36" font-weight="700" font-family="Gowun Batang, serif">${s.t}</text>',
     '<text x="100" y="104" text-anchor="middle" font-size="${s.t.length > 3 ? 27 : 36}" font-weight="700" font-family="Gowun Batang, serif">${s.t}</text>')
