@@ -33,7 +33,8 @@ def status(cid):
         m = re.search(r'^- ' + k + r'\s*:\s*(.+)$', t, re.M)
         return m.group(1).strip() if m else ''
     st = line('상태')
-    if '## 검수' in t: state = '검수 끝'
+    if '## 다듬기' in t: state = '다듬기 끝'
+    elif '## 검수' in t: state = '검수 끝'
     elif re.search(r'예시|기준 카드', st) or (len(t) < 900 and '기준' in t): state = '기준 카드'
     elif re.search(r'만드는 중|조사 중|그림 허락|방식 기다림|만들기 전|그림 기다림', st): state = '만드는 중'
     else: state = '검토 전'
@@ -78,7 +79,7 @@ def main():
         body += '</ul>'
         groups.append(f'<section class="chap"><h2>{ch["no"]}장 {e(ch["t"])} <span>{len(rs)}장</span></h2>{body}</section>')
     total = len(rows)
-    summary = ' · '.join(f'{k} {counts[k]}' for k in ('검토 전', '만드는 중', '검수 끝', '기준 카드') if counts.get(k))
+    summary = ' · '.join(f'{k} {counts[k]}' for k in ('검토 전', '만드는 중', '검수 끝', '다듬기 끝', '기준 카드') if counts.get(k))
     page = TPL.replace('{{GROUPS}}', '\n'.join(groups)).replace('{{TOTAL}}', str(total)).replace('{{SUMMARY}}', e(summary)).replace('{{NOW}}', now)
     out = os.path.join(REPO, 'site', 'deep', 'index.html')
     open(out, 'w', encoding='utf-8').write(page)
@@ -123,7 +124,7 @@ h1{font:700 clamp(26px,7vw,34px)/1.25 var(--serif);margin:10px 0 4px}
 .go img{width:56px;height:70px;object-fit:cover;border-radius:6px;background:var(--rule)}
 .tx{min-width:0}.tx b{display:block;font:700 16px/1.4 var(--serif)}.sub{display:block;font-size:13px;color:var(--ink3)}
 .chip{font-size:12px;font-weight:600;border-radius:999px;padding:3px 9px;white-space:nowrap;border:1px solid currentColor}
-.c-검토전{color:var(--verm)}.c-만드는중{color:var(--ink3)}.c-검수끝{color:var(--green)}.c-기준카드{color:var(--gold)}
+.c-검토전{color:var(--verm)}.c-만드는중{color:var(--ink3)}.c-검수끝{color:var(--green)}.c-다듬기끝{color:var(--ink)}.c-기준카드{color:var(--gold)}
 .memo-b{border:1px solid var(--rule);background:transparent;border-radius:8px;padding:6px 10px;font-size:13px;cursor:pointer;white-space:nowrap}
 .row.has .memo-b{border-color:var(--gold);color:var(--gold);font-weight:600}
 .memo{grid-column:1/-1}.memo textarea{width:100%;border:1px solid var(--rule);border-radius:8px;background:var(--ground);color:var(--ink);padding:8px 10px;font:15px/1.6 var(--serif);resize:vertical}
@@ -137,7 +138,7 @@ footer{color:var(--ink3);font-size:13px;padding:30px 0 calc(env(safe-area-inset-
 <p class="lead">지금까지 만든 깊은 카드 {{TOTAL}}장이에요. 눌러서 열고, 보면서 느낀 점을 적어 두었다가 한꺼번에 복사해 본부에 보내 주세요.</p>
 <p class="meta">{{SUMMARY}} · 본부가 {{NOW}}에 맞춤</p></header>
 <div class="bar"><div class="wrap">
-<div class="chips" role="group" aria-label="상태로 걸러 보기"><button type="button" data-f="" aria-pressed="true">전체</button><button type="button" data-f="검토 전" aria-pressed="false">검토 전</button><button type="button" data-f="만드는 중" aria-pressed="false">만드는 중</button><button type="button" data-f="검수 끝" aria-pressed="false">검수 끝</button><button type="button" data-f="memo" aria-pressed="false">느낀 점 적은 카드</button></div>
+<div class="chips" role="group" aria-label="상태로 걸러 보기"><button type="button" data-f="" aria-pressed="true">전체</button><button type="button" data-f="검토 전" aria-pressed="false">검토 전</button><button type="button" data-f="만드는 중" aria-pressed="false">만드는 중</button><button type="button" data-f="검수 끝" aria-pressed="false">검수 끝</button><button type="button" data-f="다듬기 끝" aria-pressed="false">다듬기 끝</button><button type="button" data-f="memo" aria-pressed="false">느낀 점 적은 카드</button></div>
 <div class="tools"><span id="mc">적은 느낀 점 0개</span><button type="button" id="copyAll" disabled>느낀 점 모두 복사</button></div>
 <div class="copybox" id="copyBox" hidden><p class="meta">복사가 안 되면 아래 글을 길게 눌러 모두 선택해 복사해 주세요.</p><textarea id="copyText" readonly></textarea></div>
 </div></div>
