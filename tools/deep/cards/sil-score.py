@@ -26,7 +26,7 @@ SYNC = [{'t': '기타가 먼저 울려요. 자장가처럼 흔들리는 6/8박�
 SYNC.insert(7, {'t': '이제 성가대가 마지막 두 줄을 따라 불러요.', 'at': TM['lines'][6]['at'] - 2.4})
 
 CARD = {
- 'id': 'sil-score', 'imgfmt': 'jpg',   # 예시 카드는 처음 만든 JPEG 그대로(새 카드는 WebP 1920)
+ 'id': 'sil-score',   # 예시 카드도 원본에서 다시 만들었어요(WebP 1920 · 큰 그림 3840 · 2026-11-18 본부). 예전 .jpg는 사이트 폴더에 남아 있어요
  'mode': '소리 · 그때와 지금',
  'pagetitle': '고요한 밤, 1818',
  'brandsub': '깊은 카드 시안 · 소리로 따라가기',
@@ -46,10 +46,10 @@ body.dim{--bg:#0a0f1d;--paper:#111a2c;--ink:#eef1f7;--muted:#aab3c5;--faint:#7d8
  'stamp': {'t': '고요한 밤', 'y': '1818', 'sub': '성 니콜라 성당 · 오베른도르프'},
  'doneNote': '성탄 전야에 이 노래를 다시 들어 보세요.',
  'images': {
-  'auto': {'src': CU + 'Autograph_Mohr_Stille_Nacht.jpg', 'max': 1400, 'q': 74, 'cap': '모어가 손으로 쓴 「고요한 밤」 악보, 1820~1825년 무렵', 'cr': '요제프 모어 친필(잘츠부르크 박물관) · 퍼블릭 도메인 · 위키미디어 공용',
+  'auto': {'src': CU + 'Autograph_Mohr_Stille_Nacht.jpg', 'cap': '모어가 손으로 쓴 「고요한 밤」 악보, 1820~1825년 무렵', 'cr': '요제프 모어 친필(잘츠부르크 박물관) · 퍼블릭 도메인 · 위키미디어 공용',
            'u': 'https://commons.wikimedia.org/wiki/File:Autograph_Mohr_Stille_Nacht.jpg',
            'alt': '두 쪽에 걸친 손글씨 악보. 왼쪽 위에 ‘Largo’, 가운데 위에 ‘Weyhnachts-Lied’, 오른쪽 위에 ‘Melodie von Fr. Xav. Gruber’라고 적혀 있다. 노래 줄 아래 1~6절 노랫말, 맨 아래 ‘Guitarre’ 줄, 왼쪽 아래 ‘Text von Joseph Mohr, Coadjutor 1816’.'},
-  'gruber': {'src': S + 's_gruber.jpg', 'max': 1100, 'cap': '프란츠 크사버 그루버, 1846년 초상화', 'cr': '제바스티안 슈티프 그림 · 퍼블릭 도메인 · 위키미디어 공용',
+  'gruber': {'src': S + 's_gruber.jpg', 'cap': '프란츠 크사버 그루버, 1846년 초상화', 'cr': '제바스티안 슈티프 그림 · 퍼블릭 도메인 · 위키미디어 공용',
              'u': 'https://commons.wikimedia.org/wiki/File:Franz_Xaver_Gruber_(1787-1863).jpg',
              'alt': '검은 웃옷에 무늬 있는 조끼와 넥타이를 맨 중년 남자의 상반신 유화. 짙은 곱슬머리에 구레나룻이 있고, 정면을 바라본다.'},
   'arnsdorf': {'src': S + 's_arnsdorf.jpg', 'cap': '아른스도르프 학교. 지금은 학교이자 작은 고요한 밤 박물관', 'cr': '사진: Eweht · CC BY-SA 3.0 · 위키미디어 공용',
@@ -61,7 +61,7 @@ body.dim{--bg:#0a0f1d;--paper:#111a2c;--ink:#eef1f7;--muted:#aab3c5;--faint:#7d8
   'stnikola': {'src': S + 's_stnikola.jpg', 'cap': '옛 성 니콜라 성당이 보이는 오베른도르프, 옛 사진', 'cr': 'Gakuro · CC BY-SA 3.0 · 위키미디어 공용(고요한 밤 박물관 제공)',
                'u': 'https://commons.wikimedia.org/wiki/File:Stnikola.jpg',
                'alt': '강가에 지붕들이 모여 있고, 그 위로 뾰족한 종탑을 단 성당이 서 있는 흑백 사진. 뒤로 나무 덮인 언덕이 보인다.'},
-  'chapel': {'src': CU + 'Stille-Nacht-Kapelle-Oberndorf_bei_Salzburg.jpg', 'max': 1300, 'cap': '고요한 밤 기념 예배당, 오베른도르프', 'cr': '사진: Werner100359 · CC BY-SA 3.0 · 위키미디어 공용',
+  'chapel': {'src': CU + 'Stille-Nacht-Kapelle-Oberndorf_bei_Salzburg.jpg', 'cap': '고요한 밤 기념 예배당, 오베른도르프', 'cr': '사진: Werner100359 · CC BY-SA 3.0 · 위키미디어 공용',
              'u': 'https://commons.wikimedia.org/wiki/File:Stille-Nacht-Kapelle-Oberndorf_bei_Salzburg.JPG',
              'alt': '눈 쌓인 마당에 선 하얀 팔각 예배당. 나무 비늘 지붕 위에 작은 탑이 있고, 정면에 둥근 창과 현관, 그 앞에 작은 전나무와 계단이 있다.'},
   'chapel2': {'src': S + 's_chapel2.jpg', 'cap': '여름의 기념 예배당과 옛 물탑', 'cr': '사진: Michael Burgholzer · CC BY-SA 4.0 · 위키미디어 공용',

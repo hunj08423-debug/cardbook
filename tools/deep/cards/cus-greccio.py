@@ -17,7 +17,7 @@ ITEMS = [
  {'id': 'lights', 't': '사람들의 불빛', 'la': 'cerei et faces', 'say': '마을 사람들이 초와 횃불을 들고 숲길을 올라와요. 숲이 노랫소리로 울리고, 바위가 메아리쳤다고 해요.'},
 ]
 CARD = {
- 'id': 'cus-greccio', 'imgfmt': 'jpg',   # 예시 카드는 처음 만든 JPEG 그대로(새 카드는 WebP 1920)
+ 'id': 'cus-greccio',   # 예시 카드도 원본에서 다시 만들었어요(WebP 1920 · 큰 그림 3840 · 2026-11-18 본부). 예전 .jpg는 사이트 폴더에 남아 있어요
  'mode': '놓아 보기 · 그때와 지금',
  'pagetitle': '그레초의 밤',
  'brandsub': '깊은 카드 시안 · 놓아 보기',
@@ -44,7 +44,7 @@ body.dim{--bg:#090c15;--paper:#121726;--ink:#f1ebdf;--muted:#b5ab98;--faint:#817
   'rocce': {'src': S + 'g_rocce.jpg', 'cap': '바위에 붙어 선 그레초 수도원, 2025년', 'cr': '사진: 66colpi · CC BY-SA 4.0 · 위키미디어 공용',
             'u': 'https://commons.wikimedia.org/wiki/File:Greccio_-_Santuario_Francescano_di_Greccio_incastonato_tra_le_rocce.jpg',
             'alt': '숲이 우거진 회색 바위 절벽 중간에, 누런 벽의 건물들이 길게 붙어 있다.'},
-  'santuario': {'src': S + 'g_santuario.jpg', 'q': 76, 'cap': '그레초 수도원으로 오르는 돌길', 'cr': '사진: Monica Domeniconi · CC BY-SA 4.0 · 위키미디어 공용',
+  'santuario': {'src': S + 'g_santuario.jpg', 'cap': '그레초 수도원으로 오르는 돌길', 'cr': '사진: Monica Domeniconi · CC BY-SA 4.0 · 위키미디어 공용',
                 'u': 'https://commons.wikimedia.org/wiki/File:Santuario_di_Greccio.jpg',
                 'alt': '돌담 사이로 넓은 돌계단 길이 이어지고, 왼쪽에 아치 창이 난 흰 건물, 길 끝에 작은 종탑과 골짜기가 보인다.'},
   'valle': {'src': S + 'g_valle.jpg', 'cap': '그레초 수도원 마당에서 내려다본 리에티 골짜기', 'cr': '사진: Fiaba77 · CC BY-SA 4.0 · 위키미디어 공용',
@@ -53,7 +53,7 @@ body.dim{--bg:#090c15;--paper:#121726;--ink:#f1ebdf;--muted:#b5ab98;--faint:#817
   'grotta': {'src': S + 'g_grotta.jpg', 'cap': '구유가 놓였던 동굴의 바위벽 벽화(14~15세기)', 'cr': '사진: MonDoMD · CC BY-SA 4.0 · 위키미디어 공용',
              'u': 'https://commons.wikimedia.org/wiki/File:Affresco_Grotta_Del_Primo_Presepe.jpg',
              'alt': '울퉁불퉁한 바위벽에 그린 벽화. 푸른 옷의 마리아가 아기에게 젖을 먹이고, 오른쪽에 붉은 옷의 인물이 보인다. 오른쪽에 작은 창이 나 있다.'},
-  'vite': {'src': S + 'g_vite.jpg', 'max': 1300, 'cap': '안토니오 비테, 「그레초의 구유」(부분), 1390~1400년 무렵, 피스토이아', 'cr': '사진: Sailko · CC BY-SA 4.0 · 위키미디어 공용',
+  'vite': {'src': S + 'g_vite.jpg', 'cap': '안토니오 비테, 「그레초의 구유」(부분), 1390~1400년 무렵, 피스토이아', 'cr': '사진: Sailko · CC BY-SA 4.0 · 위키미디어 공용',
            'u': 'https://commons.wikimedia.org/wiki/File:Antonio_vite,_presepe_di_greccio,_1390-1400_ca._03.jpg',
            'alt': '나무 숲 무늬를 배경으로, 흰 망토를 두른 인물이 몸을 숙이고, 오른쪽 나무 구유에서 소와 나귀가 고개를 내민 벽화의 부분.'},
  },

@@ -9,7 +9,7 @@ def bl(code, label):
     return f'<a href="{NKRV}{code}" target="_blank" rel="noopener">{label}</a>'
 
 CARD = {
- 'id': 'lig-wreath', 'imgfmt': 'jpg',   # 예시 카드는 처음 만든 JPEG 그대로(새 카드는 WebP 1920)
+ 'id': 'lig-wreath',   # 예시 카드도 원본에서 다시 만들었어요(WebP 1920 · 큰 그림 3840 · 2026-11-18 본부). 예전 .jpg는 사이트 폴더에 남아 있어요
  'mode': '날짜 따라가기 · 그때와 지금',
  'pagetitle': '비헤른의 화환',
  'brandsub': '깊은 카드 시안 · 날짜 따라가기',
@@ -29,7 +29,7 @@ CARD = {
   'gottheil': {'src': S + 'w_gottheil.jpg', 'cap': '라우에스 하우스, 1850년 무렵', 'cr': '율리우스 고트하일 그림 · 퍼블릭 도메인 · 위키미디어 공용',
                'u': 'https://commons.wikimedia.org/wiki/File:Rauhes_Haus_1850.jpg',
                'alt': '연못과 큰 나무를 둘러싸고 집 여러 채가 서 있는 옛 석판화. 앞마당을 사람들이 거닐고, 아래에 ‘DAS RAUHE HAUS in Horn bei Hamburg’라고 적혀 있다.'},
-  'wichern': {'src': S + 'w_wichern.jpg', 'max': 1100, 'crop': (0.0, 0.0, 1.0, 0.86), 'cap': '요한 힌리히 비헤른, 1858년 석판화', 'cr': '오토 슈펙터 그림 · CC0 · 위키미디어 공용',
+  'wichern': {'src': S + 'w_wichern.jpg', 'crop': (0.0, 0.0, 1.0, 0.86), 'cap': '요한 힌리히 비헤른, 1858년 석판화', 'cr': '오토 슈펙터 그림 · CC0 · 위키미디어 공용',
               'u': 'https://commons.wikimedia.org/wiki/File:1858_Otto_Speckter_Lithographie,_Charles_Fuchs_(Hamburg)_Druck_Dreiviertel-Portrait_des_Theologen,_Sozialp%C3%A4dagogen_und_Gef%C3%A4ngnis-Reformers_Johann_Hinrich_Wichern.jpg',
               'alt': '검은 웃옷을 입은 중년 남자가 의자에 앉아 책을 든 손을 무릎에 올려놓은 모습을 그린 흑백 석판화.'},
   'betsaal': {'src': S + 'w_betsaal.jpg', 'cap': '「라우에스 하우스의 기도실」, 1846년 그림 신문', 'cr': '『일루스트리르테 차이퉁』 1846년 7호 · 퍼블릭 도메인 · 위키미디어 공용',
