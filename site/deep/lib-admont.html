@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="../icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+</head>
+<body>
+<title>도서관만 남은 아침</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="_deep3/deep3.css">
+<style>:root{--card-ar:1200/744}
+:root{--accent:#3f6b4a;--accent-ink:#f5faf6;--soft:rgba(63,107,74,.09);--stamp:#a8392b}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--accent:#9fd0ab;--accent-ink:#0e1711;--soft:rgba(159,208,171,.10);--stamp:#e46e5c}}
+:root[data-theme="dark"]{--accent:#9fd0ab;--accent-ink:#0e1711;--soft:rgba(159,208,171,.10);--stamp:#e46e5c}
+</style>
+
+<div class="top"><div class="wrap">
+  <a class="brand" href="../#c-lib-admont" style="text-decoration:none">← <span class="long"><b>처음 만나는 기독교 문화</b> · </span>카드 책으로</a>
+  <button class="prog" id="prog" type="button" aria-label="이 카드의 완성 단계"><i></i><i></i><i></i><i></i><i></i><b id="progName">아직</b></button>
+  <button class="pill" id="kid" type="button" aria-pressed="false">아이와 함께</button>
+  <button class="pill" id="filmBtn" type="button">▶ 영화처럼</button>
+</div></div>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="cardcol" id="cardcol">
+      <div class="flipwrap">
+        <div class="flip" id="flip">
+          <div class="face front"><div class="hold" id="lcHold">
+            <div class="lcard lv0" id="lcard">
+              <div class="lc-in"><img src="lib-admont/card.webp" width="1200" height="744" alt="알프스 산들로 둘러싸인 골짜기 마을을 하늘에서 내려다본 모습. 왼쪽에 뾰족한 두 탑의 성당이 있고, 그 오른쪽으로 하얀 수도원 건물이 길게 이어지며, 둘레에 나무와 집들이 있다.">
+                <span class="lc-badge" id="lcBadge">아직 펼치지 않은 카드</span>
+                <svg class="lc-seal" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="17" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="20" cy="20" r="13" fill="none" stroke="currentColor" stroke-width="1"/><text x="20" y="25" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor" font-family="Gowun Batang, serif">남</text></svg>
+                <div class="lc-cap"><span class="lc-set">책으로 지은 궁전 · 1</span><span class="lc-title"><span class="dc">아</span>드몬트 수도원 도서관</span><span class="lc-q a">알프스 골짜기의 한 수도원에 길이 70m의 ‘책의 방’이 있어요. 그 방에는 책 말고 무엇이 서 있을까요?</span><span class="lc-q k">산속 수도원에 엄청 큰 도서관이 있대! 책이 7만 권이나 있대.</span></div>
+                <button class="lc-open" id="openStory" type="button">이야기 펼치기</button>
+              </div>
+              <div class="lc-sheen"></div><div class="lc-foil"></div><div class="lc-lamp"></div>
+              <svg class="orn tl" viewBox="0 0 30 30" aria-hidden="true"><path d="M3 27V9a6 6 0 0 1 6-6h18" fill="none" stroke="#24418f" stroke-width="3.2"/><path d="M7 27V11a4 4 0 0 1 4-4h16" fill="none" stroke="#f3d27a" stroke-width="1.3"/><circle cx="8" cy="8" r="4.6" fill="#b8322a" stroke="#f3d27a" stroke-width="1.2"/><path d="M14 13c3-4 7-4 9-1-3 2-6 3-9 1z" fill="#2f7a4f"/></svg>
+              <svg class="orn tr" viewBox="0 0 30 30" aria-hidden="true"><path d="M3 27V9a6 6 0 0 1 6-6h18" fill="none" stroke="#24418f" stroke-width="3.2"/><path d="M7 27V11a4 4 0 0 1 4-4h16" fill="none" stroke="#f3d27a" stroke-width="1.3"/><circle cx="8" cy="8" r="4.6" fill="#b8322a" stroke="#f3d27a" stroke-width="1.2"/><path d="M14 13c3-4 7-4 9-1-3 2-6 3-9 1z" fill="#2f7a4f"/></svg>
+              <svg class="orn bl" viewBox="0 0 30 30" aria-hidden="true"><path d="M3 27V9a6 6 0 0 1 6-6h18" fill="none" stroke="#24418f" stroke-width="3.2"/><path d="M7 27V11a4 4 0 0 1 4-4h16" fill="none" stroke="#f3d27a" stroke-width="1.3"/><circle cx="8" cy="8" r="4.6" fill="#b8322a" stroke="#f3d27a" stroke-width="1.2"/><path d="M14 13c3-4 7-4 9-1-3 2-6 3-9 1z" fill="#2f7a4f"/></svg>
+              <svg class="orn br" viewBox="0 0 30 30" aria-hidden="true"><path d="M3 27V9a6 6 0 0 1 6-6h18" fill="none" stroke="#24418f" stroke-width="3.2"/><path d="M7 27V11a4 4 0 0 1 4-4h16" fill="none" stroke="#f3d27a" stroke-width="1.3"/><circle cx="8" cy="8" r="4.6" fill="#b8322a" stroke="#f3d27a" stroke-width="1.2"/><path d="M14 13c3-4 7-4 9-1-3 2-6 3-9 1z" fill="#2f7a4f"/></svg>
+            </div></div>
+          </div>
+          <div class="face back" aria-hidden="true">
+            <div class="bk">
+              <div class="bk-line">지식의 빛과 삶의 끝을 한 방에.</div>
+              <div class="bk-h">카드가 완성되는 다섯 단계</div>
+              <ol class="ladder" id="ladder"></ol>
+              <div class="bk-next" id="bkNext"></div>
+              <div class="bk-stamp" id="bkStamp">한 줄을 남기면<br>여기에 도장이 찍혀요</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cardbtns"><button class="pill" id="openStory2" type="button">이야기 펼치기</button><button class="pill" id="flipBtn" type="button">↻ 뒤집기</button></div>
+    </div>
+    <div class="intro">
+      <div class="where"><b>1865년</b><span>오스트리아 슈타이어마르크 · 아드몬트 수도원</span></div>
+      <h1>아드몬트 수도원 도서관</h1>
+      <p class="lead a">1865년 4월, 알프스 골짜기의 아드몬트 수도원에 큰불이 났어요. 불이 지나간 뒤 남은 것은 도서관이었어요. 시간 막대를 밀어 같은 수도원의 네 때를 지나가 보세요.</p>
+      <p class="lead k">산속 수도원에 큰불이 났는데, 도서관만 살아남았대. 옛날 그림부터 오늘 사진까지 넘겨 볼까?</p>
+      <div class="go">
+        <button class="btn main" id="filmBtn2" type="button">▶ 영화처럼 보기</button>
+        <a class="btn" href="#sc-hall">천천히 읽기 ↓</a>
+      </div>
+      <p class="meta">영화처럼 약 3분 · 천천히 읽으면 5분</p>
+      <p class="draft">검수 전 시안이에요(기준서 2판). 장면에는 아드몬트 수도원의 설명, 목격자의 글, 1890년대의 여행기(크라우스), 오스트리아 가톨릭 언론에 있는 것만 옮겼어요. 상상은 ‘눈 감고 상상해 보기’에만 썼어요.</p>
+      <div class="preview" id="preview"><b>시안 확인용</b>카드 단계 미리 보기
+        <button type="button" data-lv="0">0</button><button type="button" data-lv="1">1</button><button type="button" data-lv="2">2</button><button type="button" data-lv="3">3</button><button type="button" data-lv="4">4</button><button type="button" data-lv="5">5</button>
+        <button type="button" data-lv="me" class="on">내 진행</button><button type="button" id="resetBtn">기록 지우기</button></div>
+    </div>
+  </section>
+
+<section class="sc" id="sc-hall" data-sc="hall"><div class="sc-head"><span class="no">1</span><h2>빛이 마음을 채우는 방</h2><button type="button" class="fromhere" data-ch="1">▶ 여기부터 크게</button></div>
+<div class="a"><p class="tx">1776년, 건축가 요제프 후버(Josef Hueber)가 설계한 도서관 홀이 다 지어졌어요. 길이 70m의 방이 세 부분으로 나뉘어 있어요.</p><p class="tx">천장의 그림 일곱 개는 바르톨로메오 알토몬테(Bartolomeo Altomonte)가 여든이 넘어 그렸어요. 생각과 말에서 시작해 학문을 지나, 둥근 천장 한가운데의 하느님의 계시에 이르는 사람의 앎의 길을 그렸다고 수도원은 설명해요.</p></div><figure class="ph"><div class="frame"><img src="lib-admont/hall.webp" width="1920" height="1271" alt="흰색과 금빛으로 꾸민 긴 도서관 홀. 둥근 천장마다 하늘빛 그림이 있고, 흰 책장이 위아래 두 층으로 벽을 따라 이어지며 위층에는 난간이 둘러 있다. 바닥은 입체처럼 보이는 마름모 무늬 돌이다. 왼쪽 벽 둥근 자리에 검은 조각상이 있고, 책장 앞에 사다리가 서 있다." loading="lazy" decoding="async"></div><figcaption>아드몬트 수도원 도서관 홀 · 1776년 완성(2009년 사진) · <a href="https://commons.wikimedia.org/wiki/File:Austria_-_Admont_Abbey_Library_-_1277.jpg" target="_blank" rel="noopener">사진: Jorge Royan · CC BY-SA 3.0 · 위키미디어 공용</a></figcaption></figure><div class="a"><blockquote class="jr"><p>“빛이 방을 채우듯, 마음도 채워야 한다.”</p><cite><a href="https://stiftadmont.at/en/about-the-abbey-library/" target="_blank" rel="noopener">아드몬트 수도원 누리집의 도서관 설명 · 이 안내서가 옮김</a></cite></blockquote><p class="tx">지금 홀에는 책이 6만 권쯤 놓여 있어요. 수도원 전체로는 20만 점쯤의 책이 있고, 8세기부터의 손글씨 책 1,400권 넘게와 1500년 전에 찍은 책 530권도 있어요.</p></div><div class="k kidwrap"><p class="kidline">하얀 도서관에 책이 6만 권이나 있대! 천장에는 그림이 일곱 개나 있어.</p><p class="kidq"><b>물어보기</b>빛이 마음을 채운다는 건 무슨 뜻일까?</p></div></section>
+<section class="sc" id="sc-time" data-sc="time"><div class="sc-head"><span class="no">2</span><h2>네 때를 지나</h2><button type="button" class="fromhere" data-ch="2">▶ 여기부터 크게</button></div>
+<div class="a"><p class="tx">같은 수도원을 담은 그림 네 장이 있어요. 1681년의 판화, 1856년 전의 석판화, 1865년 큰불 뒤의 그림, 그리고 2022년의 사진이에요.</p><p class="tx">네 그림은 보는 방향이 서로 달라요. 그래도 성당의 두 탑을 따라가면, 불이 지나간 자리가 보여요.</p></div><div class="mod tm" data-mod="timeline"><div class="mod-top"><p class="mod-intro">시간 막대를 밀거나 해를 눌러, 같은 수도원의 네 때를 지나가 보세요.</p><span class="mod-n tm-n" aria-live="polite"></span></div><div class="tm-stage" style="aspect-ratio:1630/1000;width:min(100%,calc(66vh * 1.6300))"><img class="tm-img" data-i="0" src="lib-admont/vischer.webp" alt="판화로 새긴 수도원을 비스듬히 위에서 본 모습. 왼쪽에 양파 모양 지붕을 얹은 두 탑의 성당이 있고, 그 둘레로 안마당을 둘러싼 긴 건물들과 담장, 정원이 이어진다. 뒤로 들판과 바위산이 펼쳐지고, 맨 위에 ‘ADMONT’라고 쓰여 있다." decoding="async" style="opacity:1"><img class="tm-img" data-i="1" src="lib-admont/sandmann.webp" alt="연한 색을 입힌 석판화. 시골 길 끝에 양파 모양 지붕의 두 탑과 긴 수도원 건물이 보이고, 뒤로 높은 바위산이 솟아 있다. 길에는 소와 개를 모는 사람들이 있고, 왼쪽에 나무 지붕 집, 오른쪽에 큰 건물과 쌓아 둔 통나무가 있다." decoding="async" style="opacity:0"><img class="tm-img" data-i="2" src="lib-admont/fire.webp" alt="산 아래 골짜기에 지붕이 사라진 건물들이 벽만 남아 서 있는 그림. 앞쪽에 무너진 벽과 굴뚝, 잔해 더미가 있고, 가운데 뒤로 높은 탑 하나가 뼈대처럼 서 있다. 오른쪽 먼 곳에는 불타지 않은 듯한 긴 건물들이 보이고, 몇 사람이 잔해 사이에 있다." decoding="async" style="opacity:0"><img class="tm-img" data-i="3" src="lib-admont/today.webp" alt="알프스 산들로 둘러싸인 골짜기 마을을 하늘에서 내려다본 모습. 왼쪽에 뾰족한 두 탑의 성당이 있고, 그 오른쪽으로 하얀 수도원 건물이 길게 이어지며, 둘레에 나무와 집, 유리 지붕의 온실이 있다." decoding="async" style="opacity:0"><span class="tm-year" aria-hidden="true">1681년</span></div><p class="mod-cap tm-cap"><span class="tm-c" data-i="0">1681년 · 게오르크 마테우스 비셔의 판화 「아드몬트」, 1681년(비셔의 슈타이어마르크 그림 지도책에서) · <a href="https://commons.wikimedia.org/wiki/File:Vischer_-_Topographia_Ducatus_Stiria_-_002_Admont.jpg" target="_blank" rel="noopener">판화: 게오르크 마테우스 비셔 · 퍼블릭 도메인 · 위키미디어 공용</a></span><span class="tm-c" data-i="1" hidden>1856년 전 · 프란츠 크사버 잔트만이 그린 「아드몬트」 석판화, 1856년 전 · <a href="https://commons.wikimedia.org/wiki/File:Franz_Xaver_Sandmann_Admont.jpg" target="_blank" rel="noopener">석판화: 프란츠 크사버 잔트만의 그림 · 퍼블릭 도메인 · 위키미디어 공용</a></span><span class="tm-c" data-i="2" hidden>1865년 · 1865년 큰불 뒤 · 북쪽에서 수도원 성당 쪽을 본 그림, 앞쪽은 불탄 프라이들펠더 집(프란츠 팡크하우저) · <a href="https://commons.wikimedia.org/wiki/File:Gro%C3%9Fer_Stiftsbrand_1865,_Ansicht_von_Norden_aus_auf_die_Stiftskirche,_im_Vordergrund_das_abgebrannte_Praydlfelder-Haus.tif" target="_blank" rel="noopener">그림: 프란츠 팡크하우저 · 퍼블릭 도메인 · 위키미디어 공용</a></span><span class="tm-c" data-i="3" hidden>2022년 · 남서쪽 하늘에서 본 오늘의 아드몬트 수도원(2022년 사진) · <a href="https://commons.wikimedia.org/wiki/File:Admont_-_Benediktinerstift.JPG" target="_blank" rel="noopener">사진: C.Stadler/Bwag · CC BY-SA 4.0 · 위키미디어 공용</a></span></p><div class="tm-track"><span class="tm-line"></span><span class="tm-fill"></span><button type="button" class="tm-tick" data-i="0" aria-label="1681년 · 판화 속 바로크 수도원"><i></i><span>1681년</span></button><button type="button" class="tm-tick" data-i="1" aria-label="1856년 전 · 마을 길에서 본 수도원"><i></i><span>1856년 전</span></button><button type="button" class="tm-tick" data-i="2" aria-label="1865년 · 큰불이 지나간 뒤"><i></i><span>1865년</span></button><button type="button" class="tm-tick" data-i="3" aria-label="2022년 · 오늘의 수도원"><i></i><span>2022년</span></button><input type="range" class="tm-range" min="0" max="1000" value="50" aria-label="시간 막대: 왼쪽은 옛날, 오른쪽은 오늘"><span class="tm-knob"></span></div><div class="mod-info tm-info" aria-live="polite"></div><p class="mod-done tm-done" hidden>네 때를 다 지나왔어요. 성당은 새 모습이 되었고, 도서관은 1776년의 모습 그대로 남았어요.</p></div><div class="k kidwrap"><p class="kidline">옛날 그림부터 오늘 사진까지 넘겨 볼까? 성당 탑 모양을 잘 봐!</p><p class="kidq"><b>물어보기</b>불이 나기 전과 뒤에, 무엇이 가장 많이 달라졌어?</p></div></section>
+<section class="sc" id="sc-fire" data-sc="fire"><div class="sc-head"><span class="no">3</span><h2>“수도원이 탄다!”</h2><button type="button" class="fromhere" data-ch="3">▶ 여기부터 크게</button></div>
+<div class="a"><p class="tx">1865년 4월 27일 목요일 오후, 아드몬트 마을 한가운데의 농가 건물에서 불이 났어요. 불길은 곧 이웃 건물로, 그리고 수도원으로 번졌어요.</p><p class="tx">불을 본 블리트문트 추르첸탈러(Blitmund Tschurtschenthaler) 신부는 이렇게 적었어요.</p></div><figure class="ph"><div class="frame"><img src="lib-admont/fire.webp" width="1920" height="1280" alt="산 아래 골짜기에 지붕이 사라진 건물들이 벽만 남아 서 있는 그림. 앞쪽에 무너진 벽과 굴뚝, 잔해 더미가 있고, 가운데 뒤로 높은 탑 하나가 뼈대처럼 서 있다. 오른쪽 먼 곳에는 불타지 않은 듯한 긴 건물들이 보이고, 몇 사람이 잔해 사이에 있다." loading="lazy" decoding="async"></div><figcaption>1865년 큰불 뒤 · 북쪽에서 수도원 성당 쪽을 본 그림, 앞쪽은 불탄 프라이들펠더 집(프란츠 팡크하우저) · <a href="https://commons.wikimedia.org/wiki/File:Gro%C3%9Fer_Stiftsbrand_1865,_Ansicht_von_Norden_aus_auf_die_Stiftskirche,_im_Vordergrund_das_abgebrannte_Praydlfelder-Haus.tif" target="_blank" rel="noopener">그림: 프란츠 팡크하우저 · 퍼블릭 도메인 · 위키미디어 공용</a></figcaption></figure><div class="a"><blockquote class="jr"><p>“얼마 안 되어 시장 한가운데부터 수도원 성당까지 양쪽 집들과 옛 아만두스 성당이 불바다에 휩싸였다… 갑자기 무서운 외침이 울렸다. 수도원이 탄다!”</p><cite><a href="https://stiftadmont.at/en/?p=40926" target="_blank" rel="noopener">목격자 블리트문트 추르첸탈러 신부 · 아드몬트 수도원 누리집에서 · 이 안내서가 옮김</a></cite></blockquote><p class="tx">불은 닷새 동안 탔어요. 그 뒤에 도서관과 참사회실, 새 건물, 제의실은 거의 그대로 남았어요. 1890년대의 한 여행기는 “사람의 힘을 넘는 애씀으로” 도서관을 건져 냈다고 적었어요. 마을 사람 여럿이 목숨을 잃었어요.</p><p class="tx">수도원은 서둘러 ‘새 아드몬트’를 짓기로 했어요. 성당은 신고딕 양식(중세 고딕을 본뜬 그 시대의 양식)으로 새로 지었고, 도서관과 참사회실은 바로크 모습 그대로 두었어요. 크라우스의 여행기에 따르면, 다시 짓기를 이끈 카를만 히버(Karlmann Hieber) 수도원장은 새 성당이 봉헌되는 날을 보지 못하고 1868년 11월에 세상을 떠났어요.</p></div><div class="k kidwrap"><p class="kidline">마을에서 시작된 불이 수도원까지 번졌대. 그래도 도서관은 살아남았어.</p><p class="kidq"><b>물어보기</b>불이 났을 때 사람들은 도서관을 어떻게 지켰을까?</p></div></section>
+<section class="sc" id="sc-morning" data-sc="morning"><div class="sc-head"><span class="no">4</span><h2>이튿날 아침</h2><button type="button" class="fromhere" data-ch="4">▶ 여기부터 크게</button></div>
+<div class="a"><p class="tx">불이 난 이튿날, 4월 28일이에요. 불은 아직 다 꺼지지 않았어요.</p><p class="tx">그날, 수도원의 한 참사 수도자(수도원 회의에 드는 수도자)는 이렇게 적었어요.</p></div><div class="a"><blockquote class="jr big"><p>“오늘, 4월 28일, 아드몬트는 더는 없다. 도서관 말고는 모두 타 버렸다…”</p><cite><a href="https://stiftadmont.at/en/?p=28138" target="_blank" rel="noopener">그때 수도원의 한 참사 수도자 · 아드몬트 수도원 누리집과 katholisch.at(2024)에서 · 이 안내서가 옮김</a></cite></blockquote></div><div class="k kidwrap"><p class="kidline">불이 난 다음 날, 수도사님이 ‘도서관 말고는 다 탔다’고 적었대.</p><p class="kidq"><b>물어보기</b>도서관만 남은 걸 본 수도사님은 어떤 마음이었을까?</p></div></section>
+
+  <section class="imagine" id="imagine">
+    <div class="flame" aria-hidden="true"></div>
+    <p class="lab">눈 감고 상상해 보기</p>
+    <p class="tx a">1865년 4월 28일 아침이에요. 골짜기에 연기가 낮게 깔려 있고, 탄 나무 냄새가 코를 찔러요. 무너진 벽 사이를 지나 걸어가요. 그 너머에 긴 건물 하나가 서 있어요. 창 너머로 하얀 책장과 금빛 장식이 보여요.</p>
+    <p class="tx k">눈을 감아 봐. 아침인데 연기가 자욱해. 탄 냄새가 나. 무너진 벽 사이를 걸어가면, 하얀 책장이 그대로 있는 방이 보여!</p>
+    
+  </section>
+
+  <section class="mine col" id="mine">
+    <h2>나의 자리</h2>
+    
+    <p class="ask a">불이 난 이튿날, 한 수도자는 그날을 한 줄로 적었어요. 내가 오늘 하루를 한 줄로 남긴다면, 무엇이라고 적을까요?</p>
+    <p class="ask k">수도사님처럼 오늘 있었던 일을 한 줄로 적는다면, 뭐라고 쓸래?</p>
+    <p class="hint">마음에 닿는 한 줄을 고르거나 직접 써 보세요. 한 줄을 남기면 이 자리의 도장이 찍혀요. 이 기기에만 저장돼요.</p>
+    <div class="lines"><button type="button" class="line a" data-l="빛이 방을 채우듯, 마음도.">빛이 방을 채우듯, 마음도.</button><button type="button" class="line a" data-l="양파 지붕에서 뾰족한 두 탑으로.">양파 지붕에서 뾰족한 두 탑으로.</button><button type="button" class="line a" data-l="수도원이 탄다!">수도원이 탄다!</button><button type="button" class="line a" data-l="도서관 말고는 모두 타 버렸다.">도서관 말고는 모두 타 버렸다.</button><button type="button" class="line k" data-l="하얀 도서관에 책이 6만 권!">하얀 도서관에 책이 6만 권!</button><button type="button" class="line k" data-l="불이 나도 도서관은 살아남았대!">불이 나도 도서관은 살아남았대!</button><button type="button" class="line k" data-l="수도사님이 남긴 한 줄!">수도사님이 남긴 한 줄!</button></div>
+    <textarea id="note" maxlength="300" placeholder="또는 떠오르는 말을 직접 적어 보세요." aria-label="나의 한 줄"></textarea>
+    <div class="row"><button class="btn main" id="stampBtn" type="button">이 자리에 도장 받기</button><p class="hint" id="stampHint" aria-live="polite"></p></div>
+    <div class="stampout" id="stampOut" hidden></div>
+  </section>
+
+  <section class="deep col" id="deep">
+    <h2>더 깊이</h2>
+    <p class="sub">궁금한 칸만 펼쳐 읽어도 괜찮아요.</p>
+<details class="dp"><summary><span>알고 보면</span></summary><div class="dpb"><p><b>불과 다시 짓기를 쓴 책</b> 수도원 문서 보관소를 맡은 막시밀리안 시퍼뮐러(Maximilian Schiefermüller) 신부가 『1865년의 불과 슈타이어마르크 베네딕도회 아드몬트 수도원의 새 건물』을 썼어요. 목격자 블리트문트 신부의 글도 이 책에 실렸어요.</p><p><b>불을 기억하는 길 안내</b> 수도원은 불이 난 날 무렵에 그날을 되짚는 특별 안내를 열어요. 2024년은 불이 난 지 159년이 되는 해였어요.</p><p><b>오늘의 장서</b> 8세기부터의 손글씨 책 1,400권 넘게와 1500년 전에 찍은 책 530권이 수도원에 있어요.</p></div></details>
+<details class="dp"><summary><span>기록마다 다른 점</span></summary><div class="dpb"><p><b>불탄 집</b> 수도원 누리집(2024)은 집 20채가 탔다고 하고, 오스트리아 포럼(위키백과를 옮긴 백과)은 시장의 집 22채라고 해요.</p><p><b>목숨을 잃은 사람</b> 수도원과 katholisch.at은 ‘마을 사람 여럿’이라고만 쓰고, 크라우스의 여행기(1890년대)는 여섯 명, 오스트리아 포럼은 일곱 명이라고 적어요.</p><p><b>새 성당의 봉헌</b> 수도원 누리집과 katholisch.at은 1868년, 크라우스의 여행기는 1869년 9월 12일이라고 적어요. 크라우스는 히버 수도원장이 그날을 보지 못하고 1868년 11월 13일에 세상을 떠났다고 해요.</p><p><b>책은 몇 권</b> 앞면 이야기는 홀에 책이 7만 권쯤 있다고 하고, 수도원 누리집은 6만 권쯤이 놓여 있다고 해요.</p></div></details>
+<details class="dp"><summary><span>직접 가 보기</span></summary><div class="dpb"><p class="checked">확인한 날 · 2026년 11월 18일 · 바뀌기 쉬운 정보라 정기적으로 다시 확인해요</p><p>도서관과 박물관은 계절마다 여는 때가 달라요. 겨울에는 단체 예약만 받는 때가 있으니, 가기 전에 수도원 누리집에서 확인하세요.</p><ul class="links"><li><a href="https://stiftadmont.at/en/?p=40926" target="_blank" rel="noopener">아드몬트 수도원 — 1865년 불을 되짚는 특별 안내(목격자 블리트문트 신부의 글)</a> <span>영어·독일어</span></li><li><a href="https://katholisch.at/aktuelles/148086/stift-admont-sonderfuehrungen-und-buch-zur-brandkatastrophe-1865" target="_blank" rel="noopener">katholisch.at(2024) — 시퍼뮐러 신부의 책과 4월 28일의 한 줄</a> <span>독일어</span></li><li><a href="https://stiftadmont.at/en/about-the-abbey-library/" target="_blank" rel="noopener">아드몬트 수도원 — 도서관 홀(알토몬테의 천장 그림, 스타멜의 조각)</a> <span>영어</span></li></ul></div></details>
+    <div class="steps"><div class="stepbox" id="box4"><h3>네 때를 지나 <span class="tag">금박</span></h3><p>시간 막대로 네 때를 모두 지나오면 카드에 금박이 입혀져요.</p><div class="ways"><div class="way" id="w-timeline"><span>1681년부터 2022년까지 네 때를 모두 지나오기</span><em></em></div></div></div><div class="stepbox" id="box5"><h3>아이와 함께 <span class="tag">채색</span></h3><p>아이와 함께 끝까지 보면 카드가 채색돼요.</p><div class="ways"><div class="way" id="w-kid"><span>아이와 함께 ‘영화처럼 보기’를 끝까지 보기</span><em></em></div></div></div></div>
+  </section>
+
+  <section class="srcbox col">
+    <details class="dp"><summary><span>근거 보기 (7)</span></summary><div class="dpb"><ol class="srcl"><li><a href="https://stiftadmont.at/en/about-the-abbey-library/" target="_blank" rel="noopener">아드몬트 수도원: 도서관 — 요제프 후버, 1776년 완성, 길이 70m·세 부분, 홀에 6만 권쯤·전체 20만 점, 손글씨 책 1,400권 넘게(8세기부터)·1500년 전 인쇄본 530권, 알토몬테의 천장 그림 일곱 개(여든 넘어)·앎의 길에서 하느님의 계시까지, 스타멜의 조각, ‘빛이 방을 채우듯 마음도’</a></li><li><a href="https://stiftadmont.at/en/?p=28138" target="_blank" rel="noopener">아드몬트 수도원: 1865년 불 특별 안내(2024) — 1865년 4월 27일 목요일 오후, 마을 한가운데 농가 건물에서 시작, 이웃 건물과 수도원으로 번짐, 집 20채, 여러 주민이 숨짐, 닷새 동안의 불 뒤 도서관·참사회실·새 건물·제의실이 거의 그대로, ‘새 아드몬트’, 신고딕 성당(1868년 봉헌), 도서관과 참사회실은 바로크로, 그때 수도원의 한 참사 수도자가 남긴 4월 28일의 글, 159년</a></li><li><a href="https://stiftadmont.at/en/?p=40926" target="_blank" rel="noopener">아드몬트 수도원: 1865년 불 특별 안내 — 목격자 블리트문트 추르첸탈러 신부의 글(양쪽 집들과 옛 아만두스 성당이 불바다, ‘수도원이 탄다!’), 도서관은 거의 피해를 입지 않음, 시퍼뮐러 신부의 책</a></li><li><a href="https://katholisch.at/aktuelles/148086/stift-admont-sonderfuehrungen-und-buch-zur-brandkatastrophe-1865" target="_blank" rel="noopener">katholisch.at(2024년 4월 22일): 「Stift Admont: Sonderführungen und Buch zur Brandkatastrophe 1865」 — 4월 28일의 한 줄, 4월 27일 목요일 오후 농가 건물, 닷새, 도서관·참사회실·새 건물·제의실, 신고딕 성당 1868년 봉헌, 시퍼뮐러(수도원 부원장·문서 보관·사서)의 책(eos 출판사)</a></li><li><a href="https://austria-forum.org/web-books/dieehernemar02de1892kfu/000076" target="_blank" rel="noopener">Ferdinand Krauss, 『Die eherne Mark』 2권(1890년대, 오스트리아 포럼 디지털 책) — “사람의 힘을 넘는 애씀으로” 도서관을 건짐, 여섯 명이 숨짐, 카를만 히버 수도원장, 1869년 9월 12일 봉헌, 히버는 1868년 11월 13일 세상을 떠남</a></li><li><a href="https://austria-forum.org/af/AustriaWiki/Admont" target="_blank" rel="noopener">오스트리아 포럼(AustriaWiki): 아드몬트 — 1865년 4월 27일 시장의 집 22채, 일곱 명, 도서관만 남음</a></li><li><a href="https://commons.wikimedia.org/wiki/Category:Stift_Admont" target="_blank" rel="noopener">위키미디어 공용: 네 그림의 정보(비셔 1681 『Topographia Ducatus Stiriae』, 잔트만의 석판화·1856년 전·호펠리히 인쇄소, 팡크하우저의 1865년 그림·북쪽에서 본 성당·프라이들펠더 집, 2022년 남서쪽 하늘 사진)</a></li></ol></div></details>
+    <details class="dp"><summary><span>그림·사진·소리 출처</span></summary><div class="dpb"><ul class="cred"><li><a href="https://commons.wikimedia.org/wiki/File:Austria_-_Admont_Abbey_Library_-_1277.jpg" target="_blank" rel="noopener">사진: Jorge Royan · CC BY-SA 3.0 · 위키미디어 공용</a></li><li><a href="https://commons.wikimedia.org/wiki/File:Vischer_-_Topographia_Ducatus_Stiria_-_002_Admont.jpg" target="_blank" rel="noopener">판화: 게오르크 마테우스 비셔 · 퍼블릭 도메인 · 위키미디어 공용</a></li><li><a href="https://commons.wikimedia.org/wiki/File:Franz_Xaver_Sandmann_Admont.jpg" target="_blank" rel="noopener">석판화: 프란츠 크사버 잔트만의 그림 · 퍼블릭 도메인 · 위키미디어 공용</a></li><li><a href="https://commons.wikimedia.org/wiki/File:Gro%C3%9Fer_Stiftsbrand_1865,_Ansicht_von_Norden_aus_auf_die_Stiftskirche,_im_Vordergrund_das_abgebrannte_Praydlfelder-Haus.tif" target="_blank" rel="noopener">그림: 프란츠 팡크하우저 · 퍼블릭 도메인 · 위키미디어 공용</a></li><li><a href="https://commons.wikimedia.org/wiki/File:Admont_-_Benediktinerstift.JPG" target="_blank" rel="noopener">사진: C.Stadler/Bwag · CC BY-SA 4.0 · 위키미디어 공용</a></li><li><a href="https://commons.wikimedia.org/wiki/File:Admont_-_Benediktinerstift.JPG" target="_blank" rel="noopener">사진: C.Stadler/Bwag · CC BY-SA 4.0 · 위키미디어 공용</a></li></ul></div></details>
+    <p class="foot">‘처음 만나는 기독교 문화’의 깊은 카드예요. 실제 인물의 사진은 쓰지 않았어요. 카드 단계와 남긴 글은 이 기기에만 저장돼요.</p>
+  </section>
+</main>
+
+
+
+<div class="ov" id="story" hidden role="dialog" aria-modal="true" aria-label="앞면 이야기">
+  <div class="bar"><span>앞면 이야기 · <span id="stNo"></span></span><button class="x" id="stX" type="button">닫기 ✕</button></div>
+  <div class="pic"><img class="st-img" id="stImg" src="lib-admont/card.webp" alt=""></div>
+  <div><p class="say" id="stSay"></p>
+    <div class="nav"><button class="ghost" id="stPrev" type="button">이전</button><div class="dots" id="stDots"></div><button id="stNext" type="button">다음</button></div></div>
+</div>
+
+<div class="film" id="film" hidden role="dialog" aria-modal="true" aria-label="영화처럼 보기">
+  <div class="f-layer" id="fA"></div><div class="f-layer" id="fB"></div>
+  <div class="f-top"><div class="f-prog" id="fProg"></div><span class="f-ch" id="fCh"></span><button class="f-fs" id="fFull" type="button" aria-pressed="false" aria-label="전체 화면" title="전체 화면" hidden><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1.5 5.5v-4h4M10.5 1.5h4v4M14.5 10.5v4h-4M5.5 14.5h-4v-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="f-x" id="fX" type="button">닫기 ✕</button></div>
+  <div class="f-sub" id="fSub" aria-live="polite"></div>
+  <div class="f-ctrl" id="fCtrl"><button id="fPrev" type="button" aria-label="이전">◀</button><button id="fAuto" type="button" aria-pressed="true">자동 넘김</button><button id="fSnd" type="button" aria-pressed="false" hidden>♪ 소리</button><button id="fNext" type="button" aria-label="다음">▶</button></div>
+  <div class="f-start" id="fStart">
+    <p class="f-k">영화처럼 보기 · 약 3분</p>
+    <h2>아드몬트 수도원 도서관</h2>
+    <p class="f-how">화면을 누르거나 → 키를 누르면 넘어가요. 그냥 두어도 자막이 저절로 넘어가요.</p>
+    <div class="f-go"><button id="fGoSnd" type="button" hidden>♪ 소리 켜고 보기</button><button id="fGo" type="button">시작하기</button></div>
+    <p class="f-note" id="fNote" hidden></p>
+  </div>
+</div>
+
+<div class="ov" id="lb" hidden role="dialog" aria-modal="true" aria-label="사진 크게 보기">
+  <div class="bar"><span></span><button class="x" id="lbX" type="button">닫기 ✕</button></div>
+  <div class="pic"><img id="lbImg" alt=""></div>
+  <p class="say" id="lbCap" style="font-size:13px;color:#bdb09a;min-height:0"></p>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"><div class="mini" id="toastCard"></div><div><b id="toastT"></b><p id="toastP"></p></div></div>
+
+<script>
+document.documentElement.classList.add('js');
+const DATA = {"id": "lib-admont", "tplv": "deep3-4", "stages": [{"n": 1, "t": "양피지", "done": "이야기를 끝까지 보고 카드를 받았어요", "how": "카드의 ‘이야기 펼치기’나 ‘영화처럼 보기’를 끝까지 보면 받아요"}, {"n": 2, "t": "먹 글씨", "done": "그 자리에 서서 장면을 끝까지 걸었어요", "how": "장면을 끝까지 걷거나, ‘영화처럼 보기’를 끝까지 보세요"}, {"n": 3, "t": "붉은 머리글자", "done": "나의 한 줄을 남기고 도장을 받았어요", "how": "‘나의 자리’에 한 줄을 남겨 보세요"}, {"n": 4, "t": "금박", "done": "같은 수도원의 네 때를 모두 지나왔어요", "how": "시간 막대를 밀어 1681년부터 2022년까지 네 때를 모두 지나 보세요"}, {"n": 5, "t": "채색", "done": "아이와 함께 끝까지 봤어요", "how": "‘아이와 함께’를 켜고 ‘영화처럼 보기’를 끝까지 보세요"}], "front": [{"t": "오스트리아 알프스 골짜기의 베네딕도회 아드몬트 수도원이에요. 1074년에 세워졌어요.", "kid": "산으로 둘러싸인 골짜기의 수도원이야.", "f": null}, {"t": "1776년 건축가 요제프 후버의 설계로 완성된 도서관 홀은 길이 70m, 너비 14m, 높이 13m예요. 수도원은 이곳을 ‘세계에서 가장 큰 수도원 도서관’이라고 소개해요.", "kid": "도서관 방 길이가 70m래! 50m 수영장보다 길어.", "f": [32, 45, 2.2]}, {"t": "천장의 둥근 지붕 일곱 개에는 바르톨로메오 알토몬테가 그린 프레스코가 있고, 홀에는 약 7만 권이 꽂혀 있어요. 1865년 큰불로 수도원 문서고는 탔지만 도서관은 건져 냈어요.", "kid": "큰불이 났을 때도 도서관은 살아남았어.", "f": null}, {"t": "홀 안에는 조각가 요제프 슈타멜이 만든 ‘네 가지 종말’(죽음·심판·지옥·천국) 조각상이 서 있어요. 책으로 가득한 방에서 삶의 끝을 묻는 조각을 마주하게 돼요.", "kid": "도서관 안에 커다란 조각상들도 서 있대.", "f": null}], "card": "lib-admont/card.webp", "film": [{"type": "open", "ch": 0, "img": {"u": "lib-admont/today.webp", "w": 1920, "h": 1190, "alt": "알프스 산들로 둘러싸인 골짜기 마을을 하늘에서 내려다본 모습. 왼쪽에 뾰족한 두 탑의 성당이 있고, 그 오른쪽으로 하얀 수도원 건물이 길게 이어지며, 둘레에 나무와 집, 유리 지붕의 온실이 있다."}, "fit": "cover", "p0": "45% 35%", "p1": "40% 55%", "s0": 1.25, "s1": 1.02, "kicker": "1865년 · 오스트리아 아드몬트", "title": "도서관만 남은 아침", "lines": [{"t": "알프스 골짜기의 수도원, 아드몬트예요."}, {"t": "1865년 봄, 이곳에 큰불이 났어요."}], "kid": [{"t": "산속 골짜기의 수도원이야."}, {"t": "옛날에 여기 큰불이 났대."}]}, {"type": "chapter", "ch": 1, "no": 1, "t": "빛이 마음을 채우는 방"}, {"type": "img", "ch": 1, "img": {"u": "lib-admont/hall.webp", "w": 1920, "h": 1271, "alt": "흰색과 금빛으로 꾸민 긴 도서관 홀. 둥근 천장마다 하늘빛 그림이 있고, 흰 책장이 위아래 두 층으로 벽을 따라 이어지며 위층에는 난간이 둘러 있다. 바닥은 입체처럼 보이는 마름모 무늬 돌이다. 왼쪽 벽 둥근 자리에 검은 조각상이 있고, 책장 앞에 사다리가 서 있다."}, "fit": "cover", "p0": "50% 20%", "p1": "55% 60%", "s0": 1.2, "s1": 1.02, "cap": "아드몬트 수도원 도서관(2009년 사진)", "lines": [{"t": "1776년에 다 지은, 길이 70m의 도서관이에요."}, {"t": "빛이 방을 채우듯, 마음도 채워야 한다.", "q": true, "from": "수도원의 도서관 설명에서"}], "kid": [{"t": "하얀 도서관에 책이 6만 권이나 있대!"}, {"t": "빛이 마음을 채운다는 건 무슨 뜻일까?", "ask": true}]}, {"type": "chapter", "ch": 2, "no": 2, "t": "네 때를 지나"}, {"type": "mod", "mod": "timeline", "ch": 2, "lines": [{"t": "1681년, 양파 지붕의 두 탑이 선 수도원이에요.", "wait": 600}, {"t": "1856년 전, 마을 길 끝에도 같은 두 탑.", "act": "stop:2", "wait": 1400}, {"t": "1865년, 큰불이 지나간 뒤.", "act": "stop:3", "wait": 1800}, {"t": "2022년, 새로 지은 성당의 뾰족한 두 탑.", "act": "stop:4", "wait": 1600}], "kid": [{"t": "옛날 그림이야. 탑 꼭대기가 양파 같아!"}, {"t": "불이 나고 나서…", "act": "stop:3", "wait": 1400}, {"t": "지금은 탑이 뾰족해졌어!", "act": "stop:4", "wait": 1200}, {"t": "무엇이 가장 많이 달라졌어?", "ask": true}]}, {"type": "chapter", "ch": 3, "no": 3, "t": "“수도원이 탄다!”"}, {"type": "img", "ch": 3, "img": {"u": "lib-admont/fire.webp", "w": 1920, "h": 1280, "alt": "산 아래 골짜기에 지붕이 사라진 건물들이 벽만 남아 서 있는 그림. 앞쪽에 무너진 벽과 굴뚝, 잔해 더미가 있고, 가운데 뒤로 높은 탑 하나가 뼈대처럼 서 있다. 오른쪽 먼 곳에는 불타지 않은 듯한 긴 건물들이 보이고, 몇 사람이 잔해 사이에 있다."}, "fit": "cover", "p0": "40% 55%", "p1": "55% 45%", "s0": 1.2, "s1": 1.04, "cap": "1865년 큰불 뒤(프란츠 팡크하우저 그림)", "lines": [{"t": "1865년 4월 27일 목요일 오후, 마을의 농가 건물에서 불이 났어요."}, {"t": "갑자기 무서운 외침이 울렸다. 수도원이 탄다!", "q": true, "from": "목격자 블리트문트 추르첸탈러 신부"}, {"t": "불은 닷새 동안 탔고, 도서관은 거의 그대로 남았어요."}], "kid": [{"t": "마을에서 시작된 불이 수도원까지 번졌대."}, {"t": "그래도 도서관은 살아남았어."}, {"t": "사람들은 도서관을 어떻게 지켰을까?", "ask": true}]}, {"type": "chapter", "ch": 4, "no": 4, "t": "이튿날 아침"}, {"type": "imagine", "ch": 4, "lines": [{"t": "1865년 4월 28일 아침, 골짜기에 연기가 낮게 깔려 있어요."}, {"t": "무너진 벽 사이를 지나 걸어가요."}, {"t": "그 너머에, 하얀 책장이 있는 긴 건물 하나가 서 있어요."}], "kid": [{"t": "눈을 감아 봐. 연기가 자욱한 아침이야."}, {"t": "무너진 벽 사이를 걸어가."}, {"t": "하얀 책장이 그대로 있는 방이 보여!"}]}, {"type": "quote", "ch": 4, "big": "오늘, 4월 28일, 아드몬트는 더는 없다. 도서관 말고는 모두 타 버렸다…", "lines": [{"t": "불이 난 이튿날, 수도원의 한 수도자가 남긴 글이에요.", "wait": 2400}, {"t": "불이 난 이튿날, 한 수도자는 그날을 한 줄로 적었어요. 내가 오늘 하루를 한 줄로 남긴다면, 무엇이라고 적을까요?", "ask": "생각해 보기", "go": "생각해 본 뒤 이어 보기"}], "kid": [{"t": "불이 난 다음 날, 수도사님이 남긴 한 줄이야.", "wait": 2000}, {"t": "수도사님처럼 오늘 있었던 일을 한 줄로 적는다면, 뭐라고 쓸래?", "ask": true}]}, {"type": "reward", "ch": 5}], "lines": ["빛이 방을 채우듯, 마음도.", "양파 지붕에서 뾰족한 두 탑으로.", "수도원이 탄다!", "도서관 말고는 모두 타 버렸다."], "linesKid": ["하얀 도서관에 책이 6만 권!", "불이 나도 도서관은 살아남았대!", "수도사님이 남긴 한 줄!"], "scenes": ["hall", "time", "fire", "morning"], "labels": {"hall": "빛이 마음을 채우는 방", "time": "네 때를 지나", "fire": "“수도원이 탄다!”", "morning": "이튿날 아침"}, "stamp": {"t": "남은 방", "y": "1865", "sub": "아드몬트 · 오스트리아"}, "sound": null, "goals": {"s4": {"ways": [{"id": "timeline"}]}, "s5": {"ways": [{"id": "kid", "hint": "‘아이와 함께’를 켜고 ‘영화처럼 보기’를 끝까지 보세요", "okt": "아이와 함께 끝까지 봤어요"}]}}, "mods": {"timeline": {"intro": "시간 막대를 밀거나 해를 눌러, 같은 수도원의 네 때를 지나가 보세요.", "stops": [{"y": "1681년", "at": 1681, "img": {"u": "lib-admont/vischer.webp", "w": 1920, "h": 1178, "alt": "판화로 새긴 수도원을 비스듬히 위에서 본 모습. 왼쪽에 양파 모양 지붕을 얹은 두 탑의 성당이 있고, 그 둘레로 안마당을 둘러싼 긴 건물들과 담장, 정원이 이어진다. 뒤로 들판과 바위산이 펼쳐지고, 맨 위에 ‘ADMONT’라고 쓰여 있다.", "cr": "판화: 게오르크 마테우스 비셔 · 퍼블릭 도메인 · 위키미디어 공용", "cap": "게오르크 마테우스 비셔의 판화 「아드몬트」, 1681년(비셔의 슈타이어마르크 그림 지도책에서)"}, "t": "판화 속 바로크 수도원", "p": "게오르크 마테우스 비셔가 1681년에 펴낸 슈타이어마르크 그림 지도책의 한 장이에요. 양파 모양 지붕을 얹은 두 탑의 성당 둘레로, 안마당을 둘러싼 긴 건물들이 이어져요. 아직 오늘의 도서관 홀을 짓기 전이에요."}, {"y": "1856년 전", "at": 1850, "img": {"u": "lib-admont/sandmann.webp", "w": 1920, "h": 1503, "alt": "연한 색을 입힌 석판화. 시골 길 끝에 양파 모양 지붕의 두 탑과 긴 수도원 건물이 보이고, 뒤로 높은 바위산이 솟아 있다. 길에는 소와 개를 모는 사람들이 있고, 왼쪽에 나무 지붕 집, 오른쪽에 큰 건물과 쌓아 둔 통나무가 있다.", "cr": "석판화: 프란츠 크사버 잔트만의 그림 · 퍼블릭 도메인 · 위키미디어 공용", "cap": "프란츠 크사버 잔트만이 그린 「아드몬트」 석판화, 1856년 전"}, "t": "마을 길에서 본 수도원", "p": "프란츠 크사버 잔트만의 그림으로 찍어 낸 석판화예요. 이번에는 마을 길에서 바라봤어요. 길 끝에 양파 지붕의 두 탑이 그대로 서 있어요."}, {"y": "1865년", "at": 1865, "img": {"u": "lib-admont/fire.webp", "w": 1920, "h": 1280, "alt": "산 아래 골짜기에 지붕이 사라진 건물들이 벽만 남아 서 있는 그림. 앞쪽에 무너진 벽과 굴뚝, 잔해 더미가 있고, 가운데 뒤로 높은 탑 하나가 뼈대처럼 서 있다. 오른쪽 먼 곳에는 불타지 않은 듯한 긴 건물들이 보이고, 몇 사람이 잔해 사이에 있다.", "cr": "그림: 프란츠 팡크하우저 · 퍼블릭 도메인 · 위키미디어 공용", "cap": "1865년 큰불 뒤 · 북쪽에서 수도원 성당 쪽을 본 그림, 앞쪽은 불탄 프라이들펠더 집(프란츠 팡크하우저)"}, "t": "큰불이 지나간 뒤", "p": "프란츠 팡크하우저가 그린 큰불 뒤의 모습이에요. 북쪽에서 성당 쪽을 바라봤고, 앞쪽은 불탄 프라이들펠더 집이에요. 지붕이 사라진 벽들 사이로 탑 하나가 뼈대처럼 서 있어요."}, {"y": "2022년", "at": 2022, "img": {"u": "lib-admont/today.webp", "w": 1920, "h": 1190, "alt": "알프스 산들로 둘러싸인 골짜기 마을을 하늘에서 내려다본 모습. 왼쪽에 뾰족한 두 탑의 성당이 있고, 그 오른쪽으로 하얀 수도원 건물이 길게 이어지며, 둘레에 나무와 집, 유리 지붕의 온실이 있다.", "cr": "사진: C.Stadler/Bwag · CC BY-SA 4.0 · 위키미디어 공용", "cap": "남서쪽 하늘에서 본 오늘의 아드몬트 수도원(2022년 사진)"}, "t": "오늘의 수도원", "p": "남서쪽 하늘에서 찍은 사진이에요. 불탄 뒤 신고딕 양식으로 새로 지은 성당의 뾰족한 두 탑이 보여요. 양파 지붕은 이제 없어요."}], "done": "네 때를 다 지나왔어요. 성당은 새 모습이 되었고, 도서관은 1776년의 모습 그대로 남았어요."}}, "nch": 4, "doneNote": "아드몬트에 가면, 하얀 도서관 홀에서 1865년 봄의 불을 견딘 책장들을 올려다보세요.", "filmSound": false};
+</script>
+<script src="_deep3/deep3.js"></script>
+
+</body>
+</html>
