@@ -26,15 +26,15 @@ TSP = 'https://www.tagesspiegel.de/kultur/auftritt-fur-die-konigin-2546449.html'
 LERN = 'https://www.lernhelfer.de/schuelerlexikon/kunst/artikel/malerei-der-hochrenaissance'
 WIKI = 'https://en.wikipedia.org/wiki/Sistine_Madonna'
 C_GAP = 'https://commons.wikimedia.org/wiki/File:Raphael_-_The_Sistine_Madonna_-_Google_Art_Project.jpg'
-C_INT = 'https://commons.wikimedia.org/wiki/File:Chiesa_di_San_Sisto_(Piacenza),_interno_03.jpg'
+C_COPY = 'https://commons.wikimedia.org/wiki/File:Sistine_Madonna.jpg'
 C_EXT = 'https://commons.wikimedia.org/wiki/File:Chiesa_di_San_Sisto_(Piacenza),_esterno_07.jpg'
 C_PAYNE = 'https://commons.wikimedia.org/wiki/File:Gem%C3%A4ldegalerie_Alte_Meister_(Dresden)_Galeriewerk_Payne_128.jpg'
 C_SEMPER = 'https://commons.wikimedia.org/wiki/File:Dresden_-_Theaterplatz_-_View_WSW_%26_Up_on_Sempergalerie_1847-1855_by_Bernard_Kr%C3%BCger_-_Entrance_to_Zwinger_1728_02.jpg'
 
 GAP = {'src': S + 'Raphael_-_The_Sistine_Madonna_-_Google_Art_Project.jpg',
        'cr': '라파엘로 · 퍼블릭 도메인 · 위키미디어 공용(Google Art Project)', 'u': C_GAP}
-INT = {'src': S + 'Chiesa_di_San_Sisto_Piacenza_interno_03.jpg',
-       'cr': '사진: Mongolo1984 · CC BY-SA 4.0 · 위키미디어 공용', 'u': C_INT}
+COPY = {'src': S + 'Sistine_Madonna.jpg',   # 높은 제단의 복사본을 가까이 찍은 사진(3210×4905) · 사용자 의견 ‘화질도 아쉽긴해요’로 바꿈
+        'cr': '사진: 미하일 베른가르트(Михаил Бернгардт) · CC BY-SA 4.0 · 위키미디어 공용', 'u': C_COPY}
 
 CARD = {
  'id': 'mad-sistine', 'mode': '찾아보기',
@@ -60,8 +60,9 @@ CARD = {
              'cap': '피아첸차 산 시스토 성당, 2019년',
              'cr': '사진: Mongolo1984 · CC BY-SA 4.0 · 위키미디어 공용', 'u': C_EXT,
              'alt': '둥근 아치가 이어진 회랑 사이로 보이는 성당의 정면. 노란 벽에 둥근 창이 하나 있고, 벽감마다 돌 조각상이 서 있다. 맨 위는 세모 지붕이고, 아래에 큰 문 하나와 작은 문 둘이 있다.'},
-  'altar': dict(INT, crop=(0.388, 0.35, 0.582, 0.75), cap='오늘의 높은 제단과 18세기 복사본, 2019년',
-                alt='성당 안쪽 끝, 금빛으로 화려하게 깎은 큰 틀 한가운데에 「시스티나 성모」를 베껴 그린 그림이 걸려 있다. 양옆으로 둥근 창과 길쭉한 창이 있고, 아래에는 나무 성가대석과 제단, 그 앞에 의자들이 놓여 있다.'),
+  # 원작과 같은 가로세로 비율(3032:4154)로 잘라 두 탭의 그림이 같은 틀에 맞아요
+  'altar': dict(COPY, crop=(0.12, 0.30, 0.86, 0.9637), cap='오늘 높은 제단의 18세기 복사본, 2018년',
+                alt='금빛 나무 조각이 물결치듯 둘러싼 커다란 틀 한가운데에 「시스티나 성모」를 베껴 그린 그림이 걸려 있다. 구름 위의 성모와 아기, 무릎 꿇은 두 성인, 맨 아래 두 아기 천사와 구석의 교황관까지 원작과 같은 자리에 있다. 그림 위의 작은 반원 그림에서는 날개 달린 두 천사가 구름 위에서 서로 손을 뻗는다.'),
   'duncan': {'src': S + 'Gem_ldegalerie_Alte_Meister_Dresden_Galeriewerk_Payne_128.jpg', 'crop': (0.0, 0.0, 1.0, 0.75),
              'cap': '앤드루 덩컨의 강철 판화, 1845년 무렵',
              'cr': '판화: 앤드루 덩컨(라파엘로를 따라) · 퍼블릭 도메인 · 위키미디어 공용', 'u': C_PAYNE,
@@ -129,19 +130,19 @@ CARD = {
    'img': 'card',
    'intro': '그림 속 사람들의 눈길을 하나씩 따라가 보세요. 동그라미를 누르면 이야기가 나와요.',
    'spots': [
-     {'x': 53, 'y': 92, 't': '두 아기 천사',
+     {'x': 53, 'y': 93.5, 't': '두 아기 천사',
       'p': '맨 아래 난간에 날개 달린 두 아기 천사가 기대어 있어요. 둘 다 눈을 들어 위를 올려다봐요.',
       'kid': '아기 천사 둘이 턱을 괴고 위를 봐.'},
-     {'x': 80, 'y': 40, 't': '바르바라와 탑',
+     {'x': 91, 'y': 49, 't': '바르바라와 탑',
       'p': '오른쪽에 무릎 꿇은 이는 3세기에 순교한 성녀 바르바라예요. 눈을 내리깔고 아래쪽을 내려다봐요. 어깨 뒤로, 바르바라를 알려 주는 탑이 조금 보여요.',
       'kid': '언니는 아래를 내려다봐. 뒤에 작은 탑도 있어!'},
-     {'x': 42, 'y': 16, 't': '성모와 아기',
+     {'x': 55, 'y': 16, 't': '성모와 아기',
       'p': '가운데의 성모는 아기 예수를 안고 구름 위를 걸어 나와요. 두 사람의 눈은 그림 밖, 그림 앞에 선 사람 쪽을 향해요.',
       'kid': '아기 예수님이랑 엄마가 우리를 보고 있어.'},
-     {'x': 18, 'y': 55, 't': '식스토의 손',
+     {'x': 17.5, 'y': 61.5, 't': '식스토의 손',
       'p': '왼쪽에 무릎 꿇은 이는 3세기에 순교한 교황 식스토 2세예요. 얼굴은 성모를 올려다보고, 손가락 하나는 앞쪽을 가리켜요. 드레스덴 미술관은 그가 성모에게 길을 가리킨다고 설명해요.',
       'kid': '할아버지는 성모님을 보면서, 손가락으로 앞을 가리켜.'},
-     {'x': 5, 'y': 92, 't': '교황관',
+     {'x': 9, 'y': 85.5, 't': '교황관',
       'p': '왼쪽 아래 구석, 난간 위에 흰 교황관(티아라)이 놓여 있어요. 식스토가 교황이었다는 표시예요.',
       'kid': '구석에 하얀 왕관이 있어. 누구 것일까?'},
      {'x': 9, 'y': 29, 't': '구름 속 얼굴들',
