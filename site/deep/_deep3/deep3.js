@@ -795,11 +795,21 @@ MODS.place = (() => {
 /* ===== 자료만 적으면 되는 공통 방식(키트 2판): 찾아보기 · 비추기 · 그때와 지금 · 지도 위 길 · 고르기 ===== */
 const modState = name => { P.m[name] = P.m[name] || {}; return P.m[name]; };
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const FMAX = 920;   // 영화 속 방식 상자의 가장 큰 너비. tpl3_mod.css ‘.f-mod > *’의 max-width와 같아야 해요(다르면 넓은 화면에서 상자 비율이 깨져 원·표시가 그림과 어긋나요)
 function fitBox(layer, w, h){  // 영화 화면 안에 그림 비율 그대로 들어가는 상자
   const r = layer.getBoundingClientRect(), cs = getComputedStyle(layer);
-  const aw = r.width - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight), ah = r.height - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+  const aw = Math.min(FMAX, r.width - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight)), ah = r.height - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+  layer.dataset.fit = w + ':' + h;
   const k = Math.min(aw / w, ah / h); return {w: Math.max(80, w * k), h: Math.max(60, h * k)};
 }
+const FIT_SEL = '.lk-f,.rv-box,.sl-f,.rt-f,.ur-f,.tm-f,.dr-f';   // fitBox로 크기를 정한 상자들
+let refitT = 0;
+addEventListener('resize', () => { clearTimeout(refitT); refitT = setTimeout(() => {   // 창 크기·전체 화면이 바뀌면 영화 속 상자를 비율 그대로 다시 맞춰요
+  document.querySelectorAll('#film .f-mod[data-fit]').forEach(layer => {
+    const [w, h] = layer.dataset.fit.split(':').map(Number), box = layer.querySelector(FIT_SEL); if (!box || !w || !h) return;
+    const b = fitBox(layer, w, h); box.style.width = b.w + 'px'; box.style.height = b.h + 'px';
+  });
+}, 150); });
 
 /* --- 찾아보기: 그림 속 작은 것들을 하나씩 --- */
 MODS.look = (() => {

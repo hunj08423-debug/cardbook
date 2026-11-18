@@ -568,7 +568,7 @@ html.js .reveal.on{opacity:1;transform:none;max-height:1200px}
 
 /* 영화 안의 모듈 */
 .f-mod{position:absolute;inset:0;display:grid;place-items:center;padding:calc(56px + env(safe-area-inset-top,0px)) 10px calc(170px + env(safe-area-inset-bottom,0px))}
-.f-mod > *{max-width:min(100%,920px);max-height:100%}
+.f-mod > *{max-width:min(100%,920px);max-height:100%}   /* 920px는 tpl3_mod.js의 FMAX(fitBox)와 같게 */
 .f-mod svg{width:100%;height:100%;display:block}
 .f-mod .wr,.f-mod .pl{background:none;box-shadow:none;padding:0;width:100%;height:100%;display:grid;place-items:center}
 .f-mod .f-day2{position:absolute;top:calc(56px + env(safe-area-inset-top,0px));right:max(18px,env(safe-area-inset-right,0px));font:700 clamp(20px,5vw,28px) var(--serif);color:#e3a75e;text-align:right}
