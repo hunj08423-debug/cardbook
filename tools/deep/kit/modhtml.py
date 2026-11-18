@@ -86,3 +86,92 @@ def choose(cfg, have, IM):
     opts = ''.join(f'<button type="button" data-t="{e(o["t"])}" aria-pressed="false">{e(o["t"])}</button>' for o in cfg['opts'])
     return (f'<div class="mod ch2" data-mod="choose"><p class="ch2-q">{e(cfg["q"])}</p>'
             f'<div class="ch2-opts" role="group" aria-label="{e(cfg["q"])}">{opts}</div><p class="ch2-r" aria-live="polite"></p></div>')
+
+# ---------- 새 방식(키트 3판 후보 · 견본): 펼쳐 읽기 · 시간 따라 보기 · 만드는 차례 · 날짜 따라 여는 달력 · 흩어진 조각 모으기 · 따라 쓰기 ----------
+def unroll(cfg, have, IM):
+    k = cfg['img']; h = have[k]
+    bands = ''.join(f'<span class="ur-band" data-i="{i}" style="top:{l["y0"]}%;height:{l["y1"] - l["y0"]:.2f}%;left:{l.get("x0", 0)}%;width:{l.get("x1", 100) - l.get("x0", 0)}%"></span>' for i, l in enumerate(cfg['lines']))
+    return (f'<div class="mod ur" data-mod="unroll">{_top(cfg.get("intro", "종이 아래쪽 굴대를 끌거나 ‘한 줄 더 펼치기’를 눌러, 위에서부터 한 줄씩 읽어 보세요."), "ur-n")}'
+            f'<div class="ur-box" style="{_box(h["w"], h["h"], 80)}" tabindex="0" role="group" aria-label="{e(IM[k]["alt"])} — 아래 화살표 키로 펼쳐요">'
+            f'<img src="{h["u"]}" alt="" decoding="async">{bands}<div class="ur-cover"><span class="ur-roll" role="presentation"></span><span class="ur-tip" aria-hidden="true">↓ 굴대를 끌어 내려 펼쳐요</span></div></div>'
+            f'<p class="mod-cap">{_cap(IM, k)}</p>'
+            f'<div class="ur-ctl"><button type="button" class="mod-btn main ur-more">한 줄 더 펼치기</button><button type="button" class="mod-btn ur-allbtn">끝까지 펼치기</button></div>'
+            f'<div class="mod-info ur-info" aria-live="polite"><p>{e(cfg.get("hint", "펼친 만큼 줄이 읽혀요. 읽은 줄은 아래에 차례로 모여요."))}</p></div>'
+            f'<ol class="ur-list" aria-label="읽은 줄"></ol>'
+            f'<p class="mod-done ur-done" hidden>{e(cfg.get("done", ""))}</p></div>')
+
+def timeline(cfg, have, IM):
+    stops = cfg['stops']; h0 = have[stops[0]['img']]
+    r = max(4 / 3, min(16 / 9, h0['w'] / h0['h']))
+    imgs = ''.join(f'<img class="tm-img" data-i="{i}" src="{have[s["img"]]["u"]}" alt="{e(IM[s["img"]]["alt"])}" decoding="async" style="opacity:{1 if i == 0 else 0}">' for i, s in enumerate(stops))
+    caps = ''.join(f'<span class="tm-c" data-i="{i}"{"" if i == 0 else " hidden"}>{e(s["y"])} · {_cap(IM, s["img"])}</span>' for i, s in enumerate(stops))
+    ticks = ''.join(f'<button type="button" class="tm-tick" data-i="{i}" aria-label="{e(s["y"])} · {e(s["t"])}"><i></i><span>{e(s["y"])}</span></button>' for i, s in enumerate(stops))
+    return (f'<div class="mod tm" data-mod="timeline">{_top(cfg.get("intro", "시간 막대를 밀거나 해를 눌러, 같은 자리의 여러 때를 지나가 보세요."), "tm-n")}'
+            f'<div class="tm-stage" style="{_box(round(1000 * r), 1000, 66)}">{imgs}<span class="tm-year" aria-hidden="true">{e(stops[0]["y"])}</span></div>'
+            f'<p class="mod-cap tm-cap">{caps}</p>'
+            f'<div class="tm-track"><span class="tm-line"></span><span class="tm-fill"></span>{ticks}'
+            f'<input type="range" class="tm-range" min="0" max="1000" value="50" aria-label="시간 막대: 왼쪽은 옛날, 오른쪽은 오늘"><span class="tm-knob"></span></div>'
+            f'<div class="mod-info tm-info" aria-live="polite"></div>'
+            f'<p class="mod-done tm-done" hidden>{e(cfg.get("done", ""))}</p></div>')
+
+def steps(cfg, have, IM):
+    N = len(cfg['steps'])
+    if cfg.get('svg'):
+        stage = cfg['svg']
+    else:
+        base = cfg.get('img'); ims = []
+        if base: ims.append(f'<img class="sp-img" data-i="0" src="{have[base]["u"]}" alt="{e(IM[base]["alt"])}">')
+        for i, s in enumerate(cfg['steps'], 1):
+            if s.get('img'): ims.append(f'<img class="sp-img" data-i="{i}" src="{have[s["img"]]["u"]}" alt="{e(IM[s["img"]]["alt"])}">')
+        h = have[base or next(s['img'] for s in cfg['steps'] if s.get('img'))]
+        stage = f'<div style="aspect-ratio:{h["w"]}/{h["h"]}"></div>' + ''.join(ims)
+    cap = f'<p class="mod-cap">{e(cfg["cap"])}</p>' if cfg.get('cap') else ''
+    marks = ''
+    if cfg.get('marks'):   # 단계마다 쌓이는 것(예: 밀랍 밑에 지켜 둔 색). s단계부터 켜져요.
+        li = ''.join(f'<li data-s="{m["s"]}"><i style="background:{e(m.get("c", "var(--accent)"))}"></i>{e(m["t"])}</li>' for m in cfg['marks'])
+        marks = f'<div class="sp-marks"><span class="sp-ml">{e(cfg.get("marksLabel", "지금까지 쌓인 것"))}</span><ul>{li}</ul></div>'
+    return (f'<div class="mod sp" data-mod="steps">{_top(cfg.get("intro", "단추를 누를 때마다 한 단계씩 만들어져요."), "sp-n")}'
+            f'<div class="sp-stage" role="img" aria-label="{e(cfg.get("alt", "만드는 차례 그림"))}">{stage}</div>{cap}{marks}'
+            f'<ol class="sp-dots" aria-hidden="true">{"".join("<li></li>" for _ in range(N))}</ol>'
+            f'<div class="sp-ctl"><button type="button" class="mod-btn main sp-do"></button><button type="button" class="mod-btn sp-back" hidden>처음부터 다시</button></div>'
+            f'<div class="mod-info sp-info" aria-live="polite"></div>'
+            f'<p class="mod-done sp-done" hidden>{e(cfg.get("done", ""))}</p></div>')
+
+def doors(cfg, have, IM):
+    k = cfg['img']; h = have[k]; mo = cfg.get('month', 12)
+    btns = ''.join(f'<button type="button" class="dr-door" data-d="{x["d"]}" style="left:{x["r"][0]:.2f}%;top:{x["r"][1]:.2f}%;width:{x["r"][2]:.2f}%;height:{x["r"][3]:.2f}%" aria-label="{x["d"]}일 창"><span class="dr-flap"><b>{x["d"]}</b></span></button>' for x in cfg['doors'])
+    sims = cfg.get('sim', [1, 13, 24])
+    sim = ('<div class="sim dr-sim" role="group" aria-label="날짜 바꿔 미리 보기"><b>미리 보기</b>' + ''.join(f'<button type="button" data-sim="{d}">{mo}월 {d}일</button>' for d in sims)
+           + '<button type="button" data-sim="" class="on">오늘</button></div>') if sims else ''
+    return (f'<div class="mod dr" data-mod="doors">{_top(cfg.get("intro", "그날이 된 창만 열려요. 반짝이는 창을 눌러 보세요."), "dr-n")}'
+            f'<div class="dr-box" style="{_box(h["w"], h["h"], 78)}"><img src="{h["u"]}" alt="{e(IM[k]["alt"])}" decoding="async">{btns}</div>'
+            f'<p class="mod-cap">{_cap(IM, k)}</p><p class="dr-say" aria-live="polite"></p>{sim}'
+            f'<div class="mod-info dr-info" aria-live="polite"><p>{e(cfg.get("hint", "반짝이는 창이 오늘 열 수 있는 창이에요."))}</p></div>'
+            f'<p class="mod-done dr-done" hidden>{e(cfg.get("done", ""))}</p></div>')
+
+def gather(cfg, have, IM):
+    k = cfg['img']; h = have[k]
+    def piece(i, p):
+        x, y, w, hh = p['r']
+        bx = 0 if w >= 100 else x / (100 - w) * 100
+        by = 0 if hh >= 100 else y / (100 - hh) * 100
+        return (f'<button type="button" class="ga-piece" data-i="{i}" aria-label="{e(p["t"])}" '
+                f'style="background-image:url({h["u"]});background-size:{100 * 100 / w:.3f}% {100 * 100 / hh:.3f}%;background-position:{bx:.3f}% {by:.3f}%">'
+                f'<span class="ga-lab">{e(p.get("lab", p["t"]))}</span></button>')
+    return (f'<div class="mod ga" data-mod="gather">{_top(cfg.get("intro", "흩어진 조각을 하나씩 눌러 제자리로 모아 보세요."), "ga-n")}'
+            f'<div class="ga-stage"><div class="ga-home" style="aspect-ratio:{h["w"]}/{h["h"]}"><img class="ga-ghost" src="{h["u"]}" alt="{e(IM[k]["alt"])}" decoding="async" style="width:100%;height:100%"></div>'
+            + ''.join(piece(i, p) for i, p in enumerate(cfg['pieces'])) + '</div>'
+            f'<p class="mod-cap">{_cap(IM, k)}</p>'
+            f'<div class="mod-info ga-info" aria-live="polite"><p>{e(cfg.get("hint", "조각마다 지금 있는 곳이 적혀 있어요. 눌러서 한자리에 모아 보세요."))}</p></div>'
+            f'<div class="ga-ctl"><button type="button" class="mod-btn ga-again">다시 흩어 놓기</button></div>'
+            f'<p class="mod-done ga-done" hidden>{e(cfg.get("done", ""))}</p></div>')
+
+def trace(cfg, have, IM):
+    g = cfg['glyph']; vb = g['vb']; vw = float(vb.split()[2])
+    gs = ''.join(f'<path class="tr-g" data-i="{i}" d="{s["d"]}"/>' for i, s in enumerate(g['strokes']))
+    ks = ''.join(f'<path class="tr-k" data-i="{i}" d="{s["d"]}"/>' for i, s in enumerate(g['strokes']))
+    return (f'<div class="mod tr" data-mod="trace">{_top(cfg.get("intro", "빨간 점에서 시작해, 흐린 선을 손가락이나 마우스로 따라 그어 보세요."), "tr-n")}'
+            f'<div class="tr-pad"><svg class="tr-svg" viewBox="{vb}" role="img" aria-label="{e(g.get("alt", g.get("name", "따라 쓸 글자")))}"><g>{gs}</g><g>{ks}</g><circle class="tr-dot" r="{vw * .035:.1f}" cx="0" cy="0"/></svg><canvas class="tr-cv"></canvas></div>'
+            f'<div class="tr-ctl"><button type="button" class="mod-btn tr-show">써 보여 주기</button><button type="button" class="mod-btn tr-clear">처음부터 다시</button></div>'
+            f'<div class="mod-info tr-info" aria-live="polite"><p>{e(cfg.get("hint", "빨간 점에서 시작해 흐린 선을 따라 그어 보세요. 다 그으면 먹으로 바뀌어요."))}</p></div>'
+            f'<p class="mod-done tr-done" hidden>{e(cfg.get("done", ""))}</p></div>')

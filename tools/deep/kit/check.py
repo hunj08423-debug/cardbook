@@ -43,6 +43,9 @@ def static(cid):
         if isinstance(m_, dict):
             if isinstance(m_.get('img'), str) and m_['img'] != 'paper': used.add(m_['img'])
             for pr in m_.get('pairs') or []: used |= {pr.get('then'), pr.get('now')}
+            for lk in ('stops', 'steps', 'doors', 'pieces'):   # 키트 3판 새 방식
+                for it in m_.get(lk) or []:
+                    if isinstance(it, dict) and isinstance(it.get('img'), str): used.add(it['img'])
     used.discard(None)
     for k in sorted(used - keys): P.append(f'그림 키가 images에 없어요: {k}')
     for k in need:
@@ -62,6 +65,7 @@ def static(cid):
         if im.get('cr') and any(s in im['cr'] for s in SELF_MADE) and ' · ' not in im['cr']: W.append(f'그림 {k}: 직접 그린 그림은 무엇을 바탕으로 그렸는지 ‘ · ’ 뒤에 적어요(예: ‘이 안내서가 그린 달력 · 날짜는 계산으로 구함’)')
         if im.get('cr') and re.search(r'\b(NC|ND)\b|비영리|변경 금지', im['cr']): P.append(f'그림 {k}: 쓸 수 없는 라이선스(NC/ND): {im["cr"]}')
     if len(C.get('src', [])) < 3: P.append('근거(src)가 3개보다 적어요')
+    p_, w_ = newmod_checks(C); P += p_; W += w_
     for g in ('s4', 's5'):
         x = C.get('goals', {}).get(g)
         if not x or not x.get('ways'): P.append(f'{g} 목표가 없어요')
@@ -112,6 +116,79 @@ def static(cid):
         P.append('만든 결과가 없어요: build.py를 먼저 돌려 주세요')
     return P, W
 
+def newmod_checks(C):
+    """키트 3판 새 방식(펼쳐 읽기·시간 따라 보기·만드는 차례·날짜 따라 여는 달력·흩어진 조각 모으기·따라 쓰기)의 자료 점검.
+    대책(기준서 1판 보탬 10): 옛 글씨는 믿을 만한 자료에 실린 옮겨 적기만 · 그림이 모자라면 쓰지 않기 · 직접 그린 그림과 비유는 밝히기."""
+    P, W = [], []
+    mods = C.get('mods') or {}; keys = set(C.get('images', {})) | {'card'}
+    def rect(r):
+        return isinstance(r, (list, tuple)) and len(r) == 4 and all(isinstance(v, (int, float)) for v in r) and r[0] >= -0.5 and r[1] >= -0.5 and r[2] > 0 and r[3] > 0 and r[0] + r[2] <= 100.5 and r[1] + r[3] <= 100.5
+    m = mods.get('unroll')
+    if isinstance(m, dict):
+        L = m.get('lines') or []
+        if m.get('img') not in keys: P.append('펼쳐 읽기: img가 images에 없어요')
+        if not 2 <= len(L) <= 10: P.append(f'펼쳐 읽기: 줄이 {len(L)}개(2~10개)')
+        for i, l in enumerate(L, 1):
+            if not (0 <= l.get('y0', -1) < l.get('y1', -1) <= 100): P.append(f'펼쳐 읽기 {i}번 줄: y0 < y1, 0~100이어야 해요')
+            if not (l.get('o') and l.get('k')): P.append(f'펼쳐 읽기 {i}번 줄: o(원문)와 k(우리말)를 다 적어요')
+        if [l.get('y1') for l in L] != sorted(l.get('y1', 0) for l in L): P.append('펼쳐 읽기: 줄은 위에서 아래 차례(y1이 커지는 차례)로 적어요')
+        if not m.get('textFrom'): P.append("펼쳐 읽기: 'textFrom'에 옮겨 적은 글의 출처를 적어요(그림 속 손글씨를 창이 직접 읽어 옮기지 않아요)")
+    m = mods.get('timeline')
+    if isinstance(m, dict):
+        S = m.get('stops') or []
+        if not 3 <= len(S) <= 6: P.append(f'시간 따라 보기: 때가 {len(S)}개(3~6개 · 같은 곳을 담은 그림이 그만큼 있을 때만 써요)')
+        for i, s in enumerate(S, 1):
+            for k in ('y', 'at', 'img', 't', 'p'):
+                if s.get(k) in (None, ''): P.append(f'시간 따라 보기 {i}번: 빈 칸 {k}')
+            if s.get('img') and s['img'] not in keys: P.append(f'시간 따라 보기 {i}번: 그림 키가 images에 없어요: {s["img"]}')
+        ats = [s.get('at') for s in S if isinstance(s.get('at'), (int, float))]
+        if ats != sorted(ats): P.append("시간 따라 보기: 'at'(해)이 앞에서 뒤로 커지는 차례여야 해요")
+    m = mods.get('steps')
+    if isinstance(m, dict):
+        S = m.get('steps') or []
+        if not 3 <= len(S) <= 9: P.append(f'만드는 차례: 단계가 {len(S)}개(3~9개)')
+        for i, s in enumerate(S, 1):
+            for k in ('do', 't', 'p'):
+                if not s.get(k): P.append(f'만드는 차례 {i}단계: 빈 칸 {k}')
+            if s.get('img') and s['img'] not in keys: P.append(f'만드는 차례 {i}단계: 그림 키가 images에 없어요: {s["img"]}')
+        if not m.get('svg') and not (m.get('img') or any(s.get('img') for s in S)): P.append("만드는 차례: 'svg'(그린 그림)나 단계별 그림('img')이 있어야 해요")
+        if m.get('svg') and '이 안내서가 그린' not in (m.get('cap') or ''): P.append("만드는 차례: 직접 그린 그림이면 'cap'에 ‘이 안내서가 그린 …’과 무엇을 바탕으로 했는지 적어요")
+        for k in (m.get('marks') or []):
+            if not (isinstance(k.get('s'), int) and 1 <= k['s'] <= len(S) and k.get('t')): P.append(f"만드는 차례: marks의 s는 1~{len(S)} 단계, t가 있어야 해요")
+    m = mods.get('doors')
+    if isinstance(m, dict):
+        D = m.get('doors') or []
+        if m.get('img') not in keys: P.append('날짜 따라 여는 달력: img가 images에 없어요')
+        ds = [x.get('d') for x in D]
+        if len(set(ds)) != len(ds) or not all(isinstance(d, int) and 1 <= d <= 31 for d in ds): P.append('날짜 따라 여는 달력: 창 날짜 d는 1~31, 겹치지 않게')
+        for x in D:
+            if not rect(x.get('r')): P.append(f"날짜 따라 여는 달력 {x.get('d')}일: r=[x, y, 너비, 높이](퍼센트, 그림 안쪽)")
+            if not (x.get('t') and x.get('p')): P.append(f"날짜 따라 여는 달력 {x.get('d')}일: t·p를 적어요")
+        if not 1 <= int(m.get('month', 12)) <= 12: P.append('날짜 따라 여는 달력: month는 1~12')
+        if not 1 <= int(m.get('needDays', 3)) <= 5: P.append('날짜 따라 여는 달력: needDays는 1~5')
+    m = mods.get('gather')
+    if isinstance(m, dict):
+        G = m.get('pieces') or []
+        if m.get('img') not in keys: P.append('흩어진 조각 모으기: img가 images에 없어요')
+        if not 2 <= len(G) <= 8: P.append(f'흩어진 조각 모으기: 조각이 {len(G)}개(2~8개)')
+        for i, g in enumerate(G, 1):
+            if not rect(g.get('r')): P.append(f'흩어진 조각 모으기 {i}번: r=[x, y, 너비, 높이](퍼센트, 그림 안쪽)')
+            if not (g.get('t') and g.get('p')): P.append(f'흩어진 조각 모으기 {i}번: t·p를 적어요')
+            if len(g.get('lab') or g.get('t') or '') > 12: W.append(f"흩어진 조각 모으기 {i}번: 이름표가 길어요(‘lab’에 12자 안쪽으로)")
+        if m.get('split') not in ('실제', '빗댐'): P.append("흩어진 조각 모으기: 'split'에 ‘실제’(정말 나뉜 조각) 또는 ‘빗댐’(한 그림으로 빗댄 것)을 적어요")
+        elif m['split'] == '빗댐':
+            ims = C.get('images', {}).get(m.get('img'), {})
+            if '빗대' not in (ims.get('cap', '') + ims.get('cr', '') + json.dumps(C.get('scenes', []), ensure_ascii=False)): P.append('흩어진 조각 모으기: 빗댄 그림이면 장면 글이나 그림 설명에 ‘빗대어 그린 것’이라고 밝혀요')
+    m = mods.get('trace')
+    if isinstance(m, dict):
+        g = m.get('glyph') or {}; S = g.get('strokes') or []
+        if not g.get('vb'): P.append("따라 쓰기: glyph의 'vb'(예: '0 0 200 200')를 적어요")
+        if not 1 <= len(S) <= 8: P.append(f'따라 쓰기: 획이 {len(S)}개(1~8개)')
+        for i, s in enumerate(S, 1):
+            if not str(s.get('d', '')).strip().upper().startswith('M'): P.append(f'따라 쓰기 {i}획: d는 M으로 시작하는 선 모양이어야 해요')
+            if not (s.get('t') and s.get('p')): P.append(f'따라 쓰기 {i}획: t·p를 적어요')
+    return P, W
+
 def ending(cid):
     """5단계 마무리 종류: 고르기 · 방식 마무리 · 아이와 끝까지"""
     C = load(cid)
@@ -122,7 +199,8 @@ def ending(cid):
     return '아이와 끝까지'
 
 MOD_NAMES = {'look': '찾아보기', 'reveal': '비추기', 'place': '놓아 보기', 'slider': '그때와 지금', 'route': '지도 위 길',
-             'voices': '소리', 'wreath': '날짜 따라가기', 'choose': '고르기'}
+             'voices': '소리', 'wreath': '날짜 따라가기', 'choose': '고르기',
+             'unroll': '펼쳐 읽기', 'timeline': '시간 따라 보기', 'steps': '만드는 차례', 'doors': '날짜 따라 여는 달력', 'gather': '흩어진 조각 모으기', 'trace': '따라 쓰기'}
 
 def methods(cid):
     """(중심 방식, [도우미…]) — 장면에 쓴 방식과 도우미 장면 종류"""

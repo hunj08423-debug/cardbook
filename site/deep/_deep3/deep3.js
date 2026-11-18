@@ -849,7 +849,7 @@ MODS.reveal = (() => {
   }
   function done(){
     const S = st(), N = (cfg.marks || []).length;
-    el.querySelector('.rv-n').textContent = N ? `찾은 표시 ${S.found.length} / ${N}` : '';
+    el.querySelector('.rv-n').textContent = N ? `찾은 표시 ${S.found.length} / ${N}` + (S.full && S.found.length < N ? ' · 이름표를 눌러 읽어 보세요' : '') : '';
     const all = N ? S.found.length >= N : (S.full || cells.size >= 48);
     if (all) { el.querySelector('.rv-after').hidden = false; mark('reveal'); }
   }
@@ -872,7 +872,8 @@ MODS.reveal = (() => {
       box.addEventListener('pointermove', ev => { if (ev.pointerType === 'mouse' || ev.buttons || ev.pressure) move(ev); });
       box.addEventListener('pointerdown', ev => { move(ev); try { box.setPointerCapture(ev.pointerId); } catch (x) {} });
       box.addEventListener('pointerleave', () => box.classList.remove('lit'));
-      el.querySelector('.rv-all').onclick = () => { fillAll(o); box.classList.add('full'); const S = st(); S.full = true; save(); el.querySelectorAll('.rv-tag').forEach(t => t.classList.add('on', 'tap')); done(); };
+      el.querySelector('.rv-all').onclick = () => { fillAll(o); box.classList.add('full'); const S = st(); S.full = true; save(); el.querySelectorAll('.rv-tag').forEach(t => t.classList.add('on', 'tap')); done();
+        if (cfg.marks.length && S.found.length < cfg.marks.length) el.querySelector('.rv-info').innerHTML = '<p>모두 밝혔어요. 이름표를 하나씩 눌러 읽으면 ‘찾은 표시’로 세어져요.</p>'; };
       el.querySelectorAll('.rv-tag').forEach(t => t.onclick = () => found(+t.dataset.i));
       const S = st(); S.found.forEach(i => el.querySelectorAll(`.rv-tag[data-i="${i}"]`).forEach(t => t.classList.add('on')));
       if (S.full) { img.addEventListener('load', () => fillAll(o)); box.classList.add('full'); el.querySelectorAll('.rv-tag').forEach(t => t.classList.add('on', 'tap')); }
@@ -1007,6 +1008,419 @@ MODS.choose = (() => {
     init(e, c){ el = e; cfg = c; el.querySelectorAll('.ch2-opts button').forEach(b => b.onclick = () => { mark('choose', b.dataset.t); draw(); }); draw(); }
   };
 })();
+
+/* ===== 새 방식(키트 3판 후보 · 견본): 펼쳐 읽기 · 시간 따라 보기 · 만드는 차례 · 날짜 따라 여는 달력 · 흩어진 조각 모으기 · 따라 쓰기 ===== */
+const reduceMotion = () => !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+function tween(from, to, ms, step, done){   // 부드럽게 움직이기. 멈추는 함수를 돌려줘요
+  let raf = 0; const t0 = performance.now();
+  if (ms <= 1) { step(to); if (done) done(); return () => {}; }
+  const f = t => { const k = clamp((t - t0) / ms, 0, 1), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2; step(from + (to - from) * e); if (k < 1) raf = requestAnimationFrame(f); else if (done) done(); };
+  raf = requestAnimationFrame(f); return () => cancelAnimationFrame(raf);
+}
+
+/* --- 펼쳐 읽기: 옛 문서를 위에서부터 펼치며 한 줄씩 --- */
+MODS.unroll = (() => {
+  let el, cfg, p = 0, stopT = null, fRoot = null, fP = 0, fStop = null;
+  const st = () => { const s = modState('unroll'); s.read = s.read || []; return s; };
+  const L = () => cfg.lines || [];
+  const start = () => cfg.start != null ? cfg.start : Math.max(6, L()[0] ? L()[0].y0 - 2 : 10);
+  function setP(root, v){ root.querySelector('.ur-cover').style.top = v + '%'; }
+  function band(root, i){ root.querySelectorAll('.ur-band').forEach(b => b.classList.toggle('on', +b.dataset.i === i)); }
+  function lineHTML(i){ const l = L()[i]; return `<b class="ur-o">${esc(l.o)}</b><p>${l.k}</p>${l.n ? `<p class="ur-note">${l.n}</p>` : ''}`; }
+  function list(){
+    const S = st(), ol = el.querySelector('.ur-list');
+    ol.innerHTML = L().map((l, i) => S.read.includes(i) ? `<li><button type="button" data-i="${i}"><span class="ur-lo">${esc(l.o)}</span><span class="ur-lk">${esc(String(l.k).replace(/<[^>]+>/g, ''))}</span></button></li>` : '').join('');
+    ol.querySelectorAll('button').forEach(b => b.onclick = () => { const i = +b.dataset.i; band(el, i); el.querySelector('.ur-info').innerHTML = lineHTML(i); });
+  }
+  function count(){
+    const S = st(), N = L().length, all = S.read.length >= N;
+    el.querySelector('.ur-n').textContent = `읽은 줄 ${S.read.length} / ${N}`;
+    el.querySelector('.ur-more').hidden = all; el.querySelector('.ur-allbtn').hidden = all;
+    if (all) { el.querySelector('.ur-done').hidden = false; mark('unroll'); }
+  }
+  function upd(v){
+    p = clamp(v, start(), 100); setP(el, p); el.classList.toggle('moved', p > start() + 1.5);
+    const S = st(); let last = -1;
+    L().forEach((l, i) => { if (p >= l.y1 - .4 && !S.read.includes(i)) { S.read.push(i); last = i; } });
+    if (last >= 0) { S.read.sort((a, b) => a - b); save(); band(el, last); el.querySelector('.ur-info').innerHTML = lineHTML(last); list(); }
+    count();
+  }
+  function to(v, ms){ if (stopT) stopT(); stopT = tween(p, v, reduceMotion() ? 1 : ms, upd); }
+  MODS_STATUS.unroll = () => cfg ? (P.ev.unroll ? '끝까지 펼쳐 읽었어요' : `읽은 줄 ${st().read.length} / ${L().length}`) : '';
+  return {
+    init(e, c){
+      el = e; cfg = c;
+      const box = el.querySelector('.ur-box'), cover = el.querySelector('.ur-cover'), roll = el.querySelector('.ur-roll');
+      const S = st(), seen = S.read.length ? Math.max(...S.read.map(i => L()[i].y1)) + 1.2 : start();
+      p = clamp(seen, start(), 100); setP(el, p); el.classList.toggle('moved', p > start() + 1.5); list(); count();
+      if (S.read.length) el.querySelector('.ur-info').innerHTML = lineHTML(S.read[S.read.length - 1]);
+      const at = ev => { const r = box.getBoundingClientRect(); return (ev.clientY - r.top) / r.height * 100; };
+      let drag = false;
+      roll.addEventListener('pointerdown', ev => { drag = true; roll.setPointerCapture(ev.pointerId); if (stopT) stopT(); ev.preventDefault(); ev.stopPropagation(); });
+      roll.addEventListener('pointermove', ev => { if (drag) upd(at(ev)); });
+      const end = () => { drag = false; };
+      roll.addEventListener('pointerup', end); roll.addEventListener('pointercancel', end);
+      cover.addEventListener('click', ev => { if (ev.target === roll) return; to(Math.max(p, at(ev)), 700); });
+      box.addEventListener('keydown', ev => { if (ev.key === 'ArrowDown') { ev.preventDefault(); upd(p + 4); } else if (ev.key === 'ArrowUp') { ev.preventDefault(); upd(p - 4); } });
+      el.querySelector('.ur-more').onclick = () => { const S2 = st(), i = L().findIndex((l, k) => !S2.read.includes(k)); to(i < 0 ? 100 : Math.min(100, L()[i].y1 + 1.2), 900); };
+      el.querySelector('.ur-allbtn').onclick = () => to(100, 2400);
+    },
+    film(layer, s){
+      const im = cfg.img, b = fitBox(layer, im.w, im.h);
+      const bands = L().map((l, i) => `<span class="ur-band" data-i="${i}" style="top:${l.y0}%;height:${l.y1 - l.y0}%;left:${l.x0 || 0}%;width:${(l.x1 || 100) - (l.x0 || 0)}%"></span>`).join('');
+      layer.innerHTML = `<div class="ur ur-f" style="width:${b.w}px;height:${b.h}px"><div class="ur-box"><img src="${im.u}" alt="${esc(im.alt)}">${bands}<div class="ur-cover"><span class="ur-roll"></span></div></div></div>`;
+      fRoot = layer.querySelector('.ur'); fP = start(); setP(fRoot, fP);
+    },
+    act(a){
+      if (!fRoot) return; let m, v = null, bi = -1;
+      if (a === 'open') { v = L()[0] ? L()[0].y1 + 1 : 20; bi = 0; }
+      else if (a === 'all') v = 100;
+      else if ((m = /^line:(\d+)$/.exec(a)) && L()[+m[1] - 1]) { bi = +m[1] - 1; v = L()[bi].y1 + 1.2; }
+      if (v == null) return;
+      if (fStop) fStop(); const root = fRoot;
+      fStop = tween(fP, v, 2200, x => { fP = x; setP(root, x); });
+      band(fRoot, bi);
+    },
+    filmStop(){ if (fStop) fStop(); fRoot = null; }
+  };
+})();
+
+/* --- 시간 따라 보기: 같은 자리의 여러 때를 시간 막대로 --- */
+MODS.timeline = (() => {
+  let el, cfg, pos = [], cur = -1, v = 0, stopT = null, fRoot = null, fv = 0, fStop = null;
+  const st = () => { const s = modState('timeline'); s.seen = s.seen || []; return s; };
+  const S_ = () => cfg.stops || [];
+  function layout(){
+    const S = S_(), n = S.length;
+    const at = S.map((s, i) => { const x = s.at != null ? +s.at : parseFloat(String(s.y).replace(/[^0-9.\-]/g, '')); return isFinite(x) ? x : i; });
+    const a0 = at[0], span = (at[n - 1] - a0) || 1;
+    pos = at.map((x, i) => n > 1 ? 5 + 90 * (.6 * (x - a0) / span + .4 * i / (n - 1)) : 50);
+  }
+  function frame(root, val){
+    const S = S_(); let i = 0;
+    while (i < S.length - 2 && val > pos[i + 1]) i++;
+    const t = S.length > 1 ? clamp((val - pos[i]) / ((pos[i + 1] - pos[i]) || 1), 0, 1) : 0;
+    root.querySelectorAll('.tm-img').forEach((im, k) => { im.style.opacity = k === i ? Math.min(1, 2 * (1 - t)) : (k === i + 1 ? Math.min(1, 2 * t) : 0); im.style.zIndex = k === i + 1 ? 2 : 1; });
+    const near = t < .5 ? i : Math.min(i + 1, S.length - 1);
+    const kn = root.querySelector('.tm-knob'); if (kn) kn.style.left = val + '%';
+    const fill = root.querySelector('.tm-fill'); if (fill) fill.style.width = val + '%';
+    const yr = root.querySelector('.tm-year'); if (yr) yr.textContent = S[near].y;
+    root.querySelectorAll('.tm-tick').forEach((b, k) => b.classList.toggle('on', k === near));
+    return near;
+  }
+  function show(i){
+    const s = S_()[i], S = st();
+    if (!S.seen.includes(i)) { S.seen.push(i); save(); }
+    el.querySelector('.tm-info').innerHTML = `<b>${esc(s.y)} · ${esc(s.t)}</b><p>${s.p || ''}</p>`;
+    el.querySelectorAll('.tm-c').forEach(c => c.hidden = +c.dataset.i !== i);
+    el.querySelectorAll('.tm-tick').forEach((b, k) => b.classList.toggle('seen', S.seen.includes(k)));
+    count();
+  }
+  function count(){
+    const n = st().seen.length, N = S_().length;
+    el.querySelector('.tm-n').textContent = `지나온 때 ${n} / ${N}`;
+    if (n >= N) { el.querySelector('.tm-done').hidden = false; mark('timeline'); }
+  }
+  function set(val){ v = clamp(val, pos[0], pos[pos.length - 1]); const k = frame(el, v); el.querySelector('.tm-range').value = Math.round(v * 10); if (k !== cur) { cur = k; show(k); } }
+  function go(i){ if (stopT) stopT(); stopT = tween(v, pos[i], reduceMotion() ? 1 : 1300, set); }
+  MODS_STATUS.timeline = () => cfg ? (P.ev.timeline ? `${S_().length}개의 때를 다 지나왔어요` : `지나온 때 ${st().seen.length} / ${S_().length}`) : '';
+  return {
+    init(e, c){
+      el = e; cfg = c; layout();
+      el.querySelectorAll('.tm-tick').forEach((b, k) => { b.style.left = pos[k] + '%'; b.onclick = () => go(k); });
+      const r = el.querySelector('.tm-range');
+      r.addEventListener('input', () => { if (stopT) stopT(); set(r.value / 10); });
+      r.addEventListener('change', () => { let k = 0; pos.forEach((x, j) => { if (Math.abs(x - v) < Math.abs(pos[k] - v)) k = j; }); go(k); });
+      r.addEventListener('keydown', ev => { if (ev.key === 'ArrowRight' || ev.key === 'ArrowUp') { ev.preventDefault(); go(Math.min(S_().length - 1, cur + 1)); } else if (ev.key === 'ArrowLeft' || ev.key === 'ArrowDown') { ev.preventDefault(); go(Math.max(0, cur - 1)); } });
+      v = pos[0]; set(v);
+    },
+    film(layer, s){
+      const im = S_()[0].img, b = fitBox(layer, im.w, im.h);
+      layer.innerHTML = `<div class="tm tm-f" style="width:${b.w}px;height:${b.h}px"><div class="tm-stage">${S_().map((x, k) => `<img class="tm-img" src="${x.img.u}" alt="${esc(x.img.alt)}" style="opacity:${k ? 0 : 1}">`).join('')}<span class="tm-year">${esc(S_()[0].y)}</span></div></div>`;
+      fRoot = layer.querySelector('.tm'); fv = pos[0]; frame(fRoot, fv);
+    },
+    act(a){
+      if (!fRoot) return; let m, to = null;
+      if (a === 'go') { const k = pos.findIndex(x => x > fv + .5); to = k < 0 ? pos[pos.length - 1] : pos[k]; }
+      else if (a === 'all') to = pos[pos.length - 1];
+      else if ((m = /^stop:(\d+)$/.exec(a)) && pos[+m[1] - 1] != null) to = pos[+m[1] - 1];
+      if (to == null) return;
+      if (fStop) fStop(); const root = fRoot;
+      fStop = tween(fv, to, a === 'all' ? 6000 : 2600, x => { fv = x; frame(root, x); });
+    },
+    filmStop(){ if (fStop) fStop(); fRoot = null; }
+  };
+})();
+
+/* --- 만드는 차례: 단추를 누를 때마다 한 단계씩 --- */
+MODS.steps = (() => {
+  let el, cfg, k = 0, fRoot = null, fk = 0;
+  const N = () => (cfg.steps || []).length;
+  function apply(root, n){   // n: 끝낸 단계 수(0~N)
+    root.querySelectorAll('[data-s]').forEach(g => g.classList.toggle('on', +g.dataset.s <= n));
+    root.querySelectorAll('[data-off]').forEach(g => g.classList.toggle('gone', +g.dataset.off <= n));
+    const ims = [...root.querySelectorAll('.sp-img')]; let best = null;
+    ims.forEach(im => { const i = +im.dataset.i; if (i <= n && (!best || i > +best.dataset.i)) best = im; });
+    ims.forEach(im => im.classList.toggle('on', im === best));
+    root.querySelectorAll('.sp-dots li').forEach((d, j) => { d.classList.toggle('done', j < n); d.classList.toggle('next', j === n); });
+  }
+  function draw(){
+    apply(el, k);
+    const btn = el.querySelector('.sp-do');
+    if (k < N()) { btn.hidden = false; btn.textContent = cfg.steps[k].do; } else btn.hidden = true;
+    el.querySelector('.sp-back').hidden = k === 0;
+    el.querySelector('.sp-n').textContent = `${k} / ${N()} 단계`;
+    if (k > 0) { const s = cfg.steps[k - 1]; el.querySelector('.sp-info').innerHTML = `<b>${k}. ${esc(s.t)}</b><p>${s.p || ''}</p>`; }
+    else el.querySelector('.sp-info').innerHTML = `<p>${esc(cfg.hint || '아래 단추를 눌러 첫 단계부터 해 보세요.')}</p>`;
+    el.querySelector('.sp-done').hidden = k < N();
+    if (k >= N()) mark('steps');
+  }
+  MODS_STATUS.steps = () => cfg ? (P.ev.steps ? `${N()}단계를 끝까지 해 봤어요` : `‘${cfg.steps[0].do}’부터 차례로 해 보세요`) : '';
+  return {
+    init(e, c){
+      el = e; cfg = c; k = 0;
+      el.querySelector('.sp-do').onclick = () => { if (k < N()) { k++; draw(); } };
+      el.querySelector('.sp-back').onclick = () => { k = 0; draw(); };
+      draw();
+    },
+    film(layer, s){
+      layer.innerHTML = `<div class="sp sp-f">${el.querySelector('.sp-stage').outerHTML}</div>`;
+      fRoot = layer.querySelector('.sp'); fk = 0; apply(fRoot, 0);
+    },
+    act(a){
+      if (!fRoot) return; let m;
+      if (a === 'next') fk = Math.min(N(), fk + 1);
+      else if (a === 'all') fk = N();
+      else if ((m = /^step:(\d+)$/.exec(a))) fk = clamp(+m[1], 0, N());
+      else return;
+      apply(fRoot, fk);
+    },
+    filmStop(){ fRoot = null; }
+  };
+})();
+
+/* --- 날짜 따라 여는 달력: 그날이 되어야 열리는 창 --- */
+MODS.doors = (() => {
+  let el, cfg, sim = null, simOpen = [], fRoot = null, fTimers = [];
+  const st = () => { const s = modState('doors'); s.open = s.open || {}; s.visits = s.visits || []; return s; };
+  const D = () => cfg.doors || [];
+  const LAST = () => Math.max(...D().map(x => x.d));
+  const MON = () => (cfg.month || 12) - 1;
+  function now(){ if (sim) { const t = new Date(); return new Date(t.getFullYear(), MON(), sim); } return new Date(); }
+  function upto(){   // 오늘 열 수 있는 마지막 날
+    const n = now();
+    if (n.getMonth() === MON()) return Math.min(n.getDate(), LAST()) ;
+    if (sim) return 0;
+    return Math.min(LAST(), Math.max(1, st().visits.length));   // 그 달이 아니면 찾아온 날마다 한 칸씩
+  }
+  const isOpen = d => sim ? simOpen.includes(d) : !!st().open[d];
+  function paint(){
+    const u = upto();
+    el.querySelectorAll('.dr-door').forEach(b => {
+      const d = +b.dataset.d, o = isOpen(d);
+      b.classList.toggle('open', o); b.classList.toggle('ok', !o && d <= u); b.classList.toggle('lock', !o && d > u);
+      b.setAttribute('aria-label', `${d}일 창${o ? ' · 열림' : (d > u ? ' · 아직 잠김' : ' · 열 수 있어요')}`);
+    });
+    const n = now(), inM = n.getMonth() === MON();
+    el.querySelector('.dr-say').textContent = sim ? `미리 보기 · ${mdK(n)}: ${u}일까지의 창을 열 수 있어요(미리 보기로 연 창은 남지 않아요)`
+      : inM ? `오늘은 ${mdK(n)} · ${u}일까지의 창을 열 수 있어요`
+      : `지금은 ${(cfg.month || 12)}월이 아니라서, 찾아온 날마다 한 칸씩 열려요 · 오늘까지 ${u}칸`;
+    const S = st(), days = new Set(Object.values(S.open)).size, N = D().length, opened = Object.keys(S.open).length;
+    el.querySelector('.dr-n').textContent = `연 창 ${opened} / ${N} · 연 날 ${days}`;
+    if (days >= (cfg.needDays || 3)) { el.querySelector('.dr-done').hidden = false; mark('doors'); }
+  }
+  function tell(d){
+    const x = D().find(y => y.d === d) || {};
+    el.querySelector('.dr-info').innerHTML = `<b>${d}일${x.t ? ' · ' + esc(x.t) : ''}</b><p>${x.p || ''}</p>`;
+  }
+  function open(d){
+    const u = upto();
+    if (isOpen(d)) { tell(d); return; }
+    if (d > u) { el.querySelector('.dr-info').innerHTML = `<b>${d}일 창</b><p>${(cfg.month || 12)}월 ${d}일이 되면 열 수 있어요. 기다림도 이야기의 한 부분이에요.</p>`; return; }
+    if (sim) simOpen.push(d); else { st().open[d] = ymd(new Date()); save(); }
+    paint(); tell(d);
+  }
+  MODS_STATUS.doors = () => cfg ? (P.ev.doors ? `서로 다른 ${cfg.needDays || 3}날에 창을 열었어요` : `창을 연 날 ${new Set(Object.values(st().open)).size} / ${cfg.needDays || 3}`) : '';
+  return {
+    init(e, c){
+      el = e; cfg = c;
+      const S = st(), td = ymd(new Date()); if (!S.visits.includes(td)) { S.visits.push(td); save(); }
+      el.querySelectorAll('.dr-door').forEach(b => b.onclick = () => open(+b.dataset.d));
+      el.querySelectorAll('.dr-sim button').forEach(b => b.onclick = () => {
+        sim = b.dataset.sim ? +b.dataset.sim : null; simOpen = [];
+        el.querySelectorAll('.dr-sim button').forEach(x => x.classList.toggle('on', x === b)); paint();
+        el.querySelector('.dr-info').innerHTML = `<p>${sim ? '미리 보기예요. 그날이 되었다고 치고 창을 열어 보세요.' : '오늘 날짜로 돌아왔어요.'}</p>`;
+      });
+      paint();
+    },
+    film(layer, s){
+      const im = cfg.img, b = fitBox(layer, im.w, im.h), box = el.querySelector('.dr-box');
+      layer.innerHTML = `<div class="dr dr-f" style="width:${b.w}px;height:${b.h}px">${box.outerHTML}</div>`;
+      fRoot = layer.querySelector('.dr');
+      fRoot.querySelectorAll('.dr-door').forEach(x => { x.classList.remove('open', 'ok', 'lock'); x.tabIndex = -1; });
+    },
+    act(a){
+      if (!fRoot) return; let m;
+      const openF = d => { const x = fRoot && fRoot.querySelector(`.dr-door[data-d="${d}"]`); if (x) x.classList.add('open'); };
+      if ((m = /^open:(\d+)$/.exec(a))) openF(+m[1]);
+      else if ((m = /^upto:(\d+)$/.exec(a)) || a === 'all') { const n = m ? +m[1] : LAST(); for (let d = 1; d <= n; d++) fTimers.push(setTimeout(() => openF(d), (d - 1) * 140)); }
+    },
+    filmStop(){ fTimers.forEach(clearTimeout); fTimers = []; fRoot = null; }
+  };
+})();
+
+/* --- 흩어진 조각 모으기: 여러 곳에 나뉜 것을 한자리에 --- */
+MODS.gather = (() => {
+  let el, cfg, fRoot = null, fGot = [], ros = [];
+  const st = () => { const s = modState('gather'); s.got = s.got || []; return s; };
+  const PC = () => cfg.pieces || [];
+  function auto(root, i){
+    const r = root.querySelector('.ga-stage').getBoundingClientRect(), n = PC().length, wide = r.width >= r.height * 1.15;
+    if (wide) { const half = Math.ceil(n / 2), left = i < half, k = left ? i : i - half, m = left ? half : n - half; return [left ? 14 : 86, m > 1 ? 24 + 52 * k / (m - 1) : 50]; }
+    const cols = Math.min(n, 2), row = Math.floor(i / cols), rows = Math.ceil(n / cols);
+    return [cols > 1 ? (i % cols ? 73 : 27) : 50, rows > 1 ? 64 + 22 * row / (rows - 1) : 76];
+  }
+  function place(root, got){
+    const stage = root.querySelector('.ga-stage'), hm = root.querySelector('.ga-home');
+    const sr = stage.getBoundingClientRect(), hr = hm.getBoundingClientRect();
+    if (!sr.width || !hr.width) return;
+    const hx = hr.left - sr.left, hy = hr.top - sr.top, hw = hr.width, hh = hr.height;
+    root.querySelectorAll('.ga-piece').forEach(pc => {
+      const i = +pc.dataset.i, P2 = PC()[i], [x, y, w, h] = P2.r, W = hw * w / 100, H = hh * h / 100;
+      pc.style.width = W + 'px'; pc.style.height = H + 'px';
+      if (got.includes(i)) { pc.style.left = (hx + hw * x / 100) + 'px'; pc.style.top = (hy + hh * y / 100) + 'px'; pc.style.transform = 'none'; pc.classList.add('home'); }
+      else {
+        const tall = sr.width < sr.height * 1.15, [ax, ay] = P2.at || auto(root, i), s = Math.min(1, (sr.width * .24) / W, (sr.height * (tall ? .17 : .3)) / H);
+        pc.style.setProperty('--s', s.toFixed(3));
+        pc.style.left = (sr.width * ax / 100 - W / 2) + 'px'; pc.style.top = (sr.height * ay / 100 - H / 2) + 'px';
+        pc.style.transform = `rotate(${P2.rot != null ? P2.rot : (i % 2 ? 6 : -6)}deg) scale(${s.toFixed(3)})`; pc.classList.remove('home');
+      }
+    });
+    root.classList.toggle('whole', got.length >= PC().length);
+  }
+  function tell(i){ const p = PC()[i]; el.querySelector('.ga-info').innerHTML = `<b>${esc(p.t)}</b><p>${p.p || ''}</p>`; }
+  function count(){
+    const n = st().got.length, N = PC().length;
+    el.querySelector('.ga-n').textContent = `모은 조각 ${n} / ${N}`;
+    if (n >= N) { el.querySelector('.ga-done').hidden = false; mark('gather'); }
+  }
+  MODS_STATUS.gather = () => cfg ? (P.ev.gather ? '흩어진 조각을 다 모았어요' : `모은 조각 ${st().got.length} / ${PC().length}`) : '';
+  return {
+    init(e, c){
+      el = e; cfg = c;
+      el.querySelectorAll('.ga-piece').forEach(pc => pc.onclick = () => {
+        const i = +pc.dataset.i, S = st();
+        if (!S.got.includes(i)) { S.got.push(i); save(); place(el, S.got); count(); }
+        tell(i);
+      });
+      el.querySelector('.ga-again').onclick = () => { st().got = []; save(); place(el, []); el.querySelector('.ga-done').hidden = true; count(); el.querySelector('.ga-info').innerHTML = `<p>${esc(cfg.hint || '조각을 하나씩 눌러 보세요.')}</p>`; };
+      const ro = new ResizeObserver(() => place(el, st().got)); ro.observe(el.querySelector('.ga-stage')); ros.push(ro);
+      place(el, st().got); count();
+    },
+    film(layer, s){
+      const src = el.querySelector('.ga-stage');
+      layer.innerHTML = `<div class="ga ga-f">${src.outerHTML}</div>`;
+      fRoot = layer.querySelector('.ga'); fGot = [];
+      fRoot.querySelectorAll('.ga-piece').forEach(pc => pc.tabIndex = -1);
+      requestAnimationFrame(() => fRoot && place(fRoot, fGot));
+    },
+    act(a){
+      if (!fRoot) return; let m;
+      if ((m = /^piece:(\d+)$/.exec(a))) { const i = +m[1] - 1; if (!fGot.includes(i)) fGot.push(i); }
+      else if (a === 'all') fGot = PC().map((_, i) => i);
+      else return;
+      place(fRoot, fGot);
+    },
+    filmStop(){ fRoot = null; }
+  };
+})();
+
+/* --- 따라 쓰기: 흐린 선을 손가락으로 따라 긋기 --- */
+MODS.trace = (() => {
+  let el, cfg, cur = 0, cov = [], pts = [], drawing = false, last = null, cv = null, ctx = null, fRoot = null, fTimers = [];
+  const st = () => { const s = modState('trace'); s.done = s.done || []; return s; };
+  const ST = () => cfg.glyph.strokes;
+  const vb = () => cfg.glyph.vb.split(/[ ,]+/).map(Number);
+  function samples(path){ const n = 40, Lp = path.getTotalLength(), a = []; for (let i = 0; i <= n; i++) { const q = path.getPointAtLength(Lp * i / n); a.push([q.x, q.y]); } return a; }
+  function svgPt(svg, ev){ const p = svg.createSVGPoint(); p.x = ev.clientX; p.y = ev.clientY; return p.matrixTransform(svg.getScreenCTM().inverse()); }
+  function ink(root, i, ms){
+    const k = root.querySelector(`.tr-k[data-i="${i}"]`); if (!k) return;
+    const Lk = k.getTotalLength(); k.style.transition = 'none'; k.style.strokeDasharray = Lk; k.style.strokeDashoffset = Lk; k.classList.add('on');
+    k.getBoundingClientRect(); k.style.transition = `stroke-dashoffset ${ms}ms ease`; k.style.strokeDashoffset = 0;
+  }
+  function size(){ const r = el.querySelector('.tr-pad').getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1); cv.width = Math.round(r.width * dpr); cv.height = Math.round(r.height * dpr); ctx = cv.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); }
+  function clearPad(){ if (ctx) ctx.clearRect(0, 0, cv.width, cv.height); }
+  function next(){ const S = st(); const i = ST().findIndex((_, k) => !S.done.includes(k)); return i; }
+  function guide(){
+    const S = st();
+    el.querySelectorAll('.tr-g').forEach((g, j) => { g.classList.toggle('cur', j === cur); g.classList.toggle('done', S.done.includes(j)); });
+    const dot = el.querySelector('.tr-dot');
+    if (cur < 0) { dot.style.display = 'none'; return; }
+    const g = el.querySelector(`.tr-g[data-i="${cur}"]`), q = g.getPointAtLength(0); dot.style.display = ''; dot.setAttribute('cx', q.x); dot.setAttribute('cy', q.y);
+    pts = samples(g); cov = pts.map(() => false);
+  }
+  function tell(i){ const s = ST()[i]; el.querySelector('.tr-info').innerHTML = `<b>${i + 1}. ${esc(s.t)}</b><p>${s.p || ''}</p>`; }
+  function count(){
+    const n = st().done.length, N = ST().length;
+    el.querySelector('.tr-n').textContent = `쓴 획 ${n} / ${N}`;
+    if (n >= N) { el.querySelector('.tr-done').hidden = false; mark('trace'); }
+  }
+  function finish(i, ms){
+    const S = st(); if (!S.done.includes(i)) { S.done.push(i); save(); }
+    ink(el, i, ms || 500); clearPad(); tell(i); cur = next(); guide(); count();
+  }
+  function move(ev){
+    if (!drawing || cur < 0) return;
+    const r = cv.getBoundingClientRect(), x = ev.clientX - r.left, y = ev.clientY - r.top;
+    if (last) { ctx.strokeStyle = 'rgba(160,60,30,.55)'; ctx.lineWidth = Math.max(5, r.width / 40); ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(last[0], last[1]); ctx.lineTo(x, y); ctx.stroke(); }
+    last = [x, y];
+    const q = svgPt(el.querySelector('.tr-svg'), ev), tol = vb()[2] * .085;
+    pts.forEach((p, j) => { if (!cov[j] && Math.hypot(p[0] - q.x, p[1] - q.y) < tol) cov[j] = true; });
+    const k = cov.filter(Boolean).length / cov.length;
+    if (k >= .82 && cov[0] && cov[cov.length - 1]) { drawing = false; last = null; finish(cur); }
+  }
+  MODS_STATUS.trace = () => cfg ? (P.ev.trace ? `${cfg.glyph.name || '글자'}를 끝까지 써 봤어요` : `쓴 획 ${st().done.length} / ${ST().length}`) : '';
+  return {
+    init(e, c){
+      el = e; cfg = c; cv = el.querySelector('.tr-cv'); size(); new ResizeObserver(size).observe(el.querySelector('.tr-pad'));
+      const S = st(); S.done.forEach(i => { const k = el.querySelector(`.tr-k[data-i="${i}"]`); if (k) k.classList.add('on'); });
+      cur = next(); guide(); count();
+      const pad = el.querySelector('.tr-pad');
+      pad.addEventListener('pointerdown', ev => { if (cur < 0) return; drawing = true; last = null; pad.setPointerCapture(ev.pointerId); move(ev); });
+      pad.addEventListener('pointermove', move);
+      const end = () => { drawing = false; last = null; if (cur >= 0 && cov.filter(Boolean).length / cov.length < .82) setTimeout(() => { if (!drawing) clearPad(); }, 900); };
+      pad.addEventListener('pointerup', end); pad.addEventListener('pointercancel', end);
+      el.querySelector('.tr-show').onclick = () => { const rest = ST().map((_, i) => i).filter(i => !st().done.includes(i)); rest.forEach((i, n) => setTimeout(() => { cur = i; finish(i, 900); }, n * 1000)); };
+      el.querySelector('.tr-clear').onclick = () => { st().done = []; save(); el.querySelectorAll('.tr-k').forEach(k => { k.classList.remove('on'); k.style.transition = 'none'; }); clearPad(); el.querySelector('.tr-done').hidden = true; cur = next(); guide(); count(); el.querySelector('.tr-info').innerHTML = `<p>${esc(cfg.hint || '빨간 점에서 시작해 흐린 선을 따라 그어 보세요.')}</p>`; };
+    },
+    film(layer, s){
+      const svg = el.querySelector('.tr-svg').cloneNode(true);
+      svg.querySelectorAll('.tr-k').forEach(k => { k.classList.remove('on'); k.style.transition = 'none'; k.style.strokeDasharray = ''; k.style.strokeDashoffset = ''; });
+      svg.querySelectorAll('.tr-g').forEach(g => g.classList.remove('cur', 'done'));
+      const d = svg.querySelector('.tr-dot'); if (d) d.remove();
+      layer.innerHTML = '<div class="tr tr-f"><div class="tr-pad"></div></div>'; layer.querySelector('.tr-pad').appendChild(svg);
+      fRoot = layer.querySelector('.tr');
+    },
+    act(a){
+      if (!fRoot) return; let m;
+      if ((m = /^stroke:(\d+)$/.exec(a))) ink(fRoot, +m[1] - 1, 1400);
+      else if (a === 'all') ST().forEach((_, i) => fTimers.push(setTimeout(() => fRoot && ink(fRoot, i, 1100), i * 1200)));
+    },
+    filmStop(){ fTimers.forEach(clearTimeout); fTimers = []; fRoot = null; }
+  };
+})();
+
+/* ===== 틀 고침(키트 3판) — 이미 만든 카드에도 공유 파일로 바로 반영돼요 ===== */
+/* 첫머리 ‘천천히 읽기 ↓’: 옛 틀은 #sc-road(시나이 카드의 첫 장면)로 고정돼 있었어요 → 이 카드의 첫 장면으로 */
+(() => { try {
+  const a = document.querySelector('a.btn[href="#sc-road"]');
+  if (a && !document.getElementById('sc-road')) { const f = document.querySelector('section[id^="sc-"]'); if (f) a.setAttribute('href', '#' + f.id); }
+} catch (x) {} })();
+/* 앞면 카드: 그림이 가로로 길거나 정사각형이면 카드가 납작해져 ‘이야기 펼치기’ 단추가 제목·물음을 가려요 → 4:5 세로 틀로(그림은 가운데를 보여 줘요) */
+(() => { try {
+  const r = document.documentElement, v = getComputedStyle(r).getPropertyValue('--card-ar').trim(), m = /^([\d.]+)\s*\/\s*([\d.]+)$/.exec(v);
+  if (m && +m[1] > +m[2] * 0.8) r.style.setProperty('--card-ar', '4 / 5');
+} catch (x) {} })();
 
 initMods();
 drawStage(false); drawStamp(false); check(); hold($('#lcHold'));

@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="../icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+</head>
+<body>
+<title>달빛이 비춘 그림</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="_deep3/deep3.css">
+<style>:root{--card-ar:1200/967}
+:root{--accent:#3d5878;--accent-ink:#f6f9ff;--soft:rgba(61,88,120,.09);--stamp:#a8392b}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--accent:#a9bfdc;--accent-ink:#0e1520;--soft:rgba(169,191,220,.10);--stamp:#e46e5c}}
+:root[data-theme="dark"]{--accent:#a9bfdc;--accent-ink:#0e1520;--soft:rgba(169,191,220,.10);--stamp:#e46e5c}
+/* 비추기 빛을 달빛처럼(틀의 빛은 주황빛이라 이 카드에서만 바꿔요) */
+.rv-glow{background:radial-gradient(circle at var(--gx) var(--gy),rgba(214,228,255,.30),rgba(176,200,240,.09) 12%,transparent 25%)}
+.rv-box canvas{filter:saturate(.78) brightness(1.03)}
+</style>
+
+<div class="top"><div class="wrap">
+  <a class="brand" href="../#c-sf-antwerp" style="text-decoration:none">← <span class="long"><b>처음 만나는 기독교 문화</b> · </span>카드 책으로</a>
+  <button class="prog" id="prog" type="button" aria-label="이 카드의 완성 단계"><i></i><i></i><i></i><i></i><i></i><b id="progName">아직</b></button>
+  <button class="pill" id="kid" type="button" aria-pressed="false">아이와 함께</button>
+  <button class="pill" id="filmBtn" type="button">▶ 영화처럼</button>
+</div></div>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="cardcol" id="cardcol">
+      <div class="flipwrap">
+        <div class="flip" id="flip">
+          <div class="face front"><div class="hold" id="lcHold">
+            <div class="lcard lv0" id="lcard">
+              <div class="lc-in"><img src="sf-antwerp/card.webp" width="1200" height="967" alt="흐린 하늘 아래 높은 고딕 첨탑이 솟은 대성당과, 앞 광장에 서 있는 동상과 나무들. 광장 바닥은 비에 젖어 있다.">
+                <span class="lc-badge" id="lcBadge">아직 펼치지 않은 카드</span>
+                <svg class="lc-seal" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="17" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="20" cy="20" r="13" fill="none" stroke="currentColor" stroke-width="1"/><text x="20" y="25" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor" font-family="Gowun Batang, serif">달</text></svg>
+                <div class="lc-cap"><span class="lc-set">돌로 지은 숲과 금빛 천장 · 1</span><span class="lc-title"><span class="dc">안</span>트베르펜 성모 대성당</span><span class="lc-q a">어린 시절 보았던 만화 속 소년이 마지막으로 보고 싶어 한 그림이 실제로 걸린 성당이 있어요. 소년은 그 그림 앞에서 무엇을 보았을까요?</span><span class="lc-q k">「플랜더스의 개」 이야기를 알아? 네로가 보고 싶던 그림이 여기 있대!</span></div>
+                <button class="lc-open" id="openStory" type="button">이야기 펼치기</button>
+              </div>
+              <div class="lc-sheen"></div><div class="lc-foil"></div><div class="lc-lamp"></div>
+              <svg class="orn tl" viewBox="0 0 30 30" aria-hidden="true"><path d="M3 27V9a6 6 0 0 1 6-6h18" fill="none" stroke="#24418f" stroke-width="3.2"/><path d="M7 27V11a4 4 0 0 1 4-4h16" fill="none" stroke="#f3d27a" stroke-width="1.3"/><circle cx="8" cy="8" r="4.6" fill="#b8322a" stroke="#f3d27a" stroke-width="1.2"/><path d="M14 13c3-4 7-4 9-1-3 2-6 3-9 1z" fill="#2f7a4f"/></svg>
+              <svg class="orn tr" viewBox="0 0 30 30" aria-hidden="true"><path d="M3 27V9a6 6 0 0 1 6-6h18" fill="none" stroke="#24418f" stroke-width="3.2"/><path d="M7 27V11a4 4 0 0 1 4-4h16" fill="none" stroke="#f3d27a" stroke-width="1.3"/><circle cx="8" cy="8" r="4.6" fill="#b8322a" stroke="#f3d27a" stroke-width="1.2"/><path d="M14 13c3-4 7-4 9-1-3 2-6 3-9 1z" fill="#2f7a4f"/></svg>
+              <svg class="orn bl" viewBox="0 0 30 30" aria-hidden="true"><path d="M3 27V9a6 6 0 0 1 6-6h18" fill="none" stroke="#24418f" stroke-width="3.2"/><path d="M7 27V11a4 4 0 0 1 4-4h16" fill="none" stroke="#f3d27a" stroke-width="1.3"/><circle cx="8" cy="8" r="4.6" fill="#b8322a" stroke="#f3d27a" stroke-width="1.2"/><path d="M14 13c3-4 7-4 9-1-3 2-6 3-9 1z" fill="#2f7a4f"/></svg>
+              <svg class="orn br" viewBox="0 0 30 30" aria-hidden="true"><path d="M3 27V9a6 6 0 0 1 6-6h18" fill="none" stroke="#24418f" stroke-width="3.2"/><path d="M7 27V11a4 4 0 0 1 4-4h16" fill="none" stroke="#f3d27a" stroke-width="1.3"/><circle cx="8" cy="8" r="4.6" fill="#b8322a" stroke="#f3d27a" stroke-width="1.2"/><path d="M14 13c3-4 7-4 9-1-3 2-6 3-9 1z" fill="#2f7a4f"/></svg>
+            </div></div>
+          </div>
+          <div class="face back" aria-hidden="true">
+            <div class="bk">
+              <div class="bk-line">가장 보고 싶던 그림 아래에서.</div>
+              <div class="bk-h">카드가 완성되는 다섯 단계</div>
+              <ol class="ladder" id="ladder"></ol>
+              <div class="bk-next" id="bkNext"></div>
+              <div class="bk-stamp" id="bkStamp">한 줄을 남기면<br>여기에 도장이 찍혀요</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cardbtns"><button class="pill" id="openStory2" type="button">이야기 펼치기</button><button class="pill" id="flipBtn" type="button">↻ 뒤집기</button></div>
+    </div>
+    <div class="intro">
+      <div class="where"><b>1872년 소설 속 성탄 밤</b><span>벨기에 안트베르펜 · 성모 대성당</span></div>
+      <h1>안트베르펜 성모 대성당</h1>
+      <p class="lead a">1872년에 나온 소설 「플랜더스의 개」에서, 우유 수레를 끌던 소년 네로와 개 파트라슈는 성탄 밤 문이 열린 안트베르펜 성모 대성당에 들어가요. 깜깜한 성당에 달빛이 들어와 네로가 그토록 보고 싶던 그림을 비춰요. 그 달빛을 손으로 비춰 보세요.</p>
+      <p class="lead k">네로와 개 파트라슈는 날마다 우유 수레를 끌고 성당이 있는 도시에 갔어. 깜깜한 성당에서 달빛으로 그림을 비춰 볼까?</p>
+      <div class="go">
+        <button class="btn main" id="filmBtn2" type="button">▶ 영화처럼 보기</button>
+        <a class="btn" href="#sc-road">천천히 읽기 ↓</a>
+      </div>
+      <p class="meta">영화처럼 약 3분 · 천천히 읽으면 6분</p>
+      <p class="draft">검수 전 시안이에요(기준서 1판). 소설 장면은 1872년 원문을 따라 옮겼고, 소설 속 일과 실제 일을 나눠 적었어요. 같은 그림의 세부 해설은 ‘십자가에서 내려지심’ 카드에 있어요. 상상은 ‘눈 감고 상상해 보기’에만 썼어요.</p>
+      <div class="preview" id="preview"><b>시안 확인용</b>카드 단계 미리 보기
+        <button type="button" data-lv="0">0</button><button type="button" data-lv="1">1</button><button type="button" data-lv="2">2</button><button type="button" data-lv="3">3</button><button type="button" data-lv="4">4</button><button type="button" data-lv="5">5</button>
+        <button type="button" data-lv="me" class="on">내 진행</button><button type="button" id="resetBtn">기록 지우기</button></div>
+    </div>
+  </section>
+
+<section class="sc" id="sc-cart" data-sc="cart"><div class="sc-head"><span class="no">1</span><h2>우유 수레를 끄는 둘</h2><button type="button" class="fromhere" data-ch="1">▶ 여기부터 크게</button></div>
+<div class="a"><p class="tx">「플랜더스의 개」는 영국 작가 위다(Ouida)가 1872년에 펴낸 소설이에요. ‘위다’는 어릴 때 자기 이름 ‘루이자’를 부르던 말에서 따온 필명이에요.</p><p class="tx">소년 네로는 할아버지 예한 다스(Jehan Daas)와, 안트베르펜에서 1리그(영어권에서 흔히 약 4.8킬로미터) 떨어진 플랑드르 마을 끝 작은 오두막에 살았어요.</p></div><figure class="ph"><div class="frame"><img src="sf-antwerp/cart.webp" width="825" height="516" alt="흑백 판화. 바퀴 하나가 크게 보이는 짐수레에 우유 통 세 개와 마른 나뭇가지가 실려 있고, 털이 덥수룩한 큰 개가 끈에 매여 수레를 끈다. 개 옆에서 챙 넓은 모자를 쓰고 나막신을 신은 소년이 한 손을 개 등에 얹고 걷는다. 왼쪽에 굵은 나무, 오른쪽 멀리 뾰족한 탑이 선 도시가 보인다." loading="lazy" decoding="async"></div><figcaption>「네로와 파트라슈」, 1872년 영국에서 나온 첫 책의 삽화 · <a href="https://commons.wikimedia.org/wiki/File:Nello_and_Patrasche_1872_Mazzanti.png" target="_blank" rel="noopener">그림: 엔리코 마찬티(1872) · 퍼블릭 도메인 · 위키미디어 공용 · 테두리와 글씨는 잘라 씀</a></figcaption></figure><div class="a"><p class="tx">파트라슈는 누런 털에 머리와 다리가 크고, 늑대처럼 귀가 쫑긋 선 플랑드르 개였어요. 술 취한 철물 장수의 무거운 짐수레를 끌다가, 먼지 날리는 하얀 길 한가운데 쓰러졌어요.</p><p class="tx">할아버지와 네로가 쓰러진 개를 오두막으로 데려가 돌봤어요. 기운을 차린 파트라슈는 할아버지의 수레를 끌었어요. 할아버지는 파트라슈가 끌 수 있게 수레를 고쳤고, 둘은 날마다 소를 가진 이웃들의 우유 통을 싣고 안트베르펜 시내로 갔어요.</p><p class="tx">그림은 1872년 영국에서 나온 첫 책의 삽화예요. 오른쪽 멀리 뾰족한 탑이 선 도시가 보여요.</p></div><div class="k kidwrap"><p class="kidline">네로랑 개 파트라슈는 날마다 우유 통을 실은 수레를 끌고 도시에 갔어.</p><p class="kidq"><b>물어보기</b>그림 속 멀리 보이는 뾰족한 탑은 어디일까?</p></div></section>
+<section class="sc" id="sc-dogs" data-sc="dogs"><div class="sc-head"><span class="no">2</span><h2>개가 수레를 끌던 고장</h2><button type="button" class="fromhere" data-ch="2">▶ 여기부터 크게</button></div>
+<div class="a"><p class="tx">소설 속 개 수레는 지어낸 것이 아니에요. 19세기 플랑드르에서는 실제로 개가 우유 수레를 끌었어요.</p><p class="tx">사진은 1880년 무렵 플랑드르의 우유 수레예요. 반짝이는 우유 통을 실은 수레 둘레에 가죽띠를 맨 개 네 마리가 쉬고 있어요.</p></div><figure class="ph"><div class="frame"><img src="sf-antwerp/dogs.webp" width="1204" height="627" alt="흑백 옛 사진. 커다란 나무 바퀴가 달린 짐수레 위에 반짝이는 금속 우유 통들이 실려 있다. 수레 밑과 앞에 끈과 가죽띠를 맨 개 네 마리가 돌바닥에 엎드려 있거나 앉아 있다. 수레 뒤로 치마와 외투 차림의 두 사람이 서 있는데 얼굴은 보이지 않는다." loading="lazy" decoding="async"></div><figcaption>1880년 무렵 플랑드르의 개가 끄는 우유 수레(사람 얼굴은 잘라 냈어요) · <a href="https://commons.wikimedia.org/wiki/File:Belgium_Flemish_dog_cart_c.1880.jpg" target="_blank" rel="noopener">사진: 찍은 사람 모름(알부민 인화) · 퍼블릭 도메인 · 위키미디어 공용 · 일부 잘라 씀</a></figcaption></figure><div class="a"><p class="tx">위다는 동물을 무척 아꼈고 개를 열두 마리나 길렀다고 해요. 벨기에 신문 브뤼셀 타임스는, 영국에서는 1840년대에 이미 개에게 수레를 끌게 하는 일이 금지되어 위다가 더 마음 아파했다고 전해요.</p><p class="tx">소설에서 철물 장수는 개에게 짐을 너무 많이 싣고 채찍질했어요. 할아버지와 네로는 그런 개를 거두어 함께 일하고 함께 쉬었어요.</p></div><div class="k kidwrap"><p class="kidline">옛날 이 동네에서는 개가 수레를 끌었대. 사진 속에 개가 넷이나 있어!</p><p class="kidq"><b>물어보기</b>수레에 실린 반짝이는 통에는 무엇이 들어 있을까?</p></div></section>
+<section class="sc" id="sc-veil" data-sc="veil"><div class="sc-head"><span class="no">3</span><h2>가려 둔 두 그림</h2><button type="button" class="fromhere" data-ch="3">▶ 여기부터 크게</button></div>
+<div class="a"><p class="tx">네로는 그림을 좋아했어요. 대성당에 들어가면 큰 제단 위 루벤스의 「성모 승천」 앞에 넋을 잃고 무릎을 꿇곤 했어요.</p><p class="tx">하지만 루벤스의 다른 두 그림 「십자가에 올려지심」과 「십자가에서 내려지심」은 천으로 가려져 있었어요. 소설에서 그 그림을 보려면 성당에 은화 한 닢을 내야 했어요.</p></div><figure class="ph tall"><div class="frame"><img src="sf-antwerp/assump.webp" width="1402" height="1920" alt="흑백 엽서 사진. 위가 둥근 큰 그림틀 안에, 구름 속에서 천사들에게 둘러싸여 하늘로 올라가는 여인이 있다. 아래쪽에는 빈 무덤 둘레에 모인 사람들이 위를 올려다보며 손을 뻗는다. 그림틀 위 양쪽 모서리에 날개 달린 아기 천사 조각이 있다." loading="lazy" decoding="async"></div><figcaption>옛 엽서 속 「성모 승천」 — 대성당 큰 제단에 걸린 루벤스의 그림(엽서를 펴낸 해는 기록에 없음) · <a href="https://commons.wikimedia.org/wiki/File:Anvers._Int%C3%A9rieur_de_la_Cath%C3%A9drale._L%27Assomption_de_la_Vierge_(%C5%93uvre_de_P._P._Rubens),_GP096451.jpg" target="_blank" rel="noopener">엽서: 벨기에 사진인쇄 회사(브뤼셀) · 퍼블릭 도메인 · 위키미디어 공용(루뱅 대학 도서관 엽서) · 글씨 부분은 잘라 씀</a></figcaption></figure><div class="a"><blockquote class="jr"><p>“저기 가려 두었어. 그 아름다운 것들을 어둠 속에 가려 두었어!”</p><cite><a href="https://blogs.gre.ac.uk/andrewking/wp-content/uploads/sites/6/2014/10/A-Dog-of-Flanders-edited-by-Andrew-King.pdf" target="_blank" rel="noopener">위다, 「플랜더스의 개」(1872) · 네로가 파트라슈에게 한 말 · 이 안내서가 옮김</a></cite></blockquote><p class="tx">그해 겨울, 안트베르펜에서 그림 대회가 열렸어요. 열여덟 살 아래라면 학생이든 농부의 아이든 누구나, 혼자 힘으로 분필이나 연필로 그린 그림을 낼 수 있었어요. 상은 해마다 200프랑이었어요.</p><p class="tx">네로는 저녁마다 쓰러진 나무에 앉아 있던 나무꾼 미셸 할아버지를 분필로 크게 그렸어요. 12월 24일 낮 열두 시, 상은 부두 관리인의 아들에게 돌아갔어요. 할아버지도 세상을 떠나, 네로와 파트라슈는 집세를 내지 못한 오두막에서 나와야 했어요.</p><p class="tx">사진은 옛 엽서 속 「성모 승천」이에요. 브뤼셀의 한 사진인쇄 회사가 펴냈고, 펴낸 해는 기록에 없어요.</p></div><div class="k kidwrap"><p class="kidline">네로는 그림을 정말 좋아했어. 그런데 가장 보고 싶은 그림 두 개는 천으로 가려져 있었대.</p><p class="kidq"><b>물어보기</b>돈을 내야만 그림을 볼 수 있다면 어떤 마음이 들까?</p></div></section>
+<section class="sc night" id="sc-moon" data-sc="moon"><div class="sc-head"><span class="no">4</span><h2>성탄 밤, 달빛</h2><button type="button" class="fromhere" data-ch="4">▶ 여기부터 크게</button></div>
+<div class="a"><p class="tx">성탄 전야, 네로는 눈 내리는 길을 걸어 안트베르펜으로 갔어요. 파트라슈는 새로 쌓인 눈 아래 희미하게 남은 네로의 발자국을 따라갔어요.</p><p class="tx">자정 미사가 끝난 뒤였어요. 어서 집에 가고 싶던 성당지기들이 문 하나를 잠그지 않고 두었어요. 성당 안은 깜깜했어요.</p></div><div class="mod rv" data-mod="reveal"><div class="mod-top"><p class="mod-intro">깜깜한 성당이에요. 손가락이나 마우스로 문질러 달빛을 비춰 보세요.</p><span class="mod-n rv-n" aria-live="polite"></span></div><div class="rv-box" style="aspect-ratio:1280/955;width:min(100%,calc(66vh * 1.3403))" role="img" aria-label="대성당 하얀 벽 앞, 금빛 틀의 큰 세 폭 그림을 아래에서 올려다본 사진. 가운데 그림에서 사람들이 흰 천에 싸인 몸을 십자가에서 조심스럽게 내리고, 붉은 옷을 입은 사람이 아래에서 받는다. 양옆 날개 그림에도 여러 사람이 그려져 있고, 그림 아래는 붉은 대리석 받침이다."><img class="rv-base" src="sf-antwerp/insitu.webp" alt="" decoding="async"><canvas class="rv-lit"></canvas><span class="rv-glow"></span></div><p class="mod-cap">오늘 대성당에 걸린 루벤스의 「십자가에서 내려지심」(2023년 사진) · <a href="https://commons.wikimedia.org/wiki/File:The_Descent_from_the_Cross_by_Peter_Paul_Rubens_inside_the_Cathedral_of_Our_Lady_in_Antwerp.jpg" target="_blank" rel="noopener">사진: Art-Facts.com(2023) · CC BY-SA 2.0 · 위키미디어 공용</a></p><div class="rv-bar"><button type="button" class="mod-btn rv-all">모두 밝히기</button></div><div class="mod-info rv-info" aria-live="polite"><p>그림을 끝까지 비춰 보세요.</p></div><p class="mod-done rv-after" hidden>“드디어 봤어요!” 소설에서 달빛은 한순간 두 그림을 비췄어요. 그 그림은 지금도 이 대성당에 걸려 있어요.</p></div><div class="a"><blockquote class="jr"><p>“드디어 봤어요! 오, 하나님, 이것으로 충분해요!”</p><cite><a href="https://blogs.gre.ac.uk/andrewking/wp-content/uploads/sites/6/2014/10/A-Dog-of-Flanders-edited-by-Andrew-King.pdf" target="_blank" rel="noopener">위다, 「플랜더스의 개」(1872) · 달빛 아래 그림을 본 네로의 외침 · 이 안내서가 옮김</a></cite></blockquote><p class="tx">그때 어둠을 가르고 하얀 빛이 쏟아졌어요. 하늘 높이 뜬 달이 구름을 뚫고 나왔고, 눈은 그쳐 있었어요. 빛은 아치 사이로 두 그림을 환히 비췄어요. 성당에 들어오면서 네로가 천을 걷어 둔 바로 그 그림이었어요.</p><p class="tx">비춰 본 그림은 지금 대성당에 걸린 「십자가에서 내려지심」이에요. 대성당은 이 그림과 「성모 승천」이 처음부터 이 건물을 위해 그려졌고 지금도 이곳에 있다고 소개해요.</p></div><div class="k kidwrap"><p class="kidline">깜깜한 성당에 달빛이 들어와서, 네로가 그토록 보고 싶던 그림을 비췄대.</p><p class="kidq"><b>물어보기</b>달빛이 비추면 그림에서 무엇이 가장 먼저 보일까?</p></div></section>
+<section class="sc" id="sc-after" data-sc="after"><div class="sc-head"><span class="no">5</span><h2>아침, 그리고 그 뒤</h2><button type="button" class="fromhere" data-ch="5">▶ 여기부터 크게</button></div>
+<div class="a"><p class="tx">다음 날 아침, 안트베르펜 사람들은 성당 안 제단 가까운 곳에서 네로와 파트라슈를 함께 찾았어요. 둘은 그곳에서 함께 숨을 거두었어요.</p><p class="tx">이 소설은 오랫동안 영어권 아이들이 아끼는 책이 되었어요. 그런데 정작 플랑드르에서는 이 이야기를 아는 사람이 거의 없었대요.</p></div><figure class="ph tall"><div class="frame"><img src="sf-antwerp/statue.webp" width="1280" height="1532" alt="푸른 하늘 아래 높이 솟은 고딕 대성당 앞 돌바닥 광장. 앞쪽에 하얀 대리석으로 만든 소년과 개가 나란히 엎드려 잠든 조각이 있고, 광장의 돌바닥이 이불처럼 솟아올라 둘을 덮고 있다. 멀리 성당 문 앞에 사람들이 작게 보인다." loading="lazy" decoding="async"></div><figcaption>대성당 앞 광장의 네로와 파트라슈 조각(조각: 바티스트 페르묄런, 2016년 · 2023년 사진) · <a href="https://commons.wikimedia.org/wiki/File:Nello_%26_Patrasche_and_Cathedral_of_our_Lady.jpg" target="_blank" rel="noopener">사진: APK(2023) · CC BY-SA 4.0 · 위키미디어 공용</a></figcaption></figure><div class="a"><p class="tx">1975년 일본에서 만든 텔레비전 만화가 이야기를 널리 알렸어요. 일본뿐 아니라 필리핀과 한국, 러시아에서도 방송되었어요. 1980년대 초부터 일본 여행자들이 이 대성당을 찾아왔어요.</p><p class="tx">처음에는 일본 자동차 회사 도요타가 준 기념판이 성당 앞에 있었어요. 그 자리를 2016년, 바티스트 페르묄런이 만든 하얀 대리석 조각이 이어받았어요. 광장 바닥돌이 이불처럼 솟아 잠든 둘을 덮고 있어요.</p></div><div class="k kidwrap"><p class="kidline">지금 성당 앞에는 네로와 파트라슈가 같이 잠든 하얀 조각이 있어.</p><p class="kidq"><b>물어보기</b>조각 속 둘은 무엇을 이불처럼 덮고 있을까?</p></div></section>
+
+  <section class="imagine" id="imagine">
+    <div class="flame" aria-hidden="true"></div>
+    <p class="lab">눈 감고 상상해 보기</p>
+    <p class="tx a">눈이 그친 성탄 밤이에요. 커다란 성당 안은 깜깜하고 몹시 추워요. 곁에 엎드린 개의 따뜻한 털이 손에 닿아요. 그때 높은 창으로 하얀 달빛이 쏟아져 들어와요.</p>
+    <p class="tx k">눈을 감아 봐. 깜깜하고 추운 성당이야. 옆에 강아지가 꼭 붙어 있어. 그때 창문으로 하얀 달빛이 들어와!</p>
+    
+  </section>
+
+  <section class="mine col" id="mine">
+    <h2>나의 자리</h2>
+    <p class="ask a">가장 보고 싶었던 것을 끝내 보게 되었을 때, 나는 무엇을 느낄까요? 지금 내가 가장 보고 싶은 ‘그림’은 무엇인가요?</p>
+    <p class="ask k">꼭 보고 싶은 그림이나 장소가 있어?</p>
+    <p class="hint">마음에 닿는 한 줄을 고르거나 직접 써 보세요. 한 줄을 남기면 이 자리의 도장이 찍혀요. 이 기기에만 저장돼요.</p>
+    <div class="lines"><button type="button" class="line a" data-l="은화 한 닢이 없어 보지 못한 그림.">은화 한 닢이 없어 보지 못한 그림.</button><button type="button" class="line a" data-l="눈 위에 희미하게 남은 발자국.">눈 위에 희미하게 남은 발자국.</button><button type="button" class="line a" data-l="구름을 뚫고 나온 달빛.">구름을 뚫고 나온 달빛.</button><button type="button" class="line a" data-l="드디어 봤어요.">드디어 봤어요.</button><button type="button" class="line k" data-l="우유 수레를 끌고 가자!">우유 수레를 끌고 가자!</button><button type="button" class="line k" data-l="깜깜한 성당에 달빛이 반짝!">깜깜한 성당에 달빛이 반짝!</button><button type="button" class="line k" data-l="네로와 파트라슈는 늘 함께.">네로와 파트라슈는 늘 함께.</button></div>
+    <textarea id="note" maxlength="300" placeholder="또는 떠오르는 말을 직접 적어 보세요." aria-label="나의 한 줄"></textarea>
+    <div class="row"><button class="btn main" id="stampBtn" type="button">이 자리에 도장 받기</button><p class="hint" id="stampHint" aria-live="polite"></p></div>
+    <div class="stampout" id="stampOut" hidden></div>
+  </section>
+
+  <section class="deep col" id="deep">
+    <h2>더 깊이</h2>
+    <p class="sub">궁금한 칸만 펼쳐 읽어도 괜찮아요.</p>
+<details class="dp"><summary><span>알고 보면</span></summary><div class="dpb"><p><b>1리그</b> 소설은 네로의 마을이 안트베르펜에서 ‘1리그’ 떨어져 있다고 해요. 리그는 유럽의 옛 거리 단위로 나라마다 달랐는데, 영어권에서는 흔히 3마일(약 4.8킬로미터)로 쳤어요.</p><p><b>200프랑 그림 대회</b> 소설 속 대회의 상은 해마다 200프랑이었고, 열여덟 살 아래라면 누구나 분필이나 연필 그림으로 낼 수 있었어요. 상은 안트베르펜에서 태어난 부두 관리인의 아들 스테판 키슬링거에게 돌아갔어요.</p><p><b>소설의 마을</b> 소설에는 마을 이름이 나오지 않아요. 안트베르펜 남쪽의 호보컨(Hoboken)이 그 마을로 여겨져 왔고, 1980년대에 그곳에 소년과 개의 작은 조각이 세워졌어요.</p><p><b>필명 위다</b> 위다의 본명은 마리아 루이즈 라메예요. 1839년 영국 베리세인트에드먼즈에서 태어나 1874년부터 이탈리아 피렌체에 살았고, 1908년 이탈리아 비아레조에서 세상을 떠났어요.</p></div></details>
+<details class="dp"><summary><span>기록마다 다른 점</span></summary><div class="dpb"><p><b>펴낸 해</b> 브리태니커는 1872년이라고 해요. 브뤼셀 타임스의 한 기사(「숨은 벨기에」)는 1874년이라고 적었어요. 1872년에 나온 영국 첫 책과 미국 첫 책의 삽화가 남아 있어요.</p><p><b>은화를 내야 본 그림</b> 그림을 천으로 가리고 은화를 받았다는 것은 소설 속 이야기예요. 이 안내서는 그 무렵 대성당이 실제로 그렇게 했는지 기록을 찾지 못했어요.</p></div></details>
+<details class="dp"><summary><span>직접 가 보기</span></summary><div class="dpb"><p class="checked">확인한 날 · 2026년 11월 18일 · 바뀌기 쉬운 정보라 정기적으로 다시 확인해요</p><p>「십자가에서 내려지심」과 「성모 승천」은 지금도 대성당 안에 있어요. 여는 때와 입장료는 대성당 누리집에서 확인해 주세요.</p><p>대성당 앞 광장(한드스훈마르크트)에 2016년에 놓인 하얀 대리석 조각이 있어요. 소설의 마을로 여겨지는 호보컨에도 1980년대에 세운 작은 조각이 있어요.</p><ul class="links"><li><a href="https://www.dekathedraal.be/en/visit" target="_blank" rel="noopener">안트베르펜 성모 대성당 공식 누리집 — 여는 때와 입장료</a> <span>영어·네덜란드어</span></li><li><a href="https://www.gutenberg.org/ebooks/7766" target="_blank" rel="noopener">구텐베르크 프로젝트 — 「플랜더스의 개」 1872년 원문 전체</a> <span>영어</span></li><li><a href="https://www.brusselstimes.com/2047904/belgiums-unknown-story-that-became-a-japanese-cult-hit" target="_blank" rel="noopener">브뤼셀 타임스 — 벨기에에서는 잊힌 이야기가 일본에서 사랑받은 사연</a> <span>영어</span></li></ul></div></details>
+    <div class="steps"><div class="stepbox" id="box4"><h3>달빛으로 끝까지 <span class="tag">금박</span></h3><p>깜깜한 성당의 그림을 달빛으로 끝까지 비추면 카드에 금박이 입혀져요.</p><div class="ways"><div class="way" id="w-reveal"><span>어둠 속 그림을 달빛으로 끝까지 비춰 보기</span><em></em></div></div></div><div class="stepbox" id="box5"><h3>아이와 함께 끝까지 <span class="tag">채색</span></h3><p>아이와 함께 ‘영화처럼 보기’를 끝까지 보면 카드가 채색돼요.</p><div class="ways"><div class="way" id="w-kid"><span>아이와 함께 ‘영화처럼 보기’를 끝까지 보기</span><em></em></div></div></div></div>
+  </section>
+
+  <section class="srcbox col">
+    <details class="dp"><summary><span>근거 보기 (10)</span></summary><div class="dpb"><ol class="srcl"><li><a href="https://blogs.gre.ac.uk/andrewking/wp-content/uploads/sites/6/2014/10/A-Dog-of-Flanders-edited-by-Andrew-King.pdf" target="_blank" rel="noopener">위다, 「플랜더스의 개」(1872) 원문 — 앤드루 킹(그리니치 대학) 엮음: 안트베르펜에서 1리그 떨어진 플랑드르 마을 끝 오두막, 누런 털·큰 머리와 다리·늑대 같은 귀, 술 취한 철물 장수, 하얀 먼지 길에 쓰러짐, 할아버지가 수레를 고침, 이웃들의 우유 통, 「성모 승천」 앞에 무릎 꿇음, 어둠 속에 가려 둔 그림과 은화, 200프랑·18세 아래·분필이나 연필, 나무꾼 미셸, 24일 낮 열두 시, 스테판 키슬링거, 밀린 집세, 예한 다스의 죽음, 성탄 전야, 눈 위의 발자국, 자정 미사 뒤 열린 문, 성당지기가 잠그지 않은 문, 구름을 뚫은 달, 아치 사이로 두 그림, 걷어 둔 천, 네로의 외침, 다음 날 아침 제단 가까운 곳</a></li><li><a href="https://www.britannica.com/biography/Ouida" target="_blank" rel="noopener">브리태니커: 위다 — 본명 마리아 루이즈 라메, 1839년 베리세인트에드먼즈, 1908년 비아레조, 필명은 어릴 때 부른 ‘루이자’에서, 영국 작가, 「플랜더스의 개」 1872년·오랫동안 아이들이 좋아한 책, 1874년 피렌체에 정착</a></li><li><a href="https://www.britannica.com/science/league-measurement" target="_blank" rel="noopener">브리태니커: 리그 — 유럽 여러 나라의 단위(3.9~7.4km), 영어권 육상 리그는 흔히 3마일(4.83km)</a></li><li><a href="https://www.brusselstimes.com/2047904/belgiums-unknown-story-that-became-a-japanese-cult-hit" target="_blank" rel="noopener">브뤼셀 타임스: 벨기에에서 잊힌 이야기가 일본에서 사랑받다 — 1980년대 초부터 일본 여행자, 1975년 일본 텔레비전 만화(일본·필리핀·한국·러시아), 도요타 기념판을 바티스트 페르묄런의 대리석 조각이 이어받음, 영국 1840년대 개 수레 금지와 위다의 분노, 개 열두 마리</a></li><li><a href="https://brusselstimes.com/648835/hidden-belgium-nello-and-patrasche" target="_blank" rel="noopener">브뤼셀 타임스: 숨은 벨기에 — 플랑드르에서는 거의 아무도 몰랐던 책, 1874년에 나왔다고 적음</a></li><li><a href="https://www.vrt.be/vrtnws/nl/2023/07/17/standbeeld-van-nello-en-patrasche-bij-kathedraal-in-antwerpen-be/" target="_blank" rel="noopener">VRT NWS(2023): 한드스훈마르크트의 하얀 대리석 조각, 2016년에 놓임, 일본에서 특히 사랑받는 이야기</a></li><li><a href="https://www.atlasobscura.com/places/nello-and-patrasche" target="_blank" rel="noopener">아틀라스 옵스큐라: 네로와 파트라슈 — 1980년대 호보컨(소설의 무대로 여겨지는 곳)에 작은 조각</a></li><li><a href="https://www.dekathedraal.be/en/art-rubens" target="_blank" rel="noopener">안트베르펜 성모 대성당 공식 누리집: 루벤스 — 「십자가에서 내려지심」과 「성모 승천」은 이 건물을 위해 그려져 지금도 이곳에 있음</a></li><li><a href="https://www.dekathedraal.be/en/visit" target="_blank" rel="noopener">안트베르펜 성모 대성당 공식 누리집: 방문 안내</a></li><li><a href="https://commons.wikimedia.org/wiki/File:Nello_and_Patrasche_1872_Mazzanti.png" target="_blank" rel="noopener">위키미디어 공용: 1872년 영국 첫 책(채프먼 앤 홀) 마찬티 삽화 · 1880년 무렵 플랑드르 개 수레 알부민 사진 · 루뱅 대학 도서관 옛 엽서 · 2023년 대성당 안과 광장 사진의 설명</a></li></ol></div></details>
+    <details class="dp"><summary><span>그림·사진·소리 출처</span></summary><div class="dpb"><ul class="cred"><li><a href="https://commons.wikimedia.org/wiki/File:Nello_and_Patrasche_1872_Mazzanti.png" target="_blank" rel="noopener">그림: 엔리코 마찬티(1872) · 퍼블릭 도메인 · 위키미디어 공용 · 테두리와 글씨는 잘라 씀</a></li><li><a href="https://commons.wikimedia.org/wiki/File:Belgium_Flemish_dog_cart_c.1880.jpg" target="_blank" rel="noopener">사진: 찍은 사람 모름(알부민 인화) · 퍼블릭 도메인 · 위키미디어 공용 · 일부 잘라 씀</a></li><li><a href="https://commons.wikimedia.org/wiki/File:Anvers._Int%C3%A9rieur_de_la_Cath%C3%A9drale._L%27Assomption_de_la_Vierge_(%C5%93uvre_de_P._P._Rubens),_GP096451.jpg" target="_blank" rel="noopener">엽서: 벨기에 사진인쇄 회사(브뤼셀) · 퍼블릭 도메인 · 위키미디어 공용(루뱅 대학 도서관 엽서) · 글씨 부분은 잘라 씀</a></li><li><a href="https://commons.wikimedia.org/wiki/File:The_Descent_from_the_Cross_by_Peter_Paul_Rubens_inside_the_Cathedral_of_Our_Lady_in_Antwerp.jpg" target="_blank" rel="noopener">사진: Art-Facts.com(2023) · CC BY-SA 2.0 · 위키미디어 공용</a></li><li><a href="https://commons.wikimedia.org/wiki/File:Nello_%26_Patrasche_and_Cathedral_of_our_Lady.jpg" target="_blank" rel="noopener">사진: APK(2023) · CC BY-SA 4.0 · 위키미디어 공용</a></li><li><a href="https://commons.wikimedia.org/wiki/File:Exterior_of_Onze-Lieve-Vrouwekathedraal_(Antwerp)-.jpg" target="_blank" rel="noopener">사진: Yair Haklai · CC BY-SA 4.0 · 위키미디어 공용</a></li></ul></div></details>
+    <p class="foot">‘처음 만나는 기독교 문화’의 깊은 카드예요. 실제 인물의 사진은 쓰지 않았어요(옛 사진의 사람 얼굴은 잘라 냈어요). 카드 단계와 남긴 글은 이 기기에만 저장돼요.</p>
+  </section>
+</main>
+
+
+
+<div class="ov" id="story" hidden role="dialog" aria-modal="true" aria-label="앞면 이야기">
+  <div class="bar"><span>앞면 이야기 · <span id="stNo"></span></span><button class="x" id="stX" type="button">닫기 ✕</button></div>
+  <div class="pic"><img class="st-img" id="stImg" src="sf-antwerp/card.webp" alt=""></div>
+  <div><p class="say" id="stSay"></p>
+    <div class="nav"><button class="ghost" id="stPrev" type="button">이전</button><div class="dots" id="stDots"></div><button id="stNext" type="button">다음</button></div></div>
+</div>
+
+<div class="film" id="film" hidden role="dialog" aria-modal="true" aria-label="영화처럼 보기">
+  <div class="f-layer" id="fA"></div><div class="f-layer" id="fB"></div>
+  <div class="f-top"><div class="f-prog" id="fProg"></div><span class="f-ch" id="fCh"></span><button class="f-fs" id="fFull" type="button" aria-pressed="false" aria-label="전체 화면" title="전체 화면" hidden><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1.5 5.5v-4h4M10.5 1.5h4v4M14.5 10.5v4h-4M5.5 14.5h-4v-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="f-x" id="fX" type="button">닫기 ✕</button></div>
+  <div class="f-sub" id="fSub" aria-live="polite"></div>
+  <div class="f-ctrl" id="fCtrl"><button id="fPrev" type="button" aria-label="이전">◀</button><button id="fAuto" type="button" aria-pressed="true">자동 넘김</button><button id="fSnd" type="button" aria-pressed="false" hidden>♪ 소리</button><button id="fNext" type="button" aria-label="다음">▶</button></div>
+  <div class="f-start" id="fStart">
+    <p class="f-k">영화처럼 보기 · 약 3분</p>
+    <h2>안트베르펜 성모 대성당</h2>
+    <p class="f-how">화면을 누르거나 → 키를 누르면 넘어가요. 그냥 두어도 자막이 저절로 넘어가요.</p>
+    <div class="f-go"><button id="fGoSnd" type="button" hidden>♪ 소리 켜고 보기</button><button id="fGo" type="button">시작하기</button></div>
+    <p class="f-note" id="fNote" hidden></p>
+  </div>
+</div>
+
+<div class="ov" id="lb" hidden role="dialog" aria-modal="true" aria-label="사진 크게 보기">
+  <div class="bar"><span></span><button class="x" id="lbX" type="button">닫기 ✕</button></div>
+  <div class="pic"><img id="lbImg" alt=""></div>
+  <p class="say" id="lbCap" style="font-size:13px;color:#bdb09a;min-height:0"></p>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"><div class="mini" id="toastCard"></div><div><b id="toastT"></b><p id="toastP"></p></div></div>
+
+<script>
+document.documentElement.classList.add('js');
+const DATA = {"id": "sf-antwerp", "tplv": "deep3-3", "stages": [{"n": 1, "t": "양피지", "done": "이야기를 끝까지 보고 카드를 받았어요", "how": "카드의 ‘이야기 펼치기’나 ‘영화처럼 보기’를 끝까지 보면 받아요"}, {"n": 2, "t": "먹 글씨", "done": "그 자리에 서서 장면을 끝까지 걸었어요", "how": "장면을 끝까지 걷거나, ‘영화처럼 보기’를 끝까지 보세요"}, {"n": 3, "t": "붉은 머리글자", "done": "나의 한 줄을 남기고 도장을 받았어요", "how": "‘나의 자리’에 한 줄을 남겨 보세요"}, {"n": 4, "t": "금박", "done": "달빛으로 그림을 끝까지 비췄어요", "how": "손가락이나 마우스로 그림을 끝까지 비춰 보세요"}, {"n": 5, "t": "채색", "done": "아이와 함께 끝까지 봤어요", "how": "‘아이와 함께’를 켜고 ‘영화처럼 보기’를 끝까지 보세요"}], "front": [{"t": "벨기에 안트베르펜 성모 대성당이에요. 높은 고딕 첨탑이 도시를 내려다봐요.", "kid": "벨기에의 높은 탑이 있는 성당이야.", "f": null}, {"t": "소설 「플랜더스의 개」에서 네로는 그토록 보고 싶던 루벤스의 그림 「십자가에 올려지심」과 「십자가에서 내려지심」 아래에서 파트라슈와 함께 숨을 거둬요. 이 그림들이 실제로 걸린 곳이 바로 이 성당이에요.", "kid": "네로가 그토록 보고 싶던 그림이 이 성당 안에 있어.", "f": [30, 40, 2.4]}, {"t": "앞 광장의 동상은 바로 그 그림을 그린 화가 루벤스예요.", "kid": "광장의 동상은 그림을 그린 화가 루벤스야.", "f": [72, 65, 2.6]}, {"t": "2016년 성당 앞 광장에 네로와 파트라슈가 돌 이불을 덮고 잠든 모습의 하얀 대리석 조형물이 놓였어요.", "kid": "성당 앞에는 네로와 파트라슈가 하얀 이불을 덮고 잠든 조각이 있대.", "f": null}], "card": "sf-antwerp/card.webp", "film": [{"type": "open", "ch": 0, "img": {"u": "sf-antwerp/card.webp", "w": 1200, "h": 967, "alt": "흐린 하늘 아래 높은 고딕 첨탑이 솟은 대성당과, 앞 광장에 서 있는 동상과 나무들. 광장 바닥은 비에 젖어 있다."}, "fit": "cover", "p0": "50% 40%", "p1": "50% 52%", "s0": 1.25, "s1": 1.05, "kicker": "1872년 소설 · 벨기에 안트베르펜", "title": "달빛이 비춘 그림", "lines": [{"t": "벨기에 안트베르펜의 성모 대성당이에요."}, {"t": "한 소설 속 소년이 이 성당의 그림을 그토록 보고 싶어 했어요."}], "kid": [{"t": "벨기에의 아주 높은 성당이야."}, {"t": "어떤 소년이 여기 있는 그림을 정말 보고 싶어 했대.", "ask": true}]}, {"type": "chapter", "ch": 1, "no": 1, "t": "우유 수레"}, {"type": "img", "ch": 1, "img": {"u": "sf-antwerp/cart.webp", "w": 825, "h": 516, "alt": "흑백 판화. 바퀴 하나가 크게 보이는 짐수레에 우유 통 세 개와 마른 나뭇가지가 실려 있고, 털이 덥수룩한 큰 개가 끈에 매여 수레를 끈다. 개 옆에서 챙 넓은 모자를 쓰고 나막신을 신은 소년이 한 손을 개 등에 얹고 걷는다. 왼쪽에 굵은 나무, 오른쪽 멀리 뾰족한 탑이 선 도시가 보인다."}, "fit": "cover", "p0": "55% 50%", "p1": "62% 48%", "s0": 1.15, "s1": 1.3, "cap": "1872년 첫 책의 삽화", "lines": [{"t": "1872년 소설 「플랜더스의 개」의 첫 책 그림이에요."}, {"t": "소년 네로와 개 파트라슈가 날마다 우유 통을 싣고 도시로 갔어요."}], "kid": [{"t": "네로랑 파트라슈가 우유 수레를 끌어."}, {"t": "멀리 보이는 뾰족한 탑은 뭘까?", "ask": true}]}, {"type": "chapter", "ch": 2, "no": 2, "t": "개가 끄는 수레"}, {"type": "img", "ch": 2, "img": {"u": "sf-antwerp/dogs.webp", "w": 1204, "h": 627, "alt": "흑백 옛 사진. 커다란 나무 바퀴가 달린 짐수레 위에 반짝이는 금속 우유 통들이 실려 있다. 수레 밑과 앞에 끈과 가죽띠를 맨 개 네 마리가 돌바닥에 엎드려 있거나 앉아 있다. 수레 뒤로 치마와 외투 차림의 두 사람이 서 있는데 얼굴은 보이지 않는다."}, "fit": "cover", "p0": "30% 50%", "p1": "60% 55%", "s0": 1.25, "s1": 1.1, "cap": "1880년 무렵 플랑드르의 우유 수레", "lines": [{"t": "1880년 무렵 플랑드르의 우유 수레 사진이에요."}, {"t": "그때 이 고장에서는 실제로 개가 수레를 끌었어요."}], "kid": [{"t": "진짜로 개들이 수레를 끌었대!"}, {"t": "사진 속 개는 몇 마리일까?", "ask": true}]}, {"type": "chapter", "ch": 3, "no": 3, "t": "가려 둔 그림"}, {"type": "img", "ch": 3, "img": {"u": "sf-antwerp/assump.webp", "w": 1402, "h": 1920, "alt": "흑백 엽서 사진. 위가 둥근 큰 그림틀 안에, 구름 속에서 천사들에게 둘러싸여 하늘로 올라가는 여인이 있다. 아래쪽에는 빈 무덤 둘레에 모인 사람들이 위를 올려다보며 손을 뻗는다. 그림틀 위 양쪽 모서리에 날개 달린 아기 천사 조각이 있다."}, "fit": "cover", "p0": "50% 30%", "p1": "50% 62%", "s0": 1.2, "s1": 1.05, "cap": "옛 엽서 속 「성모 승천」", "lines": [{"t": "네로는 큰 제단 위 「성모 승천」 앞에 무릎 꿇곤 했어요."}, {"t": "다른 두 그림은 천으로 가려져 있었어요."}, {"t": "어둠 속에 가려 두었어!", "q": true, "from": "「플랜더스의 개」에서"}], "kid": [{"t": "보고 싶은 그림은 천으로 가려져 있었대."}, {"t": "돈이 있어야 볼 수 있었대. 어떤 마음일까?", "ask": true}]}, {"type": "chapter", "ch": 4, "no": 4, "t": "성탄 밤, 달빛"}, {"type": "mod", "mod": "reveal", "ch": 4, "lines": [{"t": "자정 미사가 끝난 성탄 밤, 성당 문 하나가 잠기지 않았어요."}, {"t": "눈 위의 발자국을 따라 파트라슈도 들어왔어요."}, {"t": "그때 달이 구름을 뚫고 나왔어요.", "act": "light", "wait": 2000}, {"t": "빛이 아치 사이로 두 그림을 비췄어요.", "act": "all"}, {"t": "드디어 봤어요! 오, 하나님, 이것으로 충분해요!", "q": true, "from": "「플랜더스의 개」에서"}], "kid": [{"t": "깜깜한 성당이야."}, {"t": "달님이 구름 밖으로 나왔어!", "act": "light", "wait": 1500}, {"t": "보고 싶던 그림이 환하게 보여!", "act": "all"}, {"t": "네로는 어떤 마음이었을까?", "ask": true}]}, {"type": "chapter", "ch": 5, "no": 5, "t": "그 뒤"}, {"type": "img", "ch": 5, "img": {"u": "sf-antwerp/statue.webp", "w": 1280, "h": 1532, "alt": "푸른 하늘 아래 높이 솟은 고딕 대성당 앞 돌바닥 광장. 앞쪽에 하얀 대리석으로 만든 소년과 개가 나란히 엎드려 잠든 조각이 있고, 광장의 돌바닥이 이불처럼 솟아올라 둘을 덮고 있다. 멀리 성당 문 앞에 사람들이 작게 보인다."}, "fit": "cover", "p0": "50% 35%", "p1": "60% 72%", "s0": 1.1, "s1": 1.25, "cap": "대성당 앞 광장의 조각(2016년)", "lines": [{"t": "다음 날 아침, 사람들이 성당에서 둘을 함께 찾았어요."}, {"t": "둘은 그곳에서 함께 숨을 거두었어요."}, {"t": "오늘 성당 앞 광장에는 함께 잠든 둘의 조각이 있어요."}], "kid": [{"t": "네로와 파트라슈는 끝까지 함께였어."}, {"t": "성당 앞에 둘이 같이 잠든 조각이 있대."}, {"t": "둘은 무엇을 덮고 있을까?", "ask": true}]}, {"type": "imagine", "ch": 6, "lines": [{"t": "눈이 그친 성탄 밤, 깜깜하고 추운 성당."}, {"t": "곁에 엎드린 개의 따뜻한 털."}, {"t": "높은 창으로 하얀 달빛이 쏟아져 들어와요."}], "kid": [{"t": "눈을 감아 봐. 깜깜하고 추운 성당이야."}, {"t": "옆에 강아지가 꼭 붙어 있어."}, {"t": "창문으로 하얀 달빛이 들어와!"}]}, {"type": "reward", "ch": 6}], "lines": ["은화 한 닢이 없어 보지 못한 그림.", "눈 위에 희미하게 남은 발자국.", "구름을 뚫고 나온 달빛.", "드디어 봤어요."], "linesKid": ["우유 수레를 끌고 가자!", "깜깜한 성당에 달빛이 반짝!", "네로와 파트라슈는 늘 함께."], "scenes": ["cart", "dogs", "veil", "moon", "after"], "labels": {"cart": "우유 수레를 끄는 둘", "dogs": "개가 수레를 끌던 고장", "veil": "가려 둔 두 그림", "moon": "성탄 밤, 달빛", "after": "아침, 그리고 그 뒤"}, "stamp": {"t": "달빛", "y": "1872", "sub": "안트베르펜"}, "sound": null, "goals": {"s4": {"ways": [{"id": "reveal"}]}, "s5": {"ways": [{"id": "kid", "hint": "‘아이와 함께’를 켜고 ‘영화처럼 보기’를 끝까지 보세요", "okt": "아이와 함께 끝까지 봤어요"}]}}, "mods": {"reveal": {"img": {"u": "sf-antwerp/insitu.webp", "w": 1280, "h": 955, "alt": "대성당 하얀 벽 앞, 금빛 틀의 큰 세 폭 그림을 아래에서 올려다본 사진. 가운데 그림에서 사람들이 흰 천에 싸인 몸을 십자가에서 조심스럽게 내리고, 붉은 옷을 입은 사람이 아래에서 받는다. 양옆 날개 그림에도 여러 사람이 그려져 있고, 그림 아래는 붉은 대리석 받침이다.", "cr": "사진: Art-Facts.com(2023) · CC BY-SA 2.0 · 위키미디어 공용", "cap": "오늘 대성당에 걸린 루벤스의 「십자가에서 내려지심」(2023년 사진)"}, "light": "lamp", "intro": "깜깜한 성당이에요. 손가락이나 마우스로 문질러 달빛을 비춰 보세요.", "marks": [], "after": "“드디어 봤어요!” 소설에서 달빛은 한순간 두 그림을 비췄어요. 그 그림은 지금도 이 대성당에 걸려 있어요."}}, "nch": 5, "doneNote": "대성당의 그 그림 앞에 서면, 달빛이 쏟아지던 소설 속 성탄 밤을 떠올려 보세요.", "filmSound": false};
+</script>
+<script src="_deep3/deep3.js"></script>
+
+</body>
+</html>

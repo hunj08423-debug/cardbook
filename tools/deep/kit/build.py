@@ -19,7 +19,7 @@ REPO = os.path.abspath(os.path.join(KIT, '..', '..', '..'))
 # 받은 원본 그림·소리를 두는 곳: 저장소 밖(커밋되지 않게). 기본은 cardbook 옆의 deep_src 폴더.
 SRCROOT = os.environ.get('DEEP_SRC') or os.path.abspath(os.path.join(REPO, '..', 'deep_src'))
 e = lambda s: html.escape(str(s), quote=True)
-TPLV = 'deep3-3'          # 틀 판(틀을 바꾸면 본부가 올려요) · 3: 놓아 보기·그때와 지금 문구 칸, 품질 85
+TPLV = 'deep3-4'          # 틀 판(틀을 바꾸면 본부가 올려요) · 3: 놓아 보기·그때와 지금 문구 칸, 품질 85 · 4: 새 방식 여섯(키트 3판), 천천히 읽기 단추, 가로 앞면 그림
 AVAIL = set()             # 틀에 들어 있는 손 방식(build 때 채움)
 
 STAGE_BASE = [
@@ -36,6 +36,8 @@ def site_data(repo):
     return cards, ix['sets'], ix
 
 def load(path):
+    if os.path.basename(os.path.dirname(os.path.abspath(path))) == 'examples':
+        sys.exit('이 파일은 새 방식 예시 자료예요(kit/examples). 빌드하지 않아요: 같은 id의 진짜 카드를 덮어쓸 수 있어요. 자료 모양만 보고 cards/의 맡은 카드에 옮겨 적어요.')
     spec = importlib.util.spec_from_file_location('card_' + os.path.basename(path)[:-3].replace('-', '_'), path)
     m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
     return m.CARD
@@ -43,6 +45,7 @@ def load(path):
 def tpl():
     return open(os.path.join(KIT, 'deep3_tpl.html'), encoding='utf-8').read()
 
+PSHARED = 'deep3'          # 미리보기(아티팩트)용 공유 폴더 이름: 아티팩트 서버는 ‘_’로 시작하는 경로를 받지 않아요
 SHARED = '_deep3'            # 모든 깊은 카드가 같이 쓰는 틀 파일(site/deep/_deep3/deep3.css·deep3.js). 본부만 사용자 폴더에 넣어요.
 JS_HEAD = "document.documentElement.classList.add('js');\nconst DATA = /*__DATA__*/null;\n"
 
@@ -222,6 +225,9 @@ def build(C, repo=REPO, preview=None):
         for pr in m.get('pairs', []) or []:
             for kk in ('then', 'now'):
                 if isinstance(pr.get(kk), str) and pr[kk] in have: pr[kk] = imgref(pr[kk])
+        for lk in ('stops', 'steps', 'doors', 'pieces'):          # 키트 3판 새 방식: 목록 안의 그림 키도 주소로
+            for it in m.get(lk, []) or []:
+                if isinstance(it, dict) and isinstance(it.get('img'), str) and it['img'] in have: it['img'] = imgref(it['img'])
     data = {'id': cid, 'tplv': TPLV, 'stages': stages, 'front': front, 'card': have['card']['u'], 'film': film,
             'lines': C['lines'], 'linesKid': C['linesKid'], 'scenes': [s['id'] for s in C['scenes']], 'labels': {s['id']: s['label'] for s in C['scenes']},
             'stamp': C['stamp'], 'sound': None, 'goals': {g: {'ways': [{k2: w[k2] for k2 in ('id', 'hint', 'okt') if k2 in w} for w in G[g]['ways']]} for g in ('s4', 's5')},
@@ -250,6 +256,7 @@ def build(C, repo=REPO, preview=None):
     out = out[:c0] + '<script>\n' + JS_HEAD + f'</script>\n<script src="{SHARED}/deep3.js"></script>' + out[c1:]
     old_brand = '<span class="brand"><span class="long"><b>처음 만나는 기독교 문화</b> · </span>' + e(C['brandsub']) + '</span>'
     assert old_brand in out
+    out = out.replace('href="#sc-road"', f'href="#sc-{C["scenes"][0]["id"]}"')   # ‘천천히 읽기 ↓’는 이 카드의 첫 장면으로
     site_brand = f'<a class="brand" href="../#c-{cid}" style="text-decoration:none">← <span class="long"><b>처음 만나는 기독교 문화</b> · </span>카드 책으로</a>'
     prev_brand = '<a class="brand" href="./" style="text-decoration:none">← <span class="long"><b>깊은 카드 시안</b> · </span>묶음 모아 보기</a>'
     body = out.replace('/*__DATA__*/null', json.dumps(data, ensure_ascii=False).replace('</', '<\\/'))
@@ -265,8 +272,9 @@ def build(C, repo=REPO, preview=None):
     if preview:
         pd = os.path.join(preview, cid); os.makedirs(pd, exist_ok=True)
         for f in os.listdir(od): shutil.copy(os.path.join(od, f), os.path.join(pd, f))
-        open(os.path.join(preview, cid + '.html'), 'w', encoding='utf-8').write(doc(body.replace(old_brand, prev_brand), ''))
-        pdsh = os.path.join(preview, SHARED); os.makedirs(pdsh, exist_ok=True)
+        pbody = body.replace(old_brand, prev_brand).replace(f'"{SHARED}/', f'"{PSHARED}/')
+        open(os.path.join(preview, cid + '.html'), 'w', encoding='utf-8').write(doc(pbody, ''))
+        pdsh = os.path.join(preview, PSHARED); os.makedirs(pdsh, exist_ok=True)
         for f in os.listdir(shared): shutil.copy(os.path.join(shared, f), os.path.join(pdsh, f))
     return {'id': cid, 't': CC['t'], 'tag': CC.get('tag', ''), 'mode': C.get('mode', ''), 'card': have['card']['u'], 'w': card['w'], 'h': card['h'], 'alt': IM['card']['alt'], 'lead': re.sub('<[^>]+>', '', C['lead'])}
 
@@ -299,7 +307,7 @@ if __name__ == '__main__':
     built = [build(load(p), REPO, preview) for p in args]
     if preview and built:
         preview_index(preview, built)
-        fm = {f'{SHARED}/{f}': os.path.join(preview, SHARED, f) for f in sorted(os.listdir(os.path.join(preview, SHARED)))}
+        fm = {f'{PSHARED}/{f}': os.path.join(preview, PSHARED, f) for f in sorted(os.listdir(os.path.join(preview, PSHARED)))}
         for b in built:
             fm[b['id'] + '.html'] = os.path.join(preview, b['id'] + '.html')
             for f in sorted(os.listdir(os.path.join(preview, b['id']))): fm[f"{b['id']}/{f}"] = os.path.join(preview, b['id'], f)
