@@ -703,7 +703,7 @@ const STANDALONE = (() => { try { return navigator.standalone === true || matchM
 let DEMO = null;
 
 /* 카드 단계: 이야기를 끝까지 보면 1(양피지). 깊이 읽기가 있는 카드는 그 페이지의 기록을 따라가요. */
-function deepStage(id){ try { const v = JSON.parse(localStorage.getItem('deep2-' + id) || 'null'); if (!v || !v.ach) return 0; let s = 0; for (let n = 1; n <= 5; n++) { if (v.ach['s' + n]) s = n; else break; } return s; } catch (e) { return 0; } }
+function deepStage(id){ let best = 0; for (const pre of ['deep2-', 'deep3-']) { try { const v = JSON.parse(localStorage.getItem(pre + id) || 'null'); if (!v || !v.ach) continue; let s = 0; for (let n = 1; n <= 5; n++) { if (v.ach['s' + n]) s = n; else break; } if (s > best) best = s; } catch (e) {} } return best; }
 function stageOf(id){ if (DEMO) return DEMO.st[id] || 0; return Math.max(IX && IX.deep[id] ? deepStage(id) : 0, P.got[id] ? 1 : 0); }
 const gotDate = id => DEMO ? (DEMO.d[id] || '') : (typeof P.got[id] === 'string' ? P.got[id] : '');
 const lv = id => { const s = stageOf(id); return s ? ` got lv${s}` : ''; };
@@ -883,7 +883,7 @@ const PILGRIM_SVG = (() => {
 })();
 function deepBand(id){
   const c = IX.cards[id];
-  return `<section class="deepb"><div class="wrap"><a class="deepb-card" href="${IX.deep[id]}" aria-label="${esc(c.t)} 깊이 읽기 열기">${mini(id, 'mid')}</a><div><p class="deepb-k">깊이 읽기</p><h2>${esc(c.t)}</h2><p>그 자리에 서 있는 것처럼 다섯 장면을 걷고, 영화처럼 3분 동안 볼 수 있어요. 더 깊이 읽을수록 카드가 양피지에서 채색 사본으로 자라요.</p><a class="btn gold" href="${IX.deep[id]}">깊이 읽기 열기</a><p class="deepb-n">깊이 읽기 카드는 앞으로 한 장씩 늘어나요.</p></div></div></section>`;
+  return `<section class="deepb"><div class="wrap"><a class="deepb-card" href="${IX.deep[id]}" aria-label="${esc(c.t)} 깊이 읽기 열기">${mini(id, 'mid')}</a><div><p class="deepb-k">깊이 읽기</p><h2>${esc(c.t)}</h2><p>그 자리에 서 있는 것처럼 장면을 걷고, 손으로 해 보고, 영화처럼 크게 볼 수 있어요. 더 깊이 읽을수록 카드가 양피지에서 채색 사본으로 자라요.</p><a class="btn gold" href="${IX.deep[id]}">깊이 읽기 열기</a><p class="deepb-n">깊이 읽기가 있는 카드 ${Object.keys(IX.deep).length}장 · <a href="deep/">모두 모아 보기</a> · 앞으로 한 장씩 늘어나요.</p></div></div></section>`;
 }
 function albumStrip(got, total){
   const recent = gotOrder(Object.keys(IX.cards).filter(id => stageOf(id))).slice(-4), mid = (recent.length - 1) / 2;
@@ -906,7 +906,7 @@ function renderHome(){
   }
   const off = dayNo() % IX.storyOrder.length, so = [...IX.storyOrder.slice(off), ...IX.storyOrder.slice(0, off)].filter(id => id !== sid).slice(0, 6);
   const musts = [...new Set(IX.must.map(i => IX.items[i] && IX.items[i].card).filter(Boolean))];
-  const deepId = Object.keys(IX.deep)[0];
+  const dks = Object.keys(IX.deep), deepId = dks.length ? (IX.deep[tid] ? tid : dks[dayNo() % dks.length]) : null;
   view.innerHTML = `
   <div class="front" id="front">
     <header class="mast" id="cover"><div class="mast-in">
@@ -1130,7 +1130,7 @@ function keepBox(){
 }
 function recordFile(){
   const deep = {};
-  try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (/^deep2-[a-z0-9-]+$/.test(k)) deep[k] = JSON.parse(localStorage.getItem(k)); } } catch (e) {}
+  try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (/^deep[23]-[a-z0-9-]+$/.test(k)) deep[k] = JSON.parse(localStorage.getItem(k)); } } catch (e) {}
   return {kind: 'card-book', v: 1, app: '처음 만나는 기독교 문화', saved: new Date().toISOString(), cards: Object.keys(P.got).length, book: {got: P.got, ord: P.ord, seen: P.seen}, deep};
 }
 const achN = o => o && o.ach ? Object.values(o.ach).filter(Boolean).length : 0;
@@ -1144,7 +1144,7 @@ function mergeRecord(r){
   P.ord = [...new Set([...(Array.isArray(r.book.ord) ? r.book.ord : []), ...P.ord])].filter(id => typeof id === 'string');
   if (r.book.seen && typeof r.book.seen === 'object') for (const k of Object.keys(r.book.seen)) P.seen[k] = 1;
   for (const [k, v] of Object.entries(r.deep || {})) {
-    if (!/^deep2-[a-z0-9-]+$/.test(k) || !v || typeof v !== 'object') continue;
+    if (!/^deep[23]-[a-z0-9-]+$/.test(k) || !v || typeof v !== 'object') continue;
     let cur = null; try { cur = JSON.parse(localStorage.getItem(k) || 'null'); } catch (e) {}
     if (achN(v) > achN(cur)) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
   }
@@ -1316,7 +1316,7 @@ function drawCard(c, chd){
     <p class="sh-q">${esc(kid ? c.kq : c.q)}</p>
     <div class="acts"><button class="btn" type="button" id="stGo">${st ? '이야기 다시 보기' : '이야기 펼치기'}</button></div>
     <p class="got-note" id="gotNote">${st ? gotLine(c.id) : '이야기를 끝까지 보면 카드 책에 꽂혀요.'}</p>
-    ${deep ? `<div class="deepbox"><p>이 카드는 뒷면을 깊게 만든 첫 시안이에요. 그 자리에 서 있는 것처럼 다섯 장면을 걷고, 영화처럼 크게 볼 수도 있어요.</p><a class="btn gold" href="${deep}">깊이 읽기 열기</a></div>` : ''}
+    ${deep ? `<div class="deepbox"><p>이 카드에는 ‘깊이 읽기’가 있어요. 그 자리에 서 있는 것처럼 장면을 걷고, 손으로 해 보고, 영화처럼 크게 볼 수도 있어요.</p><a class="btn gold" href="${deep}">깊이 읽기 열기</a></div>` : ''}
     <p class="line">“${esc(c.line)}”</p>
     <div class="prose">
       <p class="rub">알고 보면</p>${para(kid ? (c.wowKid || c.wow) : c.wow)}
