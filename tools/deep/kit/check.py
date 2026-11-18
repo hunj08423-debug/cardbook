@@ -85,25 +85,37 @@ def static(cid):
     od = os.path.join(REPO, 'site', 'deep', cid)
     if os.path.isdir(od):
         tot = 0
+        try: from PIL import Image
+        except Exception: Image = None
         for f in os.listdir(od):
-            sz = os.path.getsize(os.path.join(od, f)); tot += sz
+            sz = os.path.getsize(os.path.join(od, f)); isbig = '.big.' in f
+            if not isbig: tot += sz                  # 큰 그림은 큰 화면·확대에서만 불러서 합계에 넣지 않아요
             if f.endswith(('.jpg', '.webp')):
-                try:
-                    from PIL import Image
-                    big = max(Image.open(os.path.join(od, f)).size) > 1920
-                except Exception: big = False
-                lim = 1536 if big else 1024
-                if sz > (lim + 32) * 1024: W.append(f'그림이 커요: {f} {sz // 1024}KB(기준서: 한 장 {"1.5MB" if big else "1MB"} 안쪽. 빌드가 품질을 낮춰도 크면 \'max\'를 줄여요)')
+                lim = 6144 if isbig else 2048
+                if sz > (lim + 32) * 1024: W.append(f'그림이 커요: {f} {sz // 1024}KB(기준서: 한 장 {"6MB" if isbig else "2MB"} 안쪽. 빌드가 품질을 낮춰도 크면 \'max\'·\'big\'을 줄여요)')
+                if Image:
+                    try:
+                        with Image.open(os.path.join(od, f)) as I_: w_, h_ = I_.size
+                        L_ = max(w_, h_)
+                        if isbig and L_ > 3840 + 8: W.append(f'큰 그림이 커요: {f} 긴 쪽 {L_}px(기준서: 3840px 안쪽)')
+                        if not isbig and L_ > 1920 + 8: W.append(f'그림이 커요: {f} 긴 쪽 {L_}px(기준서: 보통 그림 1920px 안쪽 · 큰 그림은 빌드가 따로 만들어요)')
+                        if not isbig and L_ < 1000 and f.split('.')[0] != 'card': W.append(f'그림이 작아요: {f} 긴 쪽 {L_}px(크게 볼 때 흐려요. 더 큰 파일이 있으면 바꿔요)')
+                    except Exception: pass
             if f.endswith(('.mp3', '.ogg', '.m4a')) and sz > 1024 * 1024: W.append(f'소리가 커요: {f} {sz // 1024}KB(기준서: 한 개 1MB 안쪽)')
-            if f.endswith(('.jpg', '.webp')):
-                try:
-                    from PIL import Image
-                    w_, h_ = Image.open(os.path.join(od, f)).size
-                    if max(w_, h_) > 2600: W.append(f'그림이 커요: {f} 긴 쪽 {max(w_, h_)}px(기준서: 1920px, 자세히 볼 그림만 2560px까지)')
-                    if max(w_, h_) < 1000 and f.split('.')[0] != 'card': W.append(f'그림이 작아요: {f} 긴 쪽 {max(w_, h_)}px(크게 볼 때 흐려요. 더 큰 파일이 있으면 바꿔요)')
-                except Exception: pass
         snd = sum(os.path.getsize(os.path.join(od, f)) for f in os.listdir(od) if f.endswith(('.mp3', '.ogg', '.m4a')))
-        if tot - snd > 6.5 * 1024 * 1024: W.append(f'그림 합계가 커요: {(tot - snd) // 1024}KB(기준서: 카드 하나 6MB 안쪽)')
+        if tot - snd > 14 * 1024 * 1024: W.append(f'그림 합계가 커요: {(tot - snd) // 1024}KB(기준서: 보통 그림 합계 14MB 안쪽 · 큰 그림 빼고)')
+        thin = []                                      # 원본이 아닌 그림(위키미디어가 줄여 준 판)
+        srcroot = os.environ.get('DEEP_SRC') or os.path.abspath(os.path.join(REPO, '..', 'deep_src'))
+        for k, im in (C.get('images') or {}).items():
+            sp = im.get('src')
+            if not sp or os.path.isabs(sp): continue
+            cid2, fn2 = (sp.replace('\\', '/').split('/', 1) + [''])[:2]
+            try: rec = json.load(open(os.path.join(srcroot, cid2, '_sources.json'), encoding='utf-8')).get(fn2) or {}
+            except Exception: continue
+            if '/thumb/' in str(rec.get('from', '')) and not any(k2 in rec for k2 in ('derived', 'derived_from', 'basis', 'how', 'edit')):
+                st2 = os.path.splitext(fn2)[0]; od2 = os.path.join(srcroot, cid2, '_orig')
+                if not (os.path.isdir(od2) and any(os.path.splitext(x)[0] in (st2, fn2[:-4]) or x == fn2 for x in os.listdir(od2))): thin.append(k)
+        if thin: W.append(f'원본이 아닌 그림 {len(thin)}개(위키미디어가 줄여 준 판 · 원본으로 다시 받으면 더 선명해요 · GUIDE 3-3): {", ".join(thin[:8])}')
         hp = os.path.join(REPO, 'site', 'deep', cid + '.html')
         if os.path.exists(hp):
             h = open(hp, encoding='utf-8').read()

@@ -11,15 +11,24 @@
 원본이 없으면(다른 컴퓨터, 다시 만들기) 이미 만들어 둔 site/deep/<id>/ 의 파일을 그대로 다시 써요.
 """
 import sys; sys.dont_write_bytecode = True   # 사용자 폴더에 __pycache__를 만들지 않아요
-import json, os, sys, html, shutil, importlib.util, glob, re
-from PIL import Image
+import json, os, sys, html, shutil, importlib.util, glob, re, io
+from PIL import Image, ImageOps
+Image.MAX_IMAGE_PIXELS = None    # 원본(아주 큰 그림)도 열어요. 위키미디어에서 출처를 확인하고 받은 파일만 다뤄요
 
 KIT = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(KIT, '..', '..', '..'))
 # 받은 원본 그림·소리를 두는 곳: 저장소 밖(커밋되지 않게). 기본은 cardbook 옆의 deep_src 폴더.
 SRCROOT = os.environ.get('DEEP_SRC') or os.path.abspath(os.path.join(REPO, '..', 'deep_src'))
 e = lambda s: html.escape(str(s), quote=True)
-TPLV = 'deep3-4'          # 틀 판(틀을 바꾸면 본부가 올려요) · 3: 놓아 보기·그때와 지금 문구 칸, 품질 85 · 4: 새 방식 여섯(키트 3판), 천천히 읽기 단추, 가로 앞면 그림
+TPLV = 'deep3-5'          # 틀 판(틀을 바꾸면 본부가 올려요) · 3: 놓아 보기·그때와 지금 문구 칸, 품질 85 · 4: 새 방식 여섯(키트 3판), 천천히 읽기 단추, 가로 앞면 그림 · 5: 그림 두 벌(큰 그림), 원본에서 만들기, 품질 90
+# 그림 두 벌(기준서 2판 보탬 2 · 2026-11-18): 보통 그림은 긴 쪽 1920 이하, 큰 그림(<키>.big.webp)은 원본이 충분히 클 때 긴 쪽 3840까지.
+# 큰 그림은 화면에 크게 보일 때만(큰 화면·확대·영화) 틀이 불러요. 원본이 같은 카드 폴더의 _orig/에 있으면 그것으로 만들어요.
+BASE_MAX, BIG_MAX = 1920, 3840
+BASE_Q, BIG_Q = (90, 88, 85, 82), (90, 88, 85)      # WebP 품질: 앞의 것부터, 한 장 크기를 넘을 때만 다음 것으로
+BASE_CAP, BIG_CAP = 2 * 1024 * 1024, 6 * 1024 * 1024
+BIG_GAIN = 1.15                  # 원본이 보통 그림보다 이만큼 이상 클 때만 큰 그림을 만들어요
+PREVIEW_BIG_BUDGET = 36 * 1024 * 1024   # 미리 보기(아티팩트)에 넣는 큰 그림 합계(한 번 올리기 64MB 안쪽이 되게)
+PREVIEW_USED = [0]
 AVAIL = set()             # 틀에 들어 있는 손 방식(build 때 채움)
 
 STAGE_BASE = [
@@ -82,6 +91,68 @@ def gen_mod_html(name, cfg, have, IM):
     f = getattr(modhtml, name, None)
     return f(cfg, have, IM) if f else None
 
+ORIG_EXT = ('.jpg', '.jpeg', '.png', '.tif', '.tiff', '.gif', '.webp')
+def orig_path(src):
+    """받은 그림 src의 원본(같은 카드 폴더의 _orig/, 본부가 다시 받은 것)이 있으면 그 경로. 없으면 None"""
+    d, fn = os.path.split(src); od = os.path.join(d, '_orig')
+    if not os.path.isdir(od): return None
+    cands = [fn]
+    if fn.lower().endswith('.jpg'): cands.append(fn[:-4])                      # ‘이름.tif.jpg’ → ‘이름.tif’
+    st = os.path.splitext(fn)[0]; cands += [st + x for x in ORIG_EXT]
+    for c in cands:
+        p = os.path.join(od, c)
+        if os.path.isfile(p): return p
+    return None
+
+def _oriented(I):
+    """EXIF 방향까지 셈한 (가로, 세로) — 열지 않고 머리만 읽어요"""
+    w, h = I.size
+    try: o = I.getexif().get(274, 1)
+    except Exception: o = 1
+    return (h, w) if o in (5, 6, 7, 8) else (w, h)
+
+def open_src(path, need=None, crop=None):
+    """그림 열기: 아주 큰 JPEG는 필요한 크기 가까이로 줄여 읽고(draft), EXIF 방향을 바로잡고, 색 공간을 sRGB로, 8비트 RGB로."""
+    I = Image.open(path)
+    if need and I.format == 'JPEG':
+        W, H = _oriented(I)
+        l, t, r, b = crop or (0, 0, 1, 1)
+        cl = max((r - l) * W, (b - t) * H)
+        if cl > need:
+            k = need / cl
+            I.draft('RGB', (max(1, int(I.size[0] * k) + 1), max(1, int(I.size[1] * k) + 1)))
+    I.load()
+    try: I = ImageOps.exif_transpose(I)
+    except Exception: pass
+    if I.mode in ('I;16', 'I;16B', 'I;16L', 'I', 'F'):
+        import numpy as np
+        a = np.asarray(I).astype('float64'); mx = a.max() or 1
+        I = Image.fromarray((a * (255.0 / (65535 if mx > 255 else 255))).clip(0, 255).astype('uint8'), 'L')
+    icc = I.info.get('icc_profile')
+    if icc and I.mode in ('RGB', 'CMYK'):
+        try:
+            from PIL import ImageCms
+            pr = ImageCms.ImageCmsProfile(io.BytesIO(icc))
+            name = (ImageCms.getProfileDescription(pr) or '').lower().replace(' ', '')
+            if I.mode == 'CMYK' or 'srgb' not in name:
+                I = ImageCms.profileToProfile(I, pr, ImageCms.createProfile('sRGB'), outputMode='RGB')
+        except Exception as ex:
+            print(f'  (색 공간을 바꾸지 못했어요: {os.path.basename(path)} — {type(ex).__name__})')
+    if I.mode not in ('RGB', 'L'): I = I.convert('RGB')
+    return I
+
+def srckey(im):
+    """그림 자료(src·crop)를 알아보는 짧은 표(큰 그림을 지킬지 정할 때). 파일 경로처럼 보이지 않게 해시로"""
+    import hashlib
+    return hashlib.sha1(f"{im.get('src')}|{im.get('crop')}".encode('utf-8')).hexdigest()[:12]
+
+def save_webp(I, out, qs, cap):
+    """품질 qs의 앞의 것부터 저장하고, 한 장 크기(cap)를 넘을 때만 다음 품질로"""
+    for q in qs:
+        I.save(out, 'WEBP', quality=q, method=5)
+        if os.path.getsize(out) <= cap: return q
+    return qs[-1]
+
 def build(C, repo=REPO, preview=None):
     global AVAIL
     AVAIL = mods_in_tpl()
@@ -98,30 +169,69 @@ def build(C, repo=REPO, preview=None):
     if 'card' not in IM:                               # 앞면 그림: 따로 적지 않으면 사이트 카드 그림(긴 쪽 1200 안팎)
         IM['card'] = {'src': os.path.join(repo, 'site', 'img', 'c', cid + '.webp'), 'max': 1200 if fmt == 'webp' else 900, 'q': 84, 'cr': CC['cr'], 'u': CC.get('cru', ''), 'alt': CC['alt']}
     have = {}
+    big_note = []
+    old_bigsrc, bigsrc = {}, {}                  # 큰 그림을 어느 원본·자르기로 만들었는지(다른 창이 _orig 없이 다시 빌드해도 큰 그림을 지키려고)
+    try:
+        h0 = open(os.path.join(site_dir, cid + '.html'), encoding='utf-8').read(); j0 = h0.index('const DATA = ') + len('const DATA = ')
+        old_bigsrc = json.JSONDecoder().raw_decode(h0, j0)[0].get('bigsrc') or {}
+    except Exception: pass
     for k, im in IM.items():
         out = os.path.join(od, k + ext)
+        bout = os.path.join(od, k + '.big' + ext)
         src = im.get('src')
         if src and not os.path.isabs(src): src = os.path.join(SRCROOT, src)
+        made_big = False
         if src and os.path.exists(src):
-            I = Image.open(src); I.load()
-            if I.mode not in ('RGB', 'L'): I = I.convert('RGB')
+            mx = min(im.get('max', BASE_MAX if fmt == 'webp' else 1280), BASE_MAX)
+            want = im.get('big', BIG_MAX if im.get('max', BASE_MAX) >= BASE_MAX else 0)
+            if want is True: want = BIG_MAX
+            want = int(want or 0) if fmt == 'webp' else 0
+            use = src
+            op = orig_path(src)
+            if op:                                    # 원본이 있으면: 받아 둔 판과 비율이 같은지 보고(방향·다른 그림 막기) 원본으로
+                try:
+                    with Image.open(src) as a, Image.open(op) as b:
+                        (aw, ah), (bw, bh) = _oriented(a), _oriented(b)
+                    if abs(aw / ah - bw / bh) <= 0.02 * (aw / ah): use = op
+                    else: print(f'  ⚠ {k}: _orig의 원본 비율이 받아 둔 판과 달라요({bw}×{bh} · {aw}×{ah}) — 받아 둔 판으로 만들어요')
+                except Exception as ex:
+                    print(f'  ⚠ {k}: 원본을 열지 못했어요({type(ex).__name__}) — 받아 둔 판으로 만들어요')
+            try: I = open_src(use, max(mx, want), im.get('crop'))
+            except Exception as ex:                 # 원본이 깨졌거나(받다 끊김) 열 수 없으면 받아 둔 판으로
+                if use == src: raise
+                print(f'  ⚠ {k}: 원본을 읽지 못했어요({type(ex).__name__}: {str(ex)[:60]}) — 받아 둔 판으로 만들어요'); use = src
+                I = open_src(use, max(mx, want), im.get('crop'))
             if im.get('crop'):
                 l, t, r, b = im['crop']; w, h = I.size
                 I = I.crop((round(l * w), round(t * h), round(r * w), round(b * h)))
-            mx = im.get('max', 1920 if fmt == 'webp' else 1280)
-            if max(I.size) > mx:
-                sc = mx / max(I.size); I = I.resize((round(I.width * sc), round(I.height * sc)), Image.LANCZOS)
             if I.mode == 'L': I = I.convert('RGB')
-            if fmt == 'webp':                          # 품질 85(기준서 1판 보탬 7). 한 장 1MB(크게 볼 그림 1.5MB)를 넘을 때만 조금씩 낮춰요
-                cap = (1536 if mx > 1920 else 1024) * 1024
-                for q in ([im['q']] if im.get('q') else [85, 80, 76, 72]):
-                    I.save(out, 'WEBP', quality=q, method=5)
-                    if os.path.getsize(out) <= cap: break
-            else: I.save(out, 'JPEG', quality=im.get('q', 80), optimize=True, progressive=True)
+            L0 = max(I.size)
+            B = I
+            if L0 > mx:
+                sc = mx / L0; B = I.resize((round(I.width * sc), round(I.height * sc)), Image.LANCZOS)
+            if fmt == 'webp':                          # 품질 90(기준서 2판 보탬 2). 한 장 2MB를 넘을 때만 조금씩 낮춰요
+                save_webp(B, out, [im['q']] if im.get('q') else BASE_Q, BASE_CAP)
+            else: B.save(out, 'JPEG', quality=im.get('q', 80), optimize=True, progressive=True)
+            if want and L0 > max(B.size) * BIG_GAIN:  # 큰 그림: 원본이 보통 그림보다 충분히 클 때만
+                G = I
+                if L0 > want:
+                    sc = want / L0; G = I.resize((round(I.width * sc), round(I.height * sc)), Image.LANCZOS)
+                save_webp(G, bout, [im['bq']] if im.get('bq') else BIG_Q, BIG_CAP); made_big = True
+                bigsrc[k] = srckey(im) + (':orig' if use != src else ':src')
+            elif want and use == src and max(B.size) >= mx and '/_orig/' not in use.replace('\\', '/'):
+                big_note.append(k)
+            if not made_big and os.path.exists(bout):
+                ob = old_bigsrc.get(k, '')
+                if want and use == src and ob.startswith(srckey(im) + ':'):   # 같은 그림·같은 자르기로 본부가 원본에서 만든 큰 그림: 그대로 둬요
+                    bigsrc[k] = ob; big_note.remove(k) if k in big_note else None
+                else: os.remove(bout)               # 그림이 바뀌었거나 큰 그림이 필요 없어졌으면 치워요(이 카드가 만든 것)
         elif not os.path.exists(out):
             raise SystemExit(f'그림이 없어요: {k} (src={src}) — commons_get.py로 받거나 경로를 고쳐 주세요')
         I = Image.open(out)
         have[k] = {'u': f'{cid}/{k}{ext}', 'w': I.width, 'h': I.height}
+        if os.path.exists(bout):
+            with Image.open(bout) as G: have[k].update({'b': f'{cid}/{k}.big{ext}', 'bw': G.width, 'bh': G.height})
+    if big_note: print(f'  · 큰 그림을 못 만든 그림 {len(big_note)}개(받아 둔 판이 작아요. 원본을 받으면 더 선명해져요): ' + ', '.join(big_note))
     for s in C.get('sounds', []):
         dst = os.path.join(od, os.path.basename(s['file']))
         src = s['file'] if os.path.isabs(s['file']) else os.path.join(SRCROOT, s['file'])
@@ -256,7 +366,8 @@ def build(C, repo=REPO, preview=None):
     data = {'id': cid, 'tplv': TPLV, 'stages': stages, 'front': front, 'card': have['card']['u'], 'film': film,
             'lines': C['lines'], 'linesKid': C['linesKid'], 'scenes': [s['id'] for s in C['scenes']], 'labels': {s['id']: s['label'] for s in C['scenes']},
             'stamp': C['stamp'], 'sound': None, 'goals': {g: {'ways': [{k2: w[k2] for k2 in ('id', 'hint', 'okt') if k2 in w} for w in G[g]['ways']]} for g in ('s4', 's5')},
-            'mods': mods, 'nch': len(C['scenes']), 'doneNote': C.get('doneNote', ''), 'filmSound': bool(C.get('filmSound'))}
+            'mods': mods, 'nch': len(C['scenes']), 'doneNote': C.get('doneNote', ''), 'filmSound': bool(C.get('filmSound')),
+            'big': {h['u']: h['b'] for h in have.values() if h.get('b')}, 'bigsrc': {k: v for k, v in bigsrc.items() if have.get(k, {}).get('b')}}
     card = have['card']
     rep = {
         '{{PAGETITLE}}': e(C['pagetitle']), '{{BRANDSUB}}': e(C['brandsub']), '{{SEAL}}': e(C['stamp']['t'][0]),
@@ -296,8 +407,17 @@ def build(C, repo=REPO, preview=None):
     print(f'{cid}: site/deep/{cid}.html {len(site_html)//1024}KB · 자산 {len(os.listdir(od))}개 {size//1024}KB')
     if preview:
         pd = os.path.join(preview, cid); os.makedirs(pd, exist_ok=True)
-        for f in os.listdir(od): shutil.copy(os.path.join(od, f), os.path.join(pd, f))
-        pbody = body.replace(old_brand, prev_brand).replace(f'"{SHARED}/', f'"{PSHARED}/')
+        pbig = {}
+        for f in sorted(os.listdir(od)):
+            fp = os.path.join(od, f)
+            if '.big.' in f:                           # 큰 그림은 미리 보기 한도 안에서만(나머지는 보통 그림으로 보여요)
+                if PREVIEW_USED[0] + os.path.getsize(fp) > PREVIEW_BIG_BUDGET: continue
+                PREVIEW_USED[0] += os.path.getsize(fp); pbig[f'{cid}/{f}'] = 1
+            shutil.copy(fp, os.path.join(pd, f))
+        pdata = dict(data, big={u: b for u, b in data['big'].items() if b in pbig})
+        if len(pdata['big']) < len(data['big']): print(f'  · 미리 보기에는 큰 그림 {len(pdata["big"])}/{len(data["big"])}장만 넣었어요(올리기 한도). 사이트에는 모두 들어가요.')
+        pbody = out.replace('/*__DATA__*/null', json.dumps(pdata, ensure_ascii=False).replace('</', '<\\/'))
+        pbody = pbody.replace(old_brand, prev_brand).replace(f'"{SHARED}/', f'"{PSHARED}/')
         open(os.path.join(preview, cid + '.html'), 'w', encoding='utf-8').write(doc(pbody, ''))
         pdsh = os.path.join(preview, PSHARED); os.makedirs(pdsh, exist_ok=True)
         for f in os.listdir(shared): shutil.copy(os.path.join(shared, f), os.path.join(pdsh, f))

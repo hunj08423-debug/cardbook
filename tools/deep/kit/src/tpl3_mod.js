@@ -1,6 +1,51 @@
 /* ===== 손으로 하는 방식(모듈): 카드마다 이야기에서 나온 한 가지 ===== */
 const MODS = {};
 function initMods(){ $$('[data-mod]').forEach(el => { const m = MODS[el.dataset.mod]; if (m && m.init) m.init(el, (DATA.mods || {})[el.dataset.mod] || {}); }); }
+/* ===== 큰 그림(그림 두 벌 · 기준서 2판 보탬 2): 보통 그림이 화면에서 늘어나 보일 때만 큰 그림(.big)으로 바꿔요 ===== */
+const BIG = DATA.big || {};
+const SMALLSCR = (() => { try { return Math.min(screen.width, screen.height) < 600; } catch (e) { return false; } })();
+const SAVEDATA = (() => { try { const c = navigator.connection; return !!(c && (c.saveData || /(^|-)(2g|3g)$/.test(c.effectiveType || ''))); } catch (e) { return false; } })();   // 데이터 절약·느린 연결: 확대할 때만 큰 그림
+let filmBigOn = false, bigIO = null, bigRT = 0;
+function bigNeed(img){  // 화면 픽셀 기준으로 보통 그림이 1.1배(작은 화면은 1.6배) 넘게 늘어나면 true
+  if (!img.isConnected) return false;
+  const r = img.getBoundingClientRect(); if (r.width < 2 || r.height < 2) return false;
+  const nw = img.naturalWidth || +img.getAttribute('width') || 0, nh = img.naturalHeight || +img.getAttribute('height') || 0; if (!nw || !nh) return false;
+  const fit = getComputedStyle(img).objectFit;
+  const k = fit === 'cover' ? Math.max(r.width / nw, r.height / nh) : (fit === 'contain' || fit === 'scale-down') ? Math.min(r.width / nw, r.height / nh) : r.width / nw;
+  const px = (window.devicePixelRatio || 1) * (window.visualViewport ? (visualViewport.scale || 1) : 1);
+  return k * px > (SMALLSCR ? 1.6 : 1.1);
+}
+function bigUp(img, force){
+  if (!img) return;
+  const u = img.getAttribute('src'), b = BIG[u]; if (!b || img.dataset.bigWait === u) return;
+  if (!force && (SAVEDATA || !bigNeed(img))) return;
+  img.dataset.bigWait = u;
+  const p = new Image(); p.decoding = 'async';
+  p.onload = () => { const go = () => { if (img.getAttribute('src') === u) { img.src = b; if (img.closest('#film')) filmBigOn = true; } }; if (p.decode) p.decode().then(go, go); else go(); };
+  p.onerror = () => { delete img.dataset.bigWait; };
+  p.src = b;
+}
+function bigLater(img){ if (!BIG[img.getAttribute('src')]) return; const go = () => requestAnimationFrame(() => requestAnimationFrame(() => bigUp(img))); if (img.complete && img.naturalWidth) go(); else img.addEventListener('load', go, {once: true}); }
+function bigInit(){
+  if (!Object.keys(BIG).length) return;
+  if ('IntersectionObserver' in window) bigIO = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) bigLater(en.target); }), {rootMargin: '600px 0px'});
+  const watch = i => { if (BIG[i.getAttribute('src')]) { if (bigIO) bigIO.observe(i); else bigLater(i); } };
+  document.querySelectorAll('img').forEach(watch);
+  if ('MutationObserver' in window) new MutationObserver(ms => ms.forEach(m => {
+    if (m.type === 'attributes') { if (m.target.tagName === 'IMG') { watch(m.target); bigLater(m.target); } return; }
+    m.addedNodes.forEach(n => { if (n.nodeType !== 1) return; (n.tagName === 'IMG' ? [n] : n.querySelectorAll('img')).forEach(i => { watch(i); bigLater(i); }); });
+  })).observe(document.body, {subtree: true, childList: true, attributes: true, attributeFilter: ['src']});
+  const again = () => { clearTimeout(bigRT); bigRT = setTimeout(() => document.querySelectorAll('img').forEach(i => { if (!BIG[i.getAttribute('src')]) return; const r = i.getBoundingClientRect(); if (r.bottom > -300 && r.top < innerHeight + 300) bigUp(i); }), 350); };
+  addEventListener('resize', again); if (window.visualViewport) visualViewport.addEventListener('resize', again);
+}
+function filmPre(i){  // 영화: 다음 장면 그림을 미리 받아 둬요(큰 그림을 쓰는 화면이면 큰 그림으로)
+  const s = (DATA.film || [])[i]; if (!s) return;
+  const us = [];
+  ['img', 'then', 'now'].forEach(k => { if (s[k] && s[k].u) us.push(s[k].u); });
+  if (s.type === 'mod') { const c = (DATA.mods || {})[s.mod] || {}; if (c.img && c.img.u) us.push(c.img.u); (c.pairs || []).slice(0, 1).forEach(p => ['then', 'now'].forEach(k => { if (p[k] && p[k].u) us.push(p[k].u); })); }
+  us.forEach(u => { const a = new Image(); a.decoding = 'async'; a.src = (filmBigOn && !SAVEDATA && BIG[u]) ? BIG[u] : u; });
+}
+
 const pad2 = n => String(n).padStart(2, '0');
 const ymd = d => `${d.getFullYear()}.${pad2(d.getMonth() + 1)}.${pad2(d.getDate())}`;
 const mdK = d => `${d.getMonth() + 1}월 ${d.getDate()}일`;
@@ -327,6 +372,7 @@ MODS.look = (() => {
     const z = root.querySelector('.lk-zoom'); if (!z) return;
     if (i == null || i < 0) { z.style.setProperty('--z', 1); root.classList.remove('zoomed'); return; }
     const sp = cfg.spots[i]; z.style.setProperty('--ox', sp.x + '%'); z.style.setProperty('--oy', sp.y + '%'); z.style.setProperty('--z', cfg.zoom || 2); root.classList.add('zoomed');
+    bigUp(z.querySelector('img'), true);   // 가까이 볼 때는 큰 그림으로
   }
   function zbtn(){ const b = el.querySelector('.lk-zoombtn'); b.disabled = cur < 0; b.textContent = zoomed ? '전체 보기' : '가까이 보기'; b.setAttribute('aria-pressed', String(zoomed)); }
   function show(i){
@@ -425,6 +471,10 @@ MODS.reveal = (() => {
       const box = el.querySelector('.rv-box');
       img = new Image(); img.decoding = 'async'; img.src = cfg.img.u;
       o = setup(box); img.onload = () => paint(o);
+      img.addEventListener('load', () => {   // 큰 화면이면 비출 그림도 큰 그림으로
+        const b = BIG[cfg.img.u], d = Math.min(2, window.devicePixelRatio || 1); if (!b || box.clientWidth * d <= img.naturalWidth * 1.1) return;
+        const i2 = new Image(); i2.decoding = 'async'; i2.onload = () => { img = i2; paint(o); }; i2.src = b;
+      }, {once: true});
       const R = {candle: .11, lamp: .14, torch: .17}[cfg.light] || .12;
       const at = ev => { const r = box.getBoundingClientRect(); return [clamp((ev.clientX - r.left) / r.width, 0, 1), clamp((ev.clientY - r.top) / r.height, 0, 1)]; };
       const move = ev => {

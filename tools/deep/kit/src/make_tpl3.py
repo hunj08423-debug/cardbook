@@ -122,7 +122,9 @@ css = open(f'{W}/tpl3_mod.css', encoding='utf-8').read()
 js = open(f'{W}/tpl3_mod.js', encoding='utf-8').read()
 rep('@media (min-width:860px){\n  .hero{', css + '\n@media (min-width:860px){\n  .hero{')
 rep("drawStage(false); drawStamp(false); check(); hold($('#lcHold'));",
-    js + "\ninitMods();\ndrawStage(false); drawStamp(false); check(); hold($('#lcHold'));")
+    js + "\ninitMods();\nbigInit();\ndrawStage(false); drawStamp(false); check(); hold($('#lcHold'));")
+# 영화: 다음 장면 그림 미리 받기(큰 그림 두 벌 · 2026-11-18)
+rep("function showShot(i){\n  clearT(); fWait = null; fi = i; li = -1;\n", "function showShot(i){\n  clearT(); fWait = null; fi = i; li = -1; filmPre(i + 1);\n")
 # 도장 글자 크기: 글자가 길면 작게
 rep('<text x="100" y="104" text-anchor="middle" font-size="36" font-weight="700" font-family="Gowun Batang, serif">${s.t}</text>',
     '<text x="100" y="104" text-anchor="middle" font-size="${s.t.length > 3 ? 27 : 36}" font-weight="700" font-family="Gowun Batang, serif">${s.t}</text>')
