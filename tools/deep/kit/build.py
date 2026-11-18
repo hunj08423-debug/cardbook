@@ -386,12 +386,15 @@ def build(C, repo=REPO, preview=None):
                         'src': [{'t': s2['t'], 'm': s2.get('m', ''), 'u': s2['u']} for s2 in x.get('src', [])],
                         'go': ({'t': go['t'], 'cid': go['cid'], 'u': f'{go["cid"]}.html'} if go else None)})
     if qx_html:
-        nx = len([x for x in qx_data if x['pk'] == 1])
-        more = (f'<p class="qx-more" id="qxMore">다 펼치면 다음 꾸러미가 열려요 · 꾸러미 1/{npk}</p>' if npk > 1 else '')
-        qx_html = (f'<section class="qx" aria-label="뒷이야기"><div class="qx-head"><h3>뒷이야기</h3><span class="qx-n" id="qxN" aria-live="polite">0/{nx} 펼쳤어요</span>'
+        # 지치지 않게(2026-11-19 사용자님): 개수는 안 보이고, 꾸러미가 여럿이면 쉼표 칸과 지난 꾸러미 줄을 둬요(틀이 채워요)
+        more = ('<p class="qx-more" id="qxMore">다 펼치면, 다음에 오실 때 새 이야기가 찾아와요.</p>' if npk > 1 else '')
+        rest = ('<div class="qx-rest" id="qxRest" hidden><p>오늘의 뒷이야기는 여기까지예요. 다음에 오시면 새 이야기가 기다리고 있어요.</p>'
+                '<button type="button" class="qx-now">기다리지 않고 지금 더 보기</button></div>'
+                '<div class="qx-shelf" id="qxShelf" hidden><p>펼친 뒷이야기 · 누르면 다시 볼 수 있어요</p><div class="qx-shelf-row"></div></div>') if npk > 1 else ''
+        qx_html = ('<section class="qx" aria-label="뒷이야기"><div class="qx-head"><h3>뒷이야기</h3>'
                    '<p>아직 펼치지 않은 이야기예요. 누르면 이야기가 펼쳐지고 색이 돌아와요. 더 알고 싶으면 근거를 따라가 보세요.</p>' + more + '</div>'
                    + ('<p class="qx-new" id="qxNew" role="status" hidden></p>' if npk > 1 else '') +
-                   f'<div class="qx-grid">{qx_html}</div></section>')
+                   f'<div class="qx-grid">{qx_html}</div>' + rest + '</section>')
     if qs_html or qx_html:   # 궁금증과 뒷이야기가 같이 쓰는 판 하나
         qs_html = ((f'<div class="qs">{qs_html}</div>' if qs_html else '') + qx_html + '<dialog class="qxs" id="qxSheet" aria-labelledby="qxsQ"><div class="qxs-in"></div></dialog>'
                    + ('<h3 class="dp-more">더 찾아보기</h3>' if deep else ''))
