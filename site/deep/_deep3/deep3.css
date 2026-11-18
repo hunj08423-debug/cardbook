@@ -805,6 +805,9 @@ html.js .reveal.on{opacity:1;transform:none;max-height:1200px}
 /* ===== 틀 고침(키트 3판) ===== */
 /* 앞면 카드의 ‘이야기 펼치기’ 단추: 두 줄로 꺾여 제목·물음을 가리지 않게 한 줄로, 조금 위로 */
 .lc-open{white-space:nowrap;top:40%}
+/* ===== 마무리(키트 3판 보탬): 나의 자리 위 ‘다시 보기’ ===== */
+.mine .again-t{margin:6px 0 10px;font:clamp(16px,4.4vw,18px)/1.75 var(--serif);color:var(--ink)}
+.mine .ph.again{max-width:min(100%,440px);margin:0 auto 16px}
 
 @media (min-width:860px){
   .hero{grid-template-columns:276px minmax(0,1fr);gap:44px;padding-top:40px}

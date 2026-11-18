@@ -210,6 +210,7 @@ def build(C, repo=REPO, preview=None):
     credits = '<ul class="cred">' + ''.join(cred) + '</ul>'
     lines = ''.join(f'<button type="button" class="line a" data-l="{e(l)}">{e(l)}</button>' for l in C['lines']) + ''.join(f'<button type="button" class="line k" data-l="{e(l)}">{e(l)}</button>' for l in C['linesKid'])
     front = [{'t': sc['t'], 'kid': sc.get('kid') or sc['t'], 'f': sc.get('f')} for sc in CC['scenes'] if not sc.get('dark')]
+    card_u = have['card']
     film = []
     for sh in C['film']:
         sh = dict(sh)
@@ -217,6 +218,30 @@ def build(C, repo=REPO, preview=None):
             if sh.get(key):
                 k = sh[key]; sh[key] = {'u': have[k]['u'], 'w': have[k]['w'], 'h': have[k]['h'], 'alt': IM[k]['alt']}
         film.append(sh)
+    # 마무리(키트 3판 보탬 · 기준서 보탬 11): 나의 자리 물음, 다시 보기, 영화 끝 여운·물음
+    CL = C.get('close') or {}
+    ask_a = CL.get('ask') or CC['ask']
+    ask_k = CL.get('askKid') or CC.get('askKid', CC['ask'])
+    again_html = (f'<p class="again-t">{e(CL["again"])}</p>' + fig('card', 'ph again')) if CL.get('again') else ''
+    if CL and CL.get('film', True):
+        ri = next((j for j, f in enumerate(film) if f.get('type') == 'reward'), len(film))
+        last = film[ri - 1] if ri > 0 else None
+        ch = (last or {}).get('ch', len(C['scenes']))
+        add_a, add_k = [], []
+        if CL.get('hold'):
+            ms = int(float(CL['hold']) * 1000); add_a.append({'t': '', 'wait': ms}); add_k.append({'t': '', 'wait': ms})
+        if CL.get('ask'):
+            add_a.append({'t': CL['ask'], 'ask': '생각해 보기', 'go': '생각해 본 뒤 이어 보기'})
+            add_k.append({'t': CL.get('askKid') or CL['ask'], 'ask': True})
+        if CL.get('again'):
+            film.insert(ri, {'type': 'img', 'img': {'u': card_u['u'], 'w': card_u['w'], 'h': card_u['h'], 'alt': IM['card']['alt']}, 'ch': ch,
+                             'lines': [{'t': CL['again']}] + add_a, 'kid': [{'t': CL['again']}] + add_k})
+        elif add_a:
+            if last and last.get('type') not in ('reward', 'chapter', 'candle') and not last.get('sync'):
+                last['lines'] = list(last.get('lines') or []) + add_a
+                last['kid'] = list(last.get('kid') or []) + add_k
+            else:
+                film.insert(ri, {'type': 'black', 'ch': ch, 'lines': add_a, 'kid': add_k})
     mods = json.loads(json.dumps(C.get('mods', {})))
     imgref = lambda k: {'u': have[k]['u'], 'w': have[k]['w'], 'h': have[k]['h'], 'alt': IM[k]['alt'], 'cr': IM[k].get('cr', ''), 'cap': IM[k].get('cap', '')}
     for m in mods.values():                                   # 소리 파일 주소를 카드 폴더 기준으로, 그림 키는 주소로
@@ -241,7 +266,7 @@ def build(C, repo=REPO, preview=None):
         '{{WHERE}}': C['where'], '{{LEAD}}': C['lead'], '{{LEADKID}}': C['leadKid'], '{{META}}': e(C['meta']), '{{DRAFT}}': C['draft'],
         '{{SCENES}}': '\n'.join(sc_html), '{{IMAGINE}}': e(C['imagine']['t']), '{{IMAGINEKID}}': e(C['imagine']['kid']), '{{IMSND}}': C.get('imsnd', ''),
         '{{DEEP}}': '\n'.join(deep), '{{GOALS}}': gh, '{{LINES}}': lines,
-        '{{ASK}}': e(CC['ask']), '{{ASKKID}}': e(CC.get('askKid', CC['ask'])),
+        '{{ASK}}': e(ask_a), '{{ASKKID}}': e(ask_k), '{{AGAIN}}': again_html,
         '{{SRC}}': src, '{{NSRC}}': str(len(C['src'])), '{{CREDITS}}': credits, '{{FOOT}}': C['foot'],
         '{{SNDTAG}}': '', '{{FILMLEN}}': e(C['filmlen']), '{{SNDNOTE}}': e(C.get('sndnote', '')),
     }

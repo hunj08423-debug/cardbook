@@ -277,9 +277,10 @@ function nextLine(){
   const ln = lines[li], center = ['black', 'imagine'].includes(s.type);
   if (s.type === 'open') { const t = layer().querySelector('.f-title'); if (t) t.classList.add('out'); }
   if (s.type === 'thennow' && li === 0) { const nw = layer().querySelector('.f-now'); if (nw) nw.style.opacity = '1'; }
+  if (!ln.t) { sub(''); if (fAuto) fT = later(nextLine, ln.wait || 3000); return; }
   if (ln.ask) {
     fWait = 'ask';
-    sub(`<div class="ask"><b>물어보기</b><span>${esc(ln.t)}</span><button type="button" class="fGoOn">이야기 나눈 뒤 이어 보기</button></div>`, center);
+    sub(`<div class="ask"><b>${esc(typeof ln.ask === 'string' ? ln.ask : '물어보기')}</b><span>${esc(ln.t)}</span><button type="button" class="fGoOn">${esc(ln.go || '이야기 나눈 뒤 이어 보기')}</button></div>`, center);
     $('#fSub .fGoOn').onclick = ev => { ev.stopPropagation(); fWait = null; nextLine(); };
     return;
   }

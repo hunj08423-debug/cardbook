@@ -104,6 +104,11 @@ rep("  $('#fStart').hidden = false; $('#fGoSnd').hidden = !snd;",
 rep("film.addEventListener('click', ev => { if (ev.target.closest('.f-ctrl,.f-top,.f-start,.f-reward,.ask,.f-prompt,.f-cbox')) return; fNextTap(); });",
     "film.addEventListener('click', ev => { if (ev.target.closest('.f-ctrl,.f-top,.f-start,.f-reward,.ask,.f-prompt,.f-cbox,.f-live')) return; fNextTap(); });")
 rep("  if (fAuto) fT = later(nextLine, dur(ln));\n}", "  if (s.type === 'mod' && ln.act) { const m = MODS[s.mod]; if (m && m.act) m.act(ln.act); }\n  if (fAuto) fT = later(nextLine, dur(ln) + (ln.wait || 0));\n}")
+# 마무리(키트 3판 보탬 · 기준서 보탬 11): 물음 상자 이름표·단추를 자막마다 바꿀 수 있게, 빈 자막은 말없이 멈추기(여운)
+rep("    sub(`<div class=\"ask\"><b>물어보기</b><span>${esc(ln.t)}</span><button type=\"button\" class=\"fGoOn\">이야기 나눈 뒤 이어 보기</button></div>`, center);",
+    "    sub(`<div class=\"ask\"><b>${esc(typeof ln.ask === 'string' ? ln.ask : '물어보기')}</b><span>${esc(ln.t)}</span><button type=\"button\" class=\"fGoOn\">${esc(ln.go || '이야기 나눈 뒤 이어 보기')}</button></div>`, center);")
+rep("  if (ln.ask) {\n    fWait = 'ask';", "  if (!ln.t) { sub(''); if (fAuto) fT = later(nextLine, ln.wait || 3000); return; }\n  if (ln.ask) {\n    fWait = 'ask';")
+rep('    <h2>나의 자리</h2>\n    <p class="ask a">{{ASK}}</p>', '    <h2>나의 자리</h2>\n    {{AGAIN}}\n    <p class="ask a">{{ASK}}</p>')
 # 소리가 있는 카드: 영화 시작 화면의 '소리 켜고 보기'
 rep("$('#fGoSnd').hidden = !snd; $('#fNote').hidden = !snd; $('#fGo').textContent = snd ? '소리 없이 보기' : '시작하기';\n  (snd ? $('#fGoSnd') : $('#fGo')).focus();",
     "const hasSnd = !!(snd || DATA.filmSound); $('#fGoSnd').hidden = !hasSnd; $('#fNote').hidden = !hasSnd; $('#fGo').textContent = hasSnd ? '소리 없이 보기' : '시작하기';\n  (hasSnd ? $('#fGoSnd') : $('#fGo')).focus();")

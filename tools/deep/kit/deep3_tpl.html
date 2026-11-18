@@ -810,6 +810,9 @@ html.js .reveal.on{opacity:1;transform:none;max-height:1200px}
 /* ===== 틀 고침(키트 3판) ===== */
 /* 앞면 카드의 ‘이야기 펼치기’ 단추: 두 줄로 꺾여 제목·물음을 가리지 않게 한 줄로, 조금 위로 */
 .lc-open{white-space:nowrap;top:40%}
+/* ===== 마무리(키트 3판 보탬): 나의 자리 위 ‘다시 보기’ ===== */
+.mine .again-t{margin:6px 0 10px;font:clamp(16px,4.4vw,18px)/1.75 var(--serif);color:var(--ink)}
+.mine .ph.again{max-width:min(100%,440px);margin:0 auto 16px}
 
 @media (min-width:860px){
   .hero{grid-template-columns:276px minmax(0,1fr);gap:44px;padding-top:40px}
@@ -899,6 +902,7 @@ html.js .reveal.on{opacity:1;transform:none;max-height:1200px}
 
   <section class="mine col" id="mine">
     <h2>나의 자리</h2>
+    {{AGAIN}}
     <p class="ask a">{{ASK}}</p>
     <p class="ask k">{{ASKKID}}</p>
     <p class="hint">마음에 닿는 한 줄을 고르거나 직접 써 보세요. 한 줄을 남기면 이 자리의 도장이 찍혀요. 이 기기에만 저장돼요.</p>
@@ -1235,9 +1239,10 @@ function nextLine(){
   const ln = lines[li], center = ['black', 'imagine'].includes(s.type);
   if (s.type === 'open') { const t = layer().querySelector('.f-title'); if (t) t.classList.add('out'); }
   if (s.type === 'thennow' && li === 0) { const nw = layer().querySelector('.f-now'); if (nw) nw.style.opacity = '1'; }
+  if (!ln.t) { sub(''); if (fAuto) fT = later(nextLine, ln.wait || 3000); return; }
   if (ln.ask) {
     fWait = 'ask';
-    sub(`<div class="ask"><b>물어보기</b><span>${esc(ln.t)}</span><button type="button" class="fGoOn">이야기 나눈 뒤 이어 보기</button></div>`, center);
+    sub(`<div class="ask"><b>${esc(typeof ln.ask === 'string' ? ln.ask : '물어보기')}</b><span>${esc(ln.t)}</span><button type="button" class="fGoOn">${esc(ln.go || '이야기 나눈 뒤 이어 보기')}</button></div>`, center);
     $('#fSub .fGoOn').onclick = ev => { ev.stopPropagation(); fWait = null; nextLine(); };
     return;
   }

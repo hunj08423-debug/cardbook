@@ -66,6 +66,7 @@ def static(cid):
         if im.get('cr') and re.search(r'\b(NC|ND)\b|비영리|변경 금지', im['cr']): P.append(f'그림 {k}: 쓸 수 없는 라이선스(NC/ND): {im["cr"]}')
     if len(C.get('src', [])) < 3: P.append('근거(src)가 3개보다 적어요')
     p_, w_ = newmod_checks(C); P += p_; W += w_
+    p_, w_ = close_checks(C); P += p_; W += w_
     for g in ('s4', 's5'):
         x = C.get('goals', {}).get(g)
         if not x or not x.get('ways'): P.append(f'{g} 목표가 없어요')
@@ -188,6 +189,44 @@ def newmod_checks(C):
             if not str(s.get('d', '')).strip().upper().startswith('M'): P.append(f'따라 쓰기 {i}획: d는 M으로 시작하는 선 모양이어야 해요')
             if not (s.get('t') and s.get('p')): P.append(f'따라 쓰기 {i}획: t·p를 적어요')
     return P, W
+
+CLOSE_FORMS = ('처음으로 돌아가기', '기록 한 마디', '앞을 내다보기', '발견의 순간', '그 사람 안에 들어가 보기', '궁금해하기', '생각이 바뀐 자리', '다시 보기', '내 이야기와 잇기', '여운')
+ASK_FORMS = ('그 사람 안에 들어가 보기', '궁금해하기', '생각이 바뀐 자리', '내 이야기와 잇기')
+GENERIC_ASK = ('여러분이라면', '여러분은 어떻게', '어떻게 생각하나요', '어떤 교훈', '무엇을 배울', '느낀 점')
+
+def close_checks(C):
+    """마무리(키트 3판 보탬 · 기준서 1판 보탬 11): 이야기가 고른 끝맺는 꼴, 그 재료, 물음."""
+    P, W = [], []
+    CL = C.get('close')
+    if not CL:
+        W.append("마무리('close')가 없어요. 끝맺는 꼴·이야기 속 재료·나의 자리 물음을 적어요(MODULES.md ‘마무리’) — 이미 만든 카드는 장 검토 때")
+        return P, W
+    f = CL.get('form')
+    if f not in CLOSE_FORMS: P.append("마무리: 'form'은 열 가지 가운데 하나예요: " + ' · '.join(CLOSE_FORMS))
+    if not CL.get('from'): P.append("마무리: 'from'에 이야기 속 무엇에서 왔는지 적어요(기록의 말·사람·날짜·그림)")
+    if f in ASK_FORMS and not CL.get('ask'): P.append(f"마무리: ‘{f}’이면 'ask'(나의 자리·영화 끝 물음)를 적어요")
+    if f == '다시 보기' and not CL.get('again'): P.append("마무리: ‘다시 보기’이면 'again'(앞면 그림을 다시 볼 때의 한 줄)을 적어요")
+    if f == '여운' and not (isinstance(CL.get('hold'), (int, float)) and 2 <= CL['hold'] <= 8): P.append("마무리: ‘여운’이면 'hold'에 말없이 멈출 초(2~8)를 적어요")
+    if CL.get('ask'):
+        if not CL.get('askKid'): W.append("마무리: 'askKid'(아이용 물음)가 없어요. 없으면 아이 화면에는 카드 책의 아이 물음이 나와요")
+        if any(g in CL['ask'] for g in GENERIC_ASK): W.append("마무리: 물음이 어느 카드에나 붙는 말 같아요(옮겨 붙이기 시험) — 이 이야기의 한 장면·한 사람에게서 물어요")
+        if len(CL['ask']) > 90: W.append(f"마무리: 물음이 길어요({len(CL['ask'])}자) — 영화 끝 상자에 한두 줄로")
+    return P, W
+
+def close_form(cid):
+    C = load(cid)
+    return ((C or {}).get('close') or {}).get('form') if C else None
+
+def close_report(ids, batch=True):
+    """여러 카드를 함께 점검할 때: 끝맺는 꼴이 한쪽으로 몰리지 않았나(기준서 1판 보탬 11)"""
+    E = [(c, close_form(c)) for c in ids if load(c)]
+    if len(E) < 2: return
+    from collections import Counter
+    cc = Counter(f or '(없음)' for _, f in E)
+    print('끝맺는 꼴: ' + ' · '.join(f'{k} {v}' for k, v in cc.most_common()) + f' (카드 {len(E)}장)')
+    if batch:
+        for k, v in cc.items():
+            if k != '(없음)' and v * 2 > len(E): print(f'  살펴볼 묶음 안에서 ‘{k}’이(가) 절반을 넘어요. 이야기들이 모두 그 꼴을 부르면 계획표에 까닭을 한 줄 적어요.')
 
 def ending(cid):
     """5단계 마무리 종류: 고르기 · 방식 마무리 · 아이와 끝까지"""
@@ -329,5 +368,6 @@ if __name__ == '__main__':
         for x in br.get(cid, {}).get('notes', []): print('  ', x)
     method_report(args, batch=not all_mode)
     ending_report(args, batch=not all_mode)
+    close_report(args, batch=not all_mode)
     print('끝: 문제 %d개' % total + (' — 모두 고친 뒤 다시 돌려 주세요' if total else ' — 통과'))
     sys.exit(1 if total else 0)
