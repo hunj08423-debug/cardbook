@@ -501,3 +501,5 @@ section[id^="sc-"]{scroll-margin-top:72px}
 #lcard.sc-flash{outline:3px solid transparent;outline-offset:6px;animation:lcflash 2.6s ease-out}
 @keyframes lcflash{0%{outline-color:var(--accent)}100%{outline-color:transparent}}
 @media (prefers-reduced-motion:reduce){#lcard.sc-flash{animation:none}}
+/* 영화 첫 화면의 안내 줄을 가운데로(창들이 카드마다 테마로 막던 것 · 2026-11-22) */
+.f-start .f-how{margin-left:auto;margin-right:auto}

@@ -9,7 +9,7 @@
   예: --device "C:\\Users\\user\\Downloads\\Christ.culture\\cardbook"   (get_device_info의 connectedFolders 경로 + \\cardbook)
 
 보내는 것(그 카드 것만): site/deep/<id>.html, site/deep/<id>/ 안의 파일 전부, tools/deep/cards/<id>.py,
-tools/deep/status/<id>.md, 그리고 cardbook 옆 deep_src/<id>/ 의 _sources.json(그림 출처 기록)과 받은 원본
+tools/deep/status/<id>.md, 그리고 cardbook 옆 deep_src/<id>/ 의 _sources.json(그림 출처 기록)과 받은 원본, 미리 자른 부분 그림(parts/)
 (원본이 사용자 폴더에 있으면 나중에 다시 빌드할 때 다시 받지 않아도 돼요. 사용자 컴퓨터에서 받은 원본은 이미 거기 있어서 빼요).
 다른 파일(site/data, index.json, app, list.txt, 공유 틀 site/deep/_deep3 등)은 절대 보내지 않아요. 공유 틀은 본부만 넣어요.
 """
@@ -48,6 +48,13 @@ def main():
                 if str((S.get(f) or {}).get('via', '')).startswith('사용자 컴퓨터'): continue   # 이미 사용자 폴더에 있어요
                 if os.path.getsize(fp) > 300 * 1024 * 1024: print(f'  ⚠ {cid}/{f}: 너무 커서 보내지 않아요'); continue
                 rel.append((f'../deep_src/{cid}/{f}', fp))
+            pd = os.path.join(sd, 'parts')   # 큰 원본에서 미리 자른 부분 그림(재벌.md 4)도 보내요(2026-11-22)
+            if os.path.isdir(pd):
+                for f in sorted(os.listdir(pd)):
+                    fp = os.path.join(pd, f)
+                    if f.startswith('.') or f.endswith('.part') or not os.path.isfile(fp): continue
+                    if os.path.getsize(fp) > 300 * 1024 * 1024: print(f'  ⚠ {cid}/parts/{f}: 너무 커서 보내지 않아요'); continue
+                    rel.append((f'../deep_src/{cid}/parts/{f}', fp))
         for r, src in rel:
             dst = os.path.normpath(os.path.join(OUT, r.replace('../', '_up/')))
             os.makedirs(os.path.dirname(dst), exist_ok=True); shutil.copy2(src, dst)

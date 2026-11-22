@@ -116,6 +116,8 @@ rep("  $('#fStart').hidden = true; fSoundOn = !!(withSound && snd);\n  $('#fSnd'
     "  $('#fStart').hidden = true; fSoundOn = !!(withSound && (snd || DATA.filmSound));\n  $('#fSnd').hidden = !(snd || DATA.filmSound);")
 rep("$('#fSnd').onclick = ev => { ev.stopPropagation(); if (!snd) return; fSoundOn = !fSoundOn;",
     "$('#fSnd').onclick = ev => { ev.stopPropagation(); if (!snd && !DATA.filmSound) return; fSoundOn = !fSoundOn; Object.values(MODS).forEach(m => m.filmSound && m.filmSound(fSoundOn)); if (!snd) { $('#fSnd').setAttribute('aria-pressed', String(fSoundOn)); return; }")
+# 영화 자막의 인용(2026-11-22 본부): 글에 이미 “ ”가 있으면 겹따옴표(““…””)가 되지 않게 따옴표를 더하지 않아요(qMark · tpl3_mod.js)
+rep("${ln.q ? '“' : ''}${esc(ln.t)}${ln.q ? '”' : ''}", "${qMark(ln) ? '“' : ''}${esc(ln.t)}${qMark(ln) ? '”' : ''}", 2)
 
 # 모듈 자리
 css = open(f'{W}/tpl3_mod.css', encoding='utf-8').read()

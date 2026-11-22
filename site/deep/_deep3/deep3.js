@@ -265,7 +265,7 @@ function showShot(i){
 function syncLines(s){
   // 소리에 맞춘 장면: 자막을 정해진 때에 띄우고, 끝나면 다음 장면으로
   const ls = L(s);
-  ls.forEach((ln, k) => later(() => { li = k; sub(`<span class="ln${ln.q ? ' q' : ''}">${ln.q ? '“' : ''}${esc(ln.t)}${ln.q ? '”' : ''}${ln.from ? `<span class="from">${esc(ln.from)}</span>` : ''}</span>`); }, (ln.at || 0) * 1000));
+  ls.forEach((ln, k) => later(() => { li = k; sub(`<span class="ln${ln.q ? ' q' : ''}">${qMark(ln) ? '“' : ''}${esc(ln.t)}${qMark(ln) ? '”' : ''}${ln.from ? `<span class="from">${esc(ln.from)}</span>` : ''}</span>`); }, (ln.at || 0) * 1000));
   fWait = 'sync';
   fT = later(() => { fWait = null; showShot(fi + 1); }, (s.end || 30) * 1000);
 }
@@ -286,7 +286,7 @@ function nextLine(){
     $('#fSub .fGoOn').onclick = ev => { ev.stopPropagation(); fWait = null; nextLine(); };
     return;
   }
-  sub(`<span class="ln${ln.q ? ' q' : ''}">${ln.q ? '“' : ''}${esc(ln.t)}${ln.q ? '”' : ''}${ln.from ? `<span class="from">${esc(ln.from)}</span>` : ''}</span>`, center);
+  sub(`<span class="ln${ln.q ? ' q' : ''}">${qMark(ln) ? '“' : ''}${esc(ln.t)}${qMark(ln) ? '”' : ''}${ln.from ? `<span class="from">${esc(ln.from)}</span>` : ''}</span>`, center);
   if (s.type === 'mod' && ln.act) { const m = MODS[s.mod]; if (m && m.act) m.act(ln.act); }
   if (fAuto) fT = later(nextLine, dur(ln) + (ln.wait || 0));
 }
@@ -478,6 +478,8 @@ function bigInit(){
   const again = () => { clearTimeout(bigRT); bigRT = setTimeout(() => document.querySelectorAll('img').forEach(i => { if (!BIG[i.getAttribute('src')]) return; const r = i.getBoundingClientRect(); if (r.bottom > -300 && r.top < innerHeight + 300) bigUp(i); }), 350); };
   addEventListener('resize', again); if (window.visualViewport) visualViewport.addEventListener('resize', again);
 }
+/* 영화 자막의 인용(2026-11-22 본부): q 줄에 따옴표를 더하되, 글에 이미 “ ”가 있으면 더하지 않아요(겹따옴표 ““…”” 막기) */
+function qMark(ln){ return !!(ln && ln.q) && !/[“”]/.test(ln.t || ''); }
 /* 영화 그림 선명하게(2026-11-19 본부): 화면을 채우려고 그림을 실제 픽셀보다 FILM_LIM배 넘게 늘려야 하면 흐려져요.
    1) 확대(s0·s1)만 줄여서 되면 확대만 줄이고, 2) 확대 없이도 흐리면 그림 전체를 보여 주고(뒤는 같은 그림을 흐리게 깔아요) 살짝만 다가가요.
    ‘그때와 지금’처럼 두 장을 겹치는 장면은 keep으로 예전처럼 둬요. 큰 그림이 있으면 그 크기로 따져요(bw·bh가 없는 옛 빌드는 1.15배로 어림). */
@@ -1639,6 +1641,7 @@ $$('.qcard').forEach(c => {   // 쪽의 물음 카드: 답 보기 · 영화로 �
     from = btn; render(kind, i);
     document.body.classList.add('qx-on');
     if (!dlg.open) { if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', ''); }
+    inner.scrollTop = 0;   // 닫혀 있을 때는 맨 위로 못 올려서, 열린 뒤에 다시 맨 위로(지난번 내려 본 자리에서 열리지 않게 · 2026-11-22)
   }
   function onClose(){
     document.body.classList.remove('qx-on');
