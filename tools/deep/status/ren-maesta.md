@@ -1,0 +1,20 @@
+# ren-maesta · 두초 「마에스타」
+- 묶음: 23 · 장: 3장 그림과 유리
+- 상태: 조사 중 · 그림 기다림(묶음23.bat로 사용자 컴퓨터에서 받는 중 — 2026-11-22 19:48에 10개 가운데 5개 받음) · 2026-11-29(일) 오전 8시에 이어 함
+- 크기: 큰 카드
+- 두 질문: 1) 그 자리에 있고 싶은 한 순간 — 1311년 6월 9일, 가게 문을 닫고 온 도시가 행렬로 이 제단화를 대성당(두오모)으로 모셔 간 날 / 2) 손으로 하는 한 가지 — 흩어진 조각 모으기: 18세기에 톱으로 갈라져 여러 나라 미술관으로 흩어진 뒷면 그림 칸을 제자리로 모으기(이야기 속: 제단화를 갈라 나눈 일)
+- 중심 방식: 흩어진 조각 모으기(gather · 'split': '실제' — 뒷면 아래 칸 ‘예수의 공생애’ 장면들을 3×3 판으로 이어 붙인 그림, 넓은 그림이 작게 보이지 않게) · 도우미: 고르기(choose — 1311년 시에나 사람의 자리에서 고르는 물음 · 이 묶음의 고르기는 이 한 장)
+- 5단계 마무리: 고르기(choose)
+- 끝맺는 꼴: 기록 한 마디 · 이야기 속 무엇에서: 두초가 성모 왕좌 받침에 남긴 라틴어 기도(시에나의 평화와 두초 자신의 생명을 비는 말) — 원문은 기관·학술 자료의 옮겨 적기로 확인
+- 본부 소식: 21번까지 따름
+- 기준서: 2판 · 틀: deep3-5 · 키트: 3판 보탬 2(2026-11-18 · 그림 두 벌)
+- 그림·소리(받을 것 10 · 모두 허락 받음 2026-11-22): Duccio di Buoninsegna 019.jpg(앞면 성모자) · Back panels - Maestà by Duccio - Museo dell'Opera del Duomo - Siena 2016.jpg · Temptation of Christ - Maestà by Duccio - … Siena 2016.jpg · Duccio - The Temptation on the Mount.jpg(뉴욕 프릭) · Duccio di Buoninsegna, The Calling of the Apostles Peter and Andrew, 1308-1311, NGA 282.jpg · Duccio di Buoninsegna 038.jpg · Duccio di Buoninsegna - Christ and the Samaritan Woman - Google Art Project.jpg(마드리드 티센) · Duccio di buoninsegna, gesù apre gli occhi dell'uomo cieco, 1311.jpg(런던 내셔널 갤러리) · Duccio di Buoninsegna 039.jpg · Duccio di Buoninsegna - The Raising of Lazarus - Google Art Project.jpg(포트워스 킴벨)
+- 인물 사진 요청: 없음
+- 그림 받기 부탁: 보냄(2026-11-22) · 묶음23.bat
+- 화질: 원본 · 두 벌(키트 3판 보탬 2)
+- 기계 점검: 아직
+- 확인할 것: 행렬 날짜와 그때 연대기의 글(옮겨 적은 자료) · 뒷면 칸 수와 칸마다 지금 있는 곳(기관 자료) · 038 · 039 파일이 어느 장면인지(그림이 온 뒤 열어 보기)
+- 기록마다 다른 점(후보): 제단화를 톱으로 가른 해 — 대부분의 자료는 1771년, 런던 내셔널 갤러리(고든 2011)는 1777년
+- 재벌 재료: (조사하며 채우기)
+- 본부에 제안: 없음
+- 마지막 갱신: 2026-11-22 19:55
