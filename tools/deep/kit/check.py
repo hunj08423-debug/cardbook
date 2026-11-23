@@ -17,6 +17,8 @@ OUT = os.environ.get('DEEP_CHECK') or os.path.abspath(os.path.join(REPO, '..', '
 BAD_WORDS = ['확인 필요', 'TODO', 'XXX', '??', 'lorem', '(출처)', '__채우기__']
 SELF_MADE = ('이 안내서가 그린', '이 안내서가 만든')   # 창이 코드로 직접 그린 그림(무대 SVG·계산한 달력 등). 남의 그림·사진을 따라 그린 것은 안 돼요
 ALLOWED_LIC = ('퍼블릭 도메인', 'CC0', 'CC BY', 'CC BY-SA', '공공누리 제1유형', '공공누리 1유형') + SELF_MADE
+PERMIT = ('허락을 받아 씀',)   # 2026-11-23 본부: 사진 주인에게 허락을 받은 사진(사용자님이 정한 것만 · deep_src/<카드id>/_허락_*.txt에 기록)
+ALLOWED_LIC = ALLOWED_LIC + PERMIT
 
 def load(cid):
     p = os.path.join(REPO, 'tools', 'deep', 'cards', cid + '.py')
@@ -68,6 +70,7 @@ def static(cid):
         if im.get('cr') and not any(l in im['cr'] for l in ALLOWED_LIC): P.append(f'그림 {k}: 라이선스가 출처 줄에 없어요(퍼블릭 도메인·CC0·CC BY·CC BY-SA·공공누리 제1유형, 직접 그린 그림은 ‘이 안내서가 그린 … · 바탕’): {im["cr"]}')
         if im.get('cr') and any(s in im['cr'] for s in SELF_MADE) and ' · ' not in im['cr']: W.append(f'그림 {k}: 직접 그린 그림은 무엇을 바탕으로 그렸는지 ‘ · ’ 뒤에 적어요(예: ‘이 안내서가 그린 달력 · 날짜는 계산으로 구함’)')
         if im.get('cr') and re.search(r'\b(NC|ND)\b|비영리|변경 금지', im['cr']): P.append(f'그림 {k}: 쓸 수 없는 라이선스(NC/ND): {im["cr"]}')
+        if im.get('cr') and any(x in im['cr'] for x in PERMIT): W.append(f'그림 {k}: 허락을 받아 쓰는 사진이에요 — 사용자님이 정한 것인지, deep_src/{cid}/_허락_*.txt에 허락 기록(누가 · 언제 · 조건 · 출처 표시)이 있는지 확인해요. 이 카드 밖에서는 쓰지 않아요')
     if len(C.get('src', [])) < 3: P.append('근거(src)가 3개보다 적어요')
     p_, w_ = newmod_checks(C); P += p_; W += w_
     p_, w_ = close_checks(C); P += p_; W += w_
